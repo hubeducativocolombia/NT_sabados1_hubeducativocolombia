@@ -42,4 +42,5 @@ __pycache__/
 .vscode/
 .idea/
 *.swp
-*.DS_Store
+*.DS_Store__pycache__/
+*.pyc
