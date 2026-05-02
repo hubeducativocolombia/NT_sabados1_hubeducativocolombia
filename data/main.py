@@ -5,6 +5,8 @@ from simulation.instituciones_simulation import simular_instituciones
 from simulation.sedes_institucion_simulation import simular_sedes
 from cleaning.instituciones_cleaning import limpiar_instituciones
 from cleaning.sedes_institucion_cleaning import limpiar_sedes
+from descripcion.instituciones_descripcion import describir_instituciones
+from descripcion.sedes_institucion_descripcion import describir_sedes
 
 # 1. Generar instituciones primero
 instituciones = simular_instituciones(10)
@@ -40,3 +42,7 @@ print(instituciones_df_limpio)
 
 print("\n=== SEDES LIMPIAS ===")
 print(sedes_df_limpio)
+
+# 9. Describir datos
+describir_instituciones(instituciones_df_limpio)
+describir_sedes(sedes_df_limpio)
