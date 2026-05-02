@@ -1,0 +1,823 @@
+/* =========================================================================
+   PROYECTO  : Hub Educativo Colombia - SPA
+   ARCHIVO   : estilos.css
+   DESCRIPCIÓN: Hoja de estilos principal. Diseño responsive con variables
+                CSS para fácil personalización de colores y tipografía.
+   AUTORES   : Diana Zapata, Yuliana Chica, Samuel Zapata, Edwin Rios
+   FECHA     : Marzo 2026
+   ========================================================================= */
+
+/* =========================================================================
+   1. VARIABLES CSS (Custom Properties)
+   Centralizan los colores y valores reutilizables del proyecto.
+   Para cambiar el tema, solo se modifican estas variables.
+   ========================================================================= */
+:root {
+    /* Paleta de colores inspirada en la bandera de Colombia */
+    --colorPrimario: #FFD700;       /* Amarillo dorado */
+    --colorSecundario: #003893;     /* Azul oscuro */
+    --colorTerciario: #CE1126;      /* Rojo */
+    --colorFondo: #F5F7FA;          /* Gris claro de fondo */
+    --colorTexto: #2D3748;          /* Gris oscuro para texto */
+    --colorTextoClaro: #718096;     /* Gris medio */
+    --colorBlanco: #FFFFFF;
+    --colorExito: #38A169;          /* Verde para acciones exitosas */
+    --colorAdvertencia: #D69E2E;    /* Amarillo para advertencias */
+    --colorError: #E53E3E;          /* Rojo para errores */
+    --colorBorde: #E2E8F0;          /* Gris claro para bordes */
+
+    /* Tipografía */
+    --fuentePrincipal: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    /* Sombras */
+    --sombraSuave: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --sombraMedia: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+    /* Bordes redondeados */
+    --bordeRedondeado: 8px;
+    --bordeRedondeadoPequeno: 4px;
+
+    /* Transiciones */
+    --transicionRapida: 0.2s ease;
+}
+
+/* =========================================================================
+   2. RESET Y ESTILOS BASE
+   Normaliza el comportamiento entre navegadores.
+   ========================================================================= */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--fuentePrincipal);
+    background-color: var(--colorFondo);
+    color: var(--colorTexto);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================================================
+   3. ENCABEZADO Y NAVEGACIÓN
+   Barra superior fija con navegación tipo SPA.
+   ========================================================================= */
+.encabezadoPrincipal {
+    background: linear-gradient(135deg, var(--colorSecundario), #004DB3);
+    color: var(--colorBlanco);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--sombraMedia);
+}
+
+.contenedorEncabezado {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* Logo y título */
+.logoTitulo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logoIcono {
+    font-size: 1.8rem;
+}
+
+/* Botón hamburguesa (solo visible en móvil) */
+.botonMenu {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.botonMenu span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--colorBlanco);
+    border-radius: 2px;
+    transition: var(--transicionRapida);
+}
+
+/* Navegación */
+.navegacionPrincipal {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.enlaceNav {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--bordeRedondeadoPequeno);
+    transition: var(--transicionRapida);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.enlaceNav:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--colorBlanco);
+}
+
+/* Clase activa del enlace de navegación seleccionado */
+.enlaceNav.activo {
+    background-color: var(--colorPrimario);
+    color: var(--colorSecundario);
+    font-weight: 700;
+}
+
+/* =========================================================================
+   4. CONTENIDO PRINCIPAL
+   Área donde se renderizan las vistas de la SPA.
+   ========================================================================= */
+.contenidoPrincipal {
+    flex: 1;
+    max-width: 1200px;
+    width: 100%;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+/* =========================================================================
+   5. SECCIÓN DE INICIO (Dashboard)
+   ========================================================================= */
+.seccionInicio {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.tituloInicio {
+    font-size: 2.2rem;
+    color: var(--colorSecundario);
+    margin-bottom: 0.5rem;
+}
+
+.subtituloInicio {
+    font-size: 1.1rem;
+    color: var(--colorTextoClaro);
+    margin-bottom: 2rem;
+}
+
+/* Tarjetas de estadísticas del dashboard */
+.contenedorEstadisticas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.tarjetaEstadistica {
+    background: var(--colorBlanco);
+    border-radius: var(--bordeRedondeado);
+    padding: 1.5rem;
+    box-shadow: var(--sombraSuave);
+    transition: transform var(--transicionRapida);
+    border-left: 4px solid var(--colorPrimario);
+}
+
+.tarjetaEstadistica:hover {
+    transform: translateY(-3px);
+}
+
+.tarjetaEstadistica h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--colorTextoClaro);
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.tarjetaEstadistica .valorEstadistica {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--colorSecundario);
+}
+
+/* Acceso rápido desde el dashboard */
+.contenedorAccesoRapido {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.tarjetaAccesoRapido {
+    background: var(--colorBlanco);
+    border-radius: var(--bordeRedondeado);
+    padding: 2rem 1.5rem;
+    box-shadow: var(--sombraSuave);
+    text-decoration: none;
+    color: var(--colorTexto);
+    transition: transform var(--transicionRapida), box-shadow var(--transicionRapida);
+    cursor: pointer;
+}
+
+.tarjetaAccesoRapido:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sombraMedia);
+}
+
+.tarjetaAccesoRapido .iconoAcceso {
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.tarjetaAccesoRapido h3 {
+    color: var(--colorSecundario);
+    margin-bottom: 0.3rem;
+}
+
+.tarjetaAccesoRapido p {
+    color: var(--colorTextoClaro);
+    font-size: 0.9rem;
+}
+
+/* =========================================================================
+   6. TARJETAS DE CONTENIDO (Instituciones, Programas)
+   ========================================================================= */
+.encabezadoSeccion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.tituloSeccion {
+    font-size: 1.6rem;
+    color: var(--colorSecundario);
+}
+
+.contenedorTarjetas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.tarjeta {
+    background: var(--colorBlanco);
+    border-radius: var(--bordeRedondeado);
+    padding: 1.5rem;
+    box-shadow: var(--sombraSuave);
+    transition: box-shadow var(--transicionRapida);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.tarjeta:hover {
+    box-shadow: var(--sombraMedia);
+}
+
+.tarjeta h3 {
+    color: var(--colorSecundario);
+    font-size: 1.15rem;
+}
+
+.tarjeta p {
+    color: var(--colorTextoClaro);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.tarjeta p strong {
+    color: var(--colorTexto);
+}
+
+/* Etiquetas/badges dentro de las tarjetas */
+.etiqueta {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.etiquetaPublica {
+    background-color: #EBF5FB;
+    color: #1A73E8;
+}
+
+.etiquetaPrivada {
+    background-color: #FEF3E2;
+    color: #D69E2E;
+}
+
+.etiquetaMixta {
+    background-color: #F0FFF4;
+    color: #38A169;
+}
+
+.etiquetaActivo {
+    background-color: #F0FFF4;
+    color: var(--colorExito);
+}
+
+.etiquetaInactivo {
+    background-color: #FFF5F5;
+    color: var(--colorError);
+}
+
+.etiquetaModalidad {
+    background-color: #EBF8FF;
+    color: #2B6CB0;
+}
+
+.etiquetaNivel {
+    background-color: #FAF5FF;
+    color: #6B46C1;
+}
+
+/* Acciones en la parte inferior de cada tarjeta */
+.accionesTarjeta {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--colorBorde);
+}
+
+/* =========================================================================
+   7. BOTONES
+   ========================================================================= */
+.boton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--bordeRedondeadoPequeno);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: var(--transicionRapida);
+    text-decoration: none;
+    font-family: var(--fuentePrincipal);
+}
+
+.botonPrimario {
+    background-color: var(--colorSecundario);
+    color: var(--colorBlanco);
+}
+
+.botonPrimario:hover {
+    background-color: #004DB3;
+}
+
+.botonExito {
+    background-color: var(--colorExito);
+    color: var(--colorBlanco);
+}
+
+.botonExito:hover {
+    background-color: #2F855A;
+}
+
+.botonAdvertencia {
+    background-color: var(--colorAdvertencia);
+    color: var(--colorBlanco);
+}
+
+.botonAdvertencia:hover {
+    background-color: #B7791F;
+}
+
+.botonError {
+    background-color: var(--colorError);
+    color: var(--colorBlanco);
+}
+
+.botonError:hover {
+    background-color: #C53030;
+}
+
+.botonOutline {
+    background-color: transparent;
+    border: 2px solid var(--colorSecundario);
+    color: var(--colorSecundario);
+}
+
+.botonOutline:hover {
+    background-color: var(--colorSecundario);
+    color: var(--colorBlanco);
+}
+
+.botonPequeno {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.8rem;
+}
+
+/* =========================================================================
+   8. FORMULARIOS
+   ========================================================================= */
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.grupoFormulario {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.grupoFormulario label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--colorTexto);
+}
+
+.grupoFormulario input,
+.grupoFormulario select,
+.grupoFormulario textarea {
+    padding: 0.6rem 0.8rem;
+    border: 2px solid var(--colorBorde);
+    border-radius: var(--bordeRedondeadoPequeno);
+    font-size: 0.95rem;
+    font-family: var(--fuentePrincipal);
+    transition: border-color var(--transicionRapida);
+    width: 100%;
+}
+
+.grupoFormulario input:focus,
+.grupoFormulario select:focus,
+.grupoFormulario textarea:focus {
+    outline: none;
+    border-color: var(--colorSecundario);
+}
+
+/* Contenedor para checkboxes en línea */
+.grupoCheckbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.grupoCheckbox input[type="checkbox"] {
+    width: auto;
+    accent-color: var(--colorSecundario);
+}
+
+.botonesFormulario {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: flex-end;
+    padding-top: 0.5rem;
+}
+
+/* =========================================================================
+   9. MODAL
+   Ventana emergente para crear y editar registros.
+   ========================================================================= */
+.fondoModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.fondoModal.visible {
+    display: flex;
+}
+
+.contenidoModal {
+    background: var(--colorBlanco);
+    border-radius: var(--bordeRedondeado);
+    padding: 2rem;
+    max-width: 550px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: var(--sombraMedia);
+}
+
+.contenidoModal h2 {
+    color: var(--colorSecundario);
+    margin-bottom: 1.2rem;
+    padding-right: 2rem;
+}
+
+.botonCerrarModal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--colorTextoClaro);
+    cursor: pointer;
+    line-height: 1;
+    transition: color var(--transicionRapida);
+}
+
+.botonCerrarModal:hover {
+    color: var(--colorError);
+}
+
+/* =========================================================================
+   10. SECCIÓN DE BÚSQUEDA
+   ========================================================================= */
+.seccionBusqueda {
+    padding: 1rem 0;
+}
+
+.contenedorBusqueda {
+    background: var(--colorBlanco);
+    border-radius: var(--bordeRedondeado);
+    padding: 1.5rem;
+    box-shadow: var(--sombraSuave);
+    margin-bottom: 1.5rem;
+}
+
+.campoBusqueda {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.campoBusqueda input,
+.campoBusqueda select {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.7rem 1rem;
+    border: 2px solid var(--colorBorde);
+    border-radius: var(--bordeRedondeadoPequeno);
+    font-size: 0.95rem;
+    font-family: var(--fuentePrincipal);
+}
+
+.campoBusqueda input:focus,
+.campoBusqueda select:focus {
+    outline: none;
+    border-color: var(--colorSecundario);
+}
+
+/* Tabla de resultados de búsqueda */
+.contenedorTabla {
+    overflow-x: auto;
+}
+
+.tablaResultados {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--colorBlanco);
+    border-radius: var(--bordeRedondeado);
+    overflow: hidden;
+    box-shadow: var(--sombraSuave);
+}
+
+.tablaResultados thead {
+    background: var(--colorSecundario);
+    color: var(--colorBlanco);
+}
+
+.tablaResultados th,
+.tablaResultados td {
+    padding: 0.8rem 1rem;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.tablaResultados tbody tr {
+    border-bottom: 1px solid var(--colorBorde);
+    transition: background-color var(--transicionRapida);
+}
+
+.tablaResultados tbody tr:hover {
+    background-color: #F7FAFC;
+}
+
+/* =========================================================================
+   11. MENSAJES DE ESTADO
+   ========================================================================= */
+.mensajeVacio {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--colorTextoClaro);
+}
+
+.mensajeVacio .iconoVacio {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.mensajeExito {
+    background-color: #F0FFF4;
+    color: var(--colorExito);
+    padding: 0.8rem 1rem;
+    border-radius: var(--bordeRedondeadoPequeno);
+    border-left: 4px solid var(--colorExito);
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.mensajeError {
+    background-color: #FFF5F5;
+    color: var(--colorError);
+    padding: 0.8rem 1rem;
+    border-radius: var(--bordeRedondeadoPequeno);
+    border-left: 4px solid var(--colorError);
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+/* =========================================================================
+   12. NOTIFICACIÓN TIPO TOAST
+   Aparece brevemente en la parte inferior de la pantalla.
+   ========================================================================= */
+.notificacionToast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    padding: 1rem 1.5rem;
+    border-radius: var(--bordeRedondeado);
+    color: var(--colorBlanco);
+    font-weight: 600;
+    z-index: 300;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    box-shadow: var(--sombraMedia);
+}
+
+.notificacionToast.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notificacionToast.exito {
+    background-color: var(--colorExito);
+}
+
+.notificacionToast.error {
+    background-color: var(--colorError);
+}
+
+.notificacionToast.info {
+    background-color: var(--colorSecundario);
+}
+
+/* =========================================================================
+   13. TABLA DE USUARIOS
+   ========================================================================= */
+.tablaUsuarios {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--colorBlanco);
+    border-radius: var(--bordeRedondeado);
+    overflow: hidden;
+    box-shadow: var(--sombraSuave);
+}
+
+.tablaUsuarios thead {
+    background: var(--colorSecundario);
+    color: var(--colorBlanco);
+}
+
+.tablaUsuarios th,
+.tablaUsuarios td {
+    padding: 0.8rem 1rem;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.tablaUsuarios tbody tr {
+    border-bottom: 1px solid var(--colorBorde);
+    transition: background-color var(--transicionRapida);
+}
+
+.tablaUsuarios tbody tr:hover {
+    background-color: #F7FAFC;
+}
+
+/* =========================================================================
+   14. FORMATO DE MONEDA
+   ========================================================================= */
+.valorMoneda {
+    font-weight: 700;
+    color: var(--colorSecundario);
+}
+
+/* =========================================================================
+   15. RESPONSIVE - DISEÑO ADAPTABLE
+   ========================================================================= */
+
+/* Tablets (768px o menos) */
+@media (max-width: 768px) {
+    .botonMenu {
+        display: flex;
+    }
+
+    .navegacionPrincipal {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        gap: 0.2rem;
+        padding-top: 0.5rem;
+    }
+
+    /* Clase que muestra el menú cuando se presiona el botón hamburguesa */
+    .navegacionPrincipal.menuAbierto {
+        display: flex;
+    }
+
+    .enlaceNav {
+        text-align: center;
+        padding: 0.7rem;
+    }
+
+    .tituloInicio {
+        font-size: 1.6rem;
+    }
+
+    .contenedorTarjetas {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Móviles pequeños (480px o menos) */
+@media (max-width: 480px) {
+    .contenedorEncabezado {
+        padding: 0.6rem 1rem;
+    }
+
+    .logoTitulo {
+        font-size: 1.1rem;
+    }
+
+    .contenidoPrincipal {
+        padding: 0 1rem;
+        margin: 1rem auto;
+    }
+
+    .contenidoModal {
+        padding: 1.5rem;
+        margin: 0.5rem;
+    }
+
+    .campoBusqueda {
+        flex-direction: column;
+    }
+
+    .encabezadoSeccion {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .notificacionToast {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+    }
+}
+
+/* =========================================================================
+   16. PIE DE PÁGINA
+   ========================================================================= */
+.piePagina {
+    background-color: var(--colorSecundario);
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.85rem;
+    margin-top: auto;
+}
+
+.piePagina p {
+    margin: 0.2rem 0;
+}

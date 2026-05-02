@@ -1,0 +1,55 @@
+/* Importar estilos globales de la aplicación */
+:root {
+    /* Paleta de colores inspirada en la bandera de Colombia */
+    --colorPrimario: #FFD700;       /* Amarillo dorado */
+    --colorSecundario: #003893;     /* Azul oscuro */
+    --colorTerciario: #CE1126;      /* Rojo */
+    --colorFondo: #F5F7FA;          /* Gris claro de fondo */
+    --colorTexto: #2D3748;          /* Gris oscuro para texto */
+    --colorTextoClaro: #718096;     /* Gris medio */
+    --colorBlanco: #FFFFFF;
+    --colorExito: #38A169;          /* Verde para acciones exitosas */
+    --colorAdvertencia: #D69E2E;    /* Amarillo para advertencias */
+    --colorError: #E53E3E;          /* Rojo para errores */
+    --colorBorde: #E2E8F0;          /* Gris claro para bordes */
+
+    /* Tipografía */
+    --fuentePrincipal: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    /* Sombras */
+    --sombraSuave: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --sombraMedia: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+    /* Bordes redondeados */
+    --bordeRedondeado: 8px;
+    --bordeRedondeadoPequeno: 4px;
+
+    /* Transiciones */
+    --transicionRapida: 0.2s ease;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--fuentePrincipal);
+    background-color: var(--colorFondo);
+    color: var(--colorTexto);
+    line-height: 1.6;
+}
+
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}

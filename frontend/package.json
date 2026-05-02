@@ -1,0 +1,31 @@
+{
+  "name": "hub-educativo-colombia",
+  "version": "2.0.0",
+  "description": "Hub Educativo Colombia - Plataforma educativa con React + Express",
+  "scripts": {
+    "install-all": "cd backend && npm install && cd ../frontend && npm install",
+    "dev": "npm run dev:clean-ports && concurrently -n backend,frontend -c green,blue \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "dev:clean-ports": "kill-port 3000 5173 5174 5175",
+    "dev:backend": "npm --prefix backend start",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build": "cd frontend && npm run build"
+  },
+  "keywords": [
+    "educativo",
+    "instituciones",
+    "programas",
+    "react",
+    "express"
+  ],
+  "authors": [
+    "Diana Zapata Ortega",
+    "Yuliana Chica Correa",
+    "Samuel Zapata Valcarcel",
+    "Edwin Rios Sanchez"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "kill-port": "^2.0.1"
+  }
+}
