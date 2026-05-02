@@ -15,14 +15,14 @@
 -- =========================================================================
 
 -- Evita errores si se ejecuta el script más de una vez
-DROP DATABASE IF EXISTS hub_educativo_colombia;
+DROP DATABASE IF EXISTS db_hubeducativocolombia;
 
 -- utf8mb4 soporta tildes, ñ y emojis (importante para datos en español)
-CREATE DATABASE hub_educativo_colombia
+CREATE DATABASE db_hubeducativocolombia
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_unicode_ci;
 
-USE hub_educativo_colombia;
+USE db_hubeducativocolombia;
 
 -- Asegura que MySQL valide las llaves foráneas durante la sesión
 SET FOREIGN_KEY_CHECKS = 1;
