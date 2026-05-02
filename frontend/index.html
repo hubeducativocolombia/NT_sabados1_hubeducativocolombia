@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Educativo Colombia</title>
+
+    <!-- =========================================================================
+         PROYECTO  : Hub Educativo Colombia - SPA (Single Page Application)
+         AUTORES   : Diana Zapata Ortega, Yuliana Chica Correa,
+                     Samuel Zapata Valcarcel, Edwin Rios Sanchez
+         DESCRIPCION: Pagina principal que sirve como contenedor de la SPA.
+                      Toda la navegacion ocurre sin recargar la pagina.
+         FECHA     : Marzo 2026
+    ========================================================================= -->
+
+    <!-- Hoja de estilos principal -->
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <!-- =====================================================================
+         ENCABEZADO PRINCIPAL
+         Contiene el logo/titulo y la barra de navegacion SPA.
+         Los enlaces usan el atributo data-ruta para el enrutador.
+    ====================================================================== -->
+    <header class="encabezadoPrincipal">
+        <div class="contenedorEncabezado">
+            <h1 class="logoTitulo">
+                <span class="logoIcono">&#127891;</span>
+                Hub Educativo Colombia
+            </h1>
+            <!-- Boton hamburguesa para moviles -->
+            <button class="botonMenu" id="botonMenu" aria-label="Abrir menu de navegacion">
+                <span></span><span></span><span></span>
+            </button>
+            <nav class="navegacionPrincipal" id="navegacionPrincipal">
+                <a href="#/" class="enlaceNav activo" data-ruta="/">Inicio</a>
+                <a href="#/instituciones" class="enlaceNav" data-ruta="/instituciones">Instituciones</a>
+                <a href="#/programas" class="enlaceNav" data-ruta="/programas">Programas</a>
+                <a href="#/usuarios" class="enlaceNav" data-ruta="/usuarios">Usuarios</a>
+                <a href="#/buscar" class="enlaceNav" data-ruta="/buscar">Buscar</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- =====================================================================
+         CONTENIDO PRINCIPAL
+         Este div es el contenedor donde el enrutador inyecta las vistas.
+         Cada cambio de ruta reemplaza el contenido de este elemento.
+    ====================================================================== -->
+    <main class="contenidoPrincipal" id="contenidoPrincipal">
+        <!-- El contenido se carga dinamicamente desde js/vistas.js -->
+    </main>
+
+    <!-- =====================================================================
+         PIE DE PAGINA
+    ====================================================================== -->
+    <footer class="piePagina">
+        <p>&copy; 2026 Hub Educativo Colombia &mdash; Proyecto Integrador CESDE</p>
+        <p>Diana Zapata &middot; Yuliana Chica &middot; Samuel Zapata &middot; Edwin Rios</p>
+    </footer>
+
+    <!-- =====================================================================
+         MODAL GENERICO
+         Se reutiliza para formularios de crear/editar en toda la aplicacion.
+    ====================================================================== -->
+    <div class="fondoModal" id="fondoModal">
+        <div class="contenidoModal" id="contenidoModal">
+            <button class="botonCerrarModal" id="botonCerrarModal">&times;</button>
+            <div id="cuerpoModal">
+                <!-- El contenido del modal se inyecta dinamicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         SCRIPTS
+         Se cargan en orden de dependencia:
+         1. almacenamiento.js  -> Capa de acceso a localStorage
+         2. modelos.js         -> Logica de negocio y validaciones
+         3. vistas.js          -> Generacion de HTML para cada seccion
+         4. enrutador.js       -> Manejo de rutas hash (#/)
+         5. app.js             -> Inicializacion y eventos globales
+    ====================================================================== -->
+    <script src="js/almacenamiento.js"></script>
+    <script src="js/modelos.js"></script>
+    <script src="js/vistas.js"></script>
+    <script src="js/enrutador.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/peticiones.js"></script>
+</body>
+</html>

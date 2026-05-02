@@ -1,0 +1,147 @@
+.seccionBusqueda {
+    padding: 1rem 0;
+}
+
+.tituloSeccion {
+    font-size: 1.6rem;
+    color: var(--colorSecundario);
+    margin-bottom: 1.5rem;
+}
+
+.contenedorBusqueda {
+    background: var(--colorBlanco);
+    border-radius: var(--bordeRedondeado);
+    padding: 1.5rem;
+    box-shadow: var(--sombraSuave);
+    margin-bottom: 1.5rem;
+}
+
+.formularioBusqueda {
+    width: 100%;
+}
+
+.campoBusqueda {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.campoBusqueda input,
+.campoBusqueda select {
+    flex: 1;
+    min-width: 150px;
+    padding: 0.7rem 1rem;
+    border: 2px solid var(--colorBorde);
+    border-radius: var(--bordeRedondeadoPequeno);
+    font-size: 0.95rem;
+    font-family: var(--fuentePrincipal);
+    transition: border-color var(--transicionRapida);
+}
+
+.campoBusqueda input:focus,
+.campoBusqueda select:focus {
+    outline: none;
+    border-color: var(--colorSecundario);
+}
+
+.boton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--bordeRedondeadoPequeno);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: var(--transicionRapida);
+    text-decoration: none;
+    font-family: var(--fuentePrincipal);
+}
+
+.botonPrimario {
+    background-color: var(--colorSecundario);
+    color: var(--colorBlanco);
+    white-space: nowrap;
+}
+
+.botonPrimario:hover {
+    background-color: #004DB3;
+}
+
+.seccionResultados {
+    margin-top: 1.5rem;
+}
+
+.seccionResultados h2 {
+    color: var(--colorSecundario);
+    margin-bottom: 1rem;
+}
+
+.contenedorResultados {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.resultadoBusqueda {
+    background: var(--colorBlanco);
+    border-radius: var(--bordeRedondeado);
+    padding: 1.5rem;
+    box-shadow: var(--sombraSuave);
+    border-left: 4px solid var(--colorSecundario);
+    transition: box-shadow var(--transicionRapida);
+}
+
+.resultadoBusqueda:hover {
+    box-shadow: var(--sombraMedia);
+}
+
+.resultadoBusqueda h3 {
+    color: var(--colorSecundario);
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.resultadoBusqueda p {
+    color: var(--colorTextoClaro);
+    font-size: 0.9rem;
+    margin: 0.4rem 0;
+}
+
+.resultadoBusqueda p strong {
+    color: var(--colorTexto);
+}
+
+.mensajeVacio {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--colorTextoClaro);
+}
+
+.mensajeVacio .iconoVacio {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .campoBusqueda {
+        flex-direction: column;
+    }
+
+    .campoBusqueda input,
+    .campoBusqueda select,
+    .boton {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .contenedorResultados {
+        grid-template-columns: 1fr;
+    }
+
+    .tituloSeccion {
+        font-size: 1.3rem;
+    }
+}

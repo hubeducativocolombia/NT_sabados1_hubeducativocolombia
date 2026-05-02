@@ -1,0 +1,116 @@
+.seccionInicio {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.tituloInicio {
+    font-size: 2.2rem;
+    color: var(--colorSecundario);
+    margin-bottom: 0.5rem;
+}
+
+.subtituloInicio {
+    font-size: 1.1rem;
+    color: var(--colorTextoClaro);
+    margin-bottom: 2rem;
+}
+
+.contenedorEstadisticas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.tarjetaEstadistica {
+    background: var(--colorBlanco);
+    border-radius: var(--bordeRedondeado);
+    padding: 1.5rem;
+    box-shadow: var(--sombraSuave);
+    transition: transform var(--transicionRapida);
+    border-left: 4px solid var(--colorPrimario);
+}
+
+.tarjetaEstadistica:hover {
+    transform: translateY(-3px);
+}
+
+.tarjetaEstadistica h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--colorTextoClaro);
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.valorEstadistica {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--colorSecundario);
+}
+
+.contenedorAccesoRapido {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.tarjetaAccesoRapido {
+    background: var(--colorBlanco);
+    border-radius: var(--bordeRedondeado);
+    padding: 2rem 1.5rem;
+    box-shadow: var(--sombraSuave);
+    text-decoration: none;
+    color: var(--colorTexto);
+    transition: transform var(--transicionRapida), box-shadow var(--transicionRapida);
+    cursor: pointer;
+}
+
+.tarjetaAccesoRapido:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sombraMedia);
+}
+
+.iconoAcceso {
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.tarjetaAccesoRapido h3 {
+    color: var(--colorSecundario);
+    margin-bottom: 0.3rem;
+}
+
+.tarjetaAccesoRapido p {
+    color: var(--colorTextoClaro);
+    font-size: 0.9rem;
+}
+
+.iconoVacio {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.mensajeError {
+    background-color: #FFF5F5;
+    color: var(--colorError);
+    padding: 0.8rem 1rem;
+    border-radius: var(--bordeRedondeadoPequeno);
+    border-left: 4px solid var(--colorError);
+    margin-bottom: 1rem;
+    font-weight: 500;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 480px) {
+    .tituloInicio {
+        font-size: 1.6rem;
+    }
+
+    .contenedorEstadisticas,
+    .contenedorAccesoRapido {
+        grid-template-columns: 1fr;
+    }
+}

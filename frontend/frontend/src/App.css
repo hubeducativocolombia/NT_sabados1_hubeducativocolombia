@@ -1,0 +1,148 @@
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Encabezado */
+.encabezadoPrincipal {
+    background: linear-gradient(135deg, var(--colorSecundario), #004DB3);
+    color: var(--colorBlanco);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--sombraMedia);
+}
+
+.contenedorEncabezado {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.logoTitulo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logoIcono {
+    font-size: 1.8rem;
+}
+
+.botonMenu {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.botonMenu span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--colorBlanco);
+    border-radius: 2px;
+    transition: var(--transicionRapida);
+}
+
+.navegacionPrincipal {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.navegacionPrincipal.abierto {
+    flex-direction: column;
+    width: 100%;
+    order: 3;
+}
+
+.enlaceNav {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--bordeRedondeadoPequeno);
+    transition: var(--transicionRapida);
+    font-weight: 500;
+    font-size: 0.95rem;
+    display: block;
+}
+
+.enlaceNav:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--colorBlanco);
+}
+
+.enlaceNav.active {
+    background-color: var(--colorPrimario);
+    color: var(--colorSecundario);
+    font-weight: 700;
+}
+
+/* Contenido principal */
+.contenidoPrincipal {
+    flex: 1;
+    max-width: 1200px;
+    width: 100%;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+/* Pie de página */
+.piePagina {
+    background-color: var(--colorSecundario);
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.85rem;
+    margin-top: auto;
+}
+
+.piePagina p {
+    margin: 0.2rem 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .botonMenu {
+        display: flex;
+    }
+
+    .navegacionPrincipal {
+        display: none;
+    }
+
+    .navegacionPrincipal.abierto {
+        display: flex;
+    }
+
+    .enlaceNav {
+        text-align: center;
+        padding: 0.7rem;
+    }
+
+    .contenedorEncabezado {
+        padding: 0.6rem 1rem;
+    }
+
+    .logoTitulo {
+        font-size: 1.1rem;
+    }
+
+    .contenidoPrincipal {
+        padding: 0 1rem;
+        margin: 1rem auto;
+    }
+}
