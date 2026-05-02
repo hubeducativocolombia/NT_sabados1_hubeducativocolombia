@@ -1,0 +1,37 @@
+from datetime import datetime, timedelta
+import random
+
+def simular_instituciones(numeroInstituciones):
+
+    listaNombresOficiales = [
+        "Universidad Nacional de Colombia",
+        "Universidad de Antioquia",
+        "Universidad de los Andes",
+        "Universidad del Valle",
+        "Universidad Industrial de Santander",
+        "Universidad Pontificia Bolivariana",
+        "Universidad EAFIT",
+        "Universidad del Rosario",
+        "Universidad Javeriana",
+        "Universidad Externado de Colombia"
+    ]
+    listaNaturalezas = ["Publica", "Privada", "Mixta"]
+
+    fechaInicial = datetime(1987, 5, 7)
+
+    instituciones = []
+
+    for _ in range(numeroInstituciones):
+        fechaSimulada = fechaInicial + timedelta(days=random.randint(0, 60))
+        institucion = {
+            "id_institucion": random.randint(0, 500),
+            "nombre_oficial": random.choice(listaNombresOficiales),
+            "naturaleza": random.choice(listaNaturalezas),
+            "fecha_registro": fechaSimulada.strftime("%Y/%m/%d %H:%M:%S")
+        }
+
+        
+
+        instituciones.append(institucion)
+
+    return instituciones
