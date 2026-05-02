@@ -1,0 +1,4 @@
+from utils.simulacion_instituciones import simular_instituciones
+
+instituciones=simular_instituciones(100000)
+print(instituciones)
