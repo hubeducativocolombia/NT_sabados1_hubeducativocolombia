@@ -1,0 +1,330 @@
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Encabezado */
+.encabezadoPrincipal {
+    background: linear-gradient(135deg, var(--colorSecundario), #004DB3);
+    color: var(--colorBlanco);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--sombraMedia);
+}
+
+.contenedorEncabezado {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.logoTitulo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logoIcono {
+    font-size: 1.8rem;
+}
+
+.botonMenu {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.botonMenu span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--colorBlanco);
+    border-radius: 2px;
+    transition: var(--transicionRapida);
+}
+
+.navegacionPrincipal {
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+}
+
+.navegacionPrincipal.abierto {
+    flex-direction: column;
+    width: 100%;
+    order: 3;
+}
+
+.enlaceNav {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--bordeRedondeadoPequeno);
+    transition: var(--transicionRapida);
+    font-weight: 500;
+    font-size: 0.95rem;
+    display: block;
+}
+
+.enlaceNav:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--colorBlanco);
+}
+
+.enlaceNav.active {
+    background-color: var(--colorPrimario);
+    color: var(--colorSecundario);
+    font-weight: 700;
+}
+
+.grupoAccionesPublicas {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.botonHeader {
+    border: none;
+    border-radius: 999px;
+    padding: 0.45rem 0.95rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transicionRapida);
+    font-family: var(--fuentePrincipal);
+}
+
+.botonHeaderSecundario {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--colorBlanco);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.botonHeaderSecundario:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.botonHeaderPrimario {
+    background: var(--colorPrimario);
+    color: var(--colorSecundario);
+}
+
+.botonHeaderPrimario:hover {
+    background: #ffe466;
+}
+
+.botonHeaderSalir {
+    background: rgba(206, 17, 38, 0.9);
+    color: var(--colorBlanco);
+}
+
+.botonHeaderSalir:hover {
+    background: #b60f20;
+}
+
+.modalAuthOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 18, 35, 0.56);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1200;
+    padding: 1rem;
+}
+
+.modalAuthContenido {
+    background: #ffffff;
+    width: 100%;
+    max-width: 520px;
+    border-radius: 16px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+    padding: 1.6rem;
+    position: relative;
+}
+
+.modalAuthCerrar {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.8rem;
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #405278;
+}
+
+.modalAuthContenido h2 {
+    color: #003893;
+    margin-bottom: 0.3rem;
+}
+
+.modalAuthSubtitulo {
+    color: #5d6f90;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.modalAuthError {
+    background: #fff3f3;
+    border-left: 4px solid #ce1126;
+    color: #b3182d;
+    padding: 0.65rem 0.8rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.modalAuthFormulario {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.modalAuthGrupo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.modalAuthGrupo label {
+    font-size: 0.85rem;
+    color: #203e76;
+    font-weight: 600;
+}
+
+.modalAuthGrupo input,
+.modalAuthGrupo select {
+    border: 2px solid #d8e2f2;
+    border-radius: 10px;
+    padding: 0.7rem 0.85rem;
+    font-size: 0.95rem;
+    transition: border-color var(--transicionRapida);
+    font-family: var(--fuentePrincipal);
+    background: #ffffff;
+}
+
+.modalAuthGrupo input:focus,
+.modalAuthGrupo select:focus {
+    outline: none;
+    border-color: #1a64d9;
+}
+
+.botonAuthPrincipal {
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #003893, #1960d2);
+    color: #ffffff;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-top: 0.25rem;
+}
+
+.botonAuthPrincipal:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.modalAuthCambioModo {
+    margin-top: 0.95rem;
+    font-size: 0.9rem;
+    color: #4c5f84;
+}
+
+.modalAuthEnlace {
+    border: none;
+    background: transparent;
+    color: #0a4fc2;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Contenido principal */
+.contenidoPrincipal {
+    flex: 1;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0.75rem auto;
+    padding: 0 1.5rem;
+}
+
+/* Pie de página */
+.piePagina {
+    background-color: var(--colorSecundario);
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.85rem;
+    margin-top: auto;
+}
+
+.piePagina p {
+    margin: 0.2rem 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .botonMenu {
+        display: flex;
+    }
+
+    .navegacionPrincipal {
+        display: none;
+    }
+
+    .navegacionPrincipal.abierto {
+        display: flex;
+    }
+
+    .grupoAccionesPublicas {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .botonHeader {
+        width: 100%;
+        text-align: center;
+    }
+
+    .enlaceNav {
+        text-align: center;
+        padding: 0.7rem;
+    }
+
+    .contenedorEncabezado {
+        padding: 0.6rem 1rem;
+    }
+
+    .logoTitulo {
+        font-size: 1.1rem;
+    }
+
+    .contenidoPrincipal {
+        padding: 0 1rem;
+        margin: 1rem auto;
+    }
+
+    .modalAuthContenido {
+        padding: 1.15rem;
+    }
+}
