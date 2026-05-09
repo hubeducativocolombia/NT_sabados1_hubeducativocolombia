@@ -1,8 +1,7 @@
-package com.Cesdeedys.hubEducativoColombia.Controlador;
+package net.cesde.hubeducativocolombia.controller;
 
-
-import com.Cesdeedys.hubEducativoColombia.Modelo.MUsuarios;
-import com.Cesdeedys.hubEducativoColombia.Servicio.SUsuarios;
+import net.cesde.hubeducativocolombia.model.MUsuarios;
+import net.cesde.hubeducativocolombia.service.SUsuarios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
