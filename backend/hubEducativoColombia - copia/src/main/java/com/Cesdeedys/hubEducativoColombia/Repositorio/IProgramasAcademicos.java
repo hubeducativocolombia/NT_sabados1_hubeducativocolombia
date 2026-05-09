@@ -1,6 +1,6 @@
-package com.Cesdeedys.hubEducativoColombia.Repositorio;
+package net.cesde.hubeducativocolombia.repo;
 
-import com.Cesdeedys.hubEducativoColombia.Modelo.MProgramasAcademicos;
+import net.cesde.hubeducativocolombia.model.MProgramasAcademicos;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
