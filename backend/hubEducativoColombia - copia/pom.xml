@@ -8,11 +8,11 @@
 		<version>4.0.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.Cesdeedys</groupId>
-	<artifactId>hubEducativoColombia</artifactId>
+	<groupId>net.cesde</groupId>
+	<artifactId>hubeducativocolombia</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>hubEducativoColombia</name>
-	<description>Instituciones de Colombia</description>
+	<name>hubeducativocolombia</name>
+	<description>Instituciones de Educacion Superior y Oficios en Colombia</description>
 	<url/>
 	<licenses>
 		<license/>
