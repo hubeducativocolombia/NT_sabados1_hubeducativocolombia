@@ -122,14 +122,14 @@ def generar_usuarios(numero_simulaciones: int) -> list[dict]:
 
         elif probabilidad_error < 0.40:
             # Error tipo 3 (15 %): espacios en nombre + hash vacío + esta_activo fuera de TINYINT(1)
-            usuario["nombrecompleto"] = "  " + usuario["nombre_completo"] + "  "
+            usuario["nombrecompleto"] = "  " + usuario["nombrecompleto"] + "  "
             usuario["hashcontrasena"] = ""                   # Hash vacío: inseguro y no aceptable
             usuario["estaactivo"] = -1                       # -1 está fuera del rango válido {0, 1}
 
         elif probabilidad_error < 0.60:
             # Error tipo 4 (20 %): correo duplicado real + usuario inactivo
             # Reutilizamos un correo de iteraciones anteriores para simular violación de UNIQUE
-            usuario["esta_activo"] = 0                        # 0 = inactivo
+            usuario["estaactivo"] = 0                        # 0 = inactivo
             if len(correos_generados) > 1:
                 # Elegimos aleatoriamente un correo ya registrado (excluimos el actual)
                 usuario["correoelectronico"] = random.choice(correos_generados[:-1])
