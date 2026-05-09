@@ -1,4 +1,4 @@
-package com.Cesdeedys.hubEducativoColombia.Modelo;
+package net.cesde.hubeducativocolombia.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -6,14 +6,12 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "sedesinstituciones")
-public class MSedesIntituciones {
+public class MSedesInstituciones {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idsede", nullable = false)
     private Integer idsede;
-
-    @Column(name = "idinstitucion", nullable = false)
-    private Integer idinstitucion;
 
     @Column(name = "nombresede", length = 150, nullable = false)
     private String nombresede;
@@ -24,19 +22,32 @@ public class MSedesIntituciones {
     @Column(name = "direccionfisica", length = 255, nullable = false)
     private String direccionfisica;
 
-    @Column(name = "essedepprincipal", nullable = false)
-    private Boolean essedeprincipal;
+    @Column(name = "essedeprincipal", nullable = false)
+    private Boolean essedeprincipal = false;
 
-    //Relaciones
-
-    @ManyToOne
-    @JoinColumn(name = "pkidinstitucion", referencedColumnName = "idinstitucion")
+    // ─── Relaciones ────────────────────────────────────────────────
+    /**
+     * Relación N:1 con MInstituciones.
+     *
+     * - @ManyToOne: muchas sedes pertenecen a una institución.
+     * - @JoinColumn: columna FK real en esta tabla es "idinstitucion".
+     * - referencedColumnName: PK destino en la tabla "instituciones".
+     * - @JsonBackReference: evita recursión infinita en serialización JSON
+     *   (la institución es el lado "padre" / forward reference).
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        name = "idinstitucion",
+        referencedColumnName = "idinstitucion",
+        nullable = false
+    )
     @JsonBackReference
-    private MInstituciones instituciones; //maybe es minsituciones pero no lo se - posible futuro error
+    private MInstituciones institucion;
+    //private MInstituciones instituciones; //maybe es minsituciones pero no lo se - posible futuro error
 
     //Constructores
 
-    public MSedesIntituciones(Integer idsede, Integer idinstitucion, String nombresede, String ciudad, String direccionfisica, Boolean essedeprincipal) {
+    public MSedesInstituciones(Integer idsede, Integer idinstitucion, String nombresede, String ciudad, String direccionfisica, Boolean essedeprincipal) {
         this.idsede = idsede;
         this.idinstitucion = idinstitucion;
         this.nombresede = nombresede;
