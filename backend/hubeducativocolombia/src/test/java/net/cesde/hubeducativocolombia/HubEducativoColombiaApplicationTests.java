@@ -1,4 +1,4 @@
-package com.Cesdeedys.hubEducativoColombia;
+package net.cesde.hubeducativocolombia;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
