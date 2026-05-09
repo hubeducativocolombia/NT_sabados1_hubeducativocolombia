@@ -1,7 +1,7 @@
-package com.Cesdeedys.hubEducativoColombia.Controlador;
+package net.cesde.hubeducativocolombia.controller;
 
-import com.Cesdeedys.hubEducativoColombia.Modelo.MDetallesOperacion;
-import com.Cesdeedys.hubEducativoColombia.Servicio.SDetallesOperacion;
+import net.cesde.hubeducativocolombia.model.MDetallesOperacion;
+import net.cesde.hubeducativocolombia.service.SDetallesOperacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
