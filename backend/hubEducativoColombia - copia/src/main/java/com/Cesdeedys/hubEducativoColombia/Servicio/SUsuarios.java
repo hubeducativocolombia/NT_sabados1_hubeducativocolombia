@@ -20,7 +20,7 @@ public class SUsuarios {
 
     //Adicionar un registro de Usuario
 
-    public MUsuarios adicionarRegistroUsuario(MUsuarios mUsuarios) throws Exception {
+    public MUsuarios adicionarregistrousuario(MUsuarios mUsuarios) throws Exception {
         try{
            return iUsuarios.save(mUsuarios);
         }catch (Exception error){
@@ -29,7 +29,7 @@ public class SUsuarios {
     }
 
     //Consulta de todos los registros del usuario
-    public List<MUsuarios> consultaGeneralUsuarios() throws Exception{
+    public List<MUsuarios> consultageneralusuarios() throws Exception{
         try {
             return iUsuarios.findAll();
         }catch (Exception error){
@@ -38,7 +38,7 @@ public class SUsuarios {
     }
 
     //Consulta individual por llave primaria
-    public MUsuarios consultaIndividualPorID(Long idUsuario) throws Exception{
+    public MUsuarios consultaindividualporid(Long idUsuario) throws Exception{
         try {
             Optional<MUsuarios> registroEncontrado=iUsuarios.findById(idUsuario);
             if (registroEncontrado.isPresent())
@@ -51,16 +51,16 @@ public class SUsuarios {
     }
 
     //Consulta individual por nombre
-    public List<MUsuarios> consultaIndividualPorNombre(String nombrecompleto) throws Exception{
+    public List<MUsuarios> consultaindividualpornombre(String nombrecompleto) throws Exception{
         try {
-            return iUsuarios.findByNombrecompleto(nombrecompleto);
+            return iUsuarios.findBynombrecompleto(nombrecompleto);
         }catch (Exception error){
             throw new Exception(error.getMessage());
         }
     }
 
     //Modificar un registro de usuario
-    public MUsuarios modificarUsuario(Long idusuario, MUsuarios mUsuarios) throws Exception{
+    public MUsuarios actualizarusuario(Long idusuario, MUsuarios mUsuarios) throws Exception{
         try {
             Optional<MUsuarios> registroEncontrado=iUsuarios.findById(idusuario);
             if (registroEncontrado.isPresent()){
@@ -81,7 +81,7 @@ public class SUsuarios {
     }
 
     //Eliminar un registro Usuario
-    public Boolean eliminarUsuario(Long idusuario) throws Exception{
+    public Boolean eliminarusuario(Long idusuario) throws Exception{
         try {
             Optional<MUsuarios> registroEncontrado=iUsuarios.findById(idusuario);
             if (registroEncontrado.isPresent()){

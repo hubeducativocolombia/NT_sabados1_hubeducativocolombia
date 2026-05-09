@@ -14,5 +14,5 @@ public interface IUsuarios extends JpaRepository<MUsuarios, Long> {
     //En una interface los métodos tienen que ser declarativos, no se implementa aquí
 
     //Se guarda en una lista con "LIST" y proceso a llever el mismo formato
-    List<MUsuarios> findByNombrecompleto (String nombrecompleto);
+    List<MUsuarios> findBynombrecompleto (String nombrecompleto);
 }

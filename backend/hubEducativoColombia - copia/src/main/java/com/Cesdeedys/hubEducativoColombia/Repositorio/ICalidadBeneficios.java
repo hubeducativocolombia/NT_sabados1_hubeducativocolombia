@@ -10,10 +10,10 @@ import java.util.Optional;
 @Repository
 public interface ICalidadBeneficios extends JpaRepository<MCalidadBeneficios, Integer> {
 
-    List<MCalidadBeneficios> findByOfrecebecas (Boolean ofrecebecas);
-    List<MCalidadBeneficios> findByAcreditacionaltacalidad (Boolean acreditacionaltacalidad);
+    List<MCalidadBeneficios> findByofrecebecas (Boolean ofrecebecas);
+    List<MCalidadBeneficios> findByacreditacionaltacalidad (Boolean acreditacionaltacalidad);
 
-    Optional<MCalidadBeneficios> findByIdprograma(Integer idprograma);
+    Optional<MCalidadBeneficios> findByidprograma(Integer idprograma);
 
 
 }

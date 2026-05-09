@@ -9,6 +9,8 @@ import java.util.Optional;
 @Repository
 public interface IDetallesOperacion extends JpaRepository<MDetallesOperacion, Integer> {
 
-    Optional<MDetallesOperacion> findByIdprograma(Integer idprograma);
+    Optional<MDetallesOperacion> findByiddetalle(Integer iddetalle);
+
+    Optional<MDetallesOperacion> findByidprograma(Integer idprograma);
 
 }

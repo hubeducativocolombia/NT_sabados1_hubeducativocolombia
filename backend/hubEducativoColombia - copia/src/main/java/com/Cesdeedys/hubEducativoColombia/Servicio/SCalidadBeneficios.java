@@ -18,9 +18,9 @@ public class SCalidadBeneficios {
     }
 
     // Consultar por programa
-    public MCalidadBeneficios consultarPorPrograma(Integer idprograma) throws Exception {
+    public MCalidadBeneficios consultarporprograma(Integer idprograma) throws Exception {
         try {
-            Optional<MCalidadBeneficios> registro = iCalidadBeneficios.findByIdprograma(idprograma);
+            Optional<MCalidadBeneficios> registro = iCalidadBeneficios.findByidprograma(idprograma);
             if (registro.isPresent())
                 return registro.get();
             else
@@ -31,18 +31,18 @@ public class SCalidadBeneficios {
     }
 
     // Programas con becas
-    public List<MCalidadBeneficios> buscarConBecas() throws Exception {
+    public List<MCalidadBeneficios> buscarconbecas() throws Exception {
         try {
-            return iCalidadBeneficios.findByOfrecebecas(true); //Pregunta porque creo que también está malo, por qué no sería la variable "ofrece becas"??
+            return iCalidadBeneficios.findByofrecebecas(true); //Pregunta porque creo que también está malo, por qué no sería la variable "ofrece becas"??
         } catch (Exception error) {
             throw new Exception(error.getMessage());
         }
     }
 
     // Programas acreditados
-    public List<MCalidadBeneficios> buscarAcreditados() throws Exception {
+    public List<MCalidadBeneficios> buscaracreditados() throws Exception {
         try {
-            return iCalidadBeneficios.findByAcreditacionaltacalidad(true);
+            return iCalidadBeneficios.findByacreditacionaltacalidad(true);
         } catch (Exception error) {
             throw new Exception(error.getMessage());
         }
@@ -50,7 +50,7 @@ public class SCalidadBeneficios {
 
 
     // ADICIONAR
-    public MCalidadBeneficios adicionarCalidadBeneficios(MCalidadBeneficios mCalidadBeneficios) throws Exception {
+    public MCalidadBeneficios adicionarcalidadbeneficios(MCalidadBeneficios mCalidadBeneficios) throws Exception {
         try {
             return iCalidadBeneficios.save(mCalidadBeneficios);
         } catch (Exception e) {

@@ -9,9 +9,9 @@ import java.util.List;
 @Repository
 public interface ISedesInstituciones extends JpaRepository<MSedesIntituciones, Integer> {
 
-    List<MSedesIntituciones> findByCiudad (String ciudad);
+    List<MSedesIntituciones> findByciudad (String ciudad);
 
-    List<MSedesIntituciones> findByNombresede(String nombresede);
+    List<MSedesIntituciones> findBynombresede(String nombresede);
 
 
 }

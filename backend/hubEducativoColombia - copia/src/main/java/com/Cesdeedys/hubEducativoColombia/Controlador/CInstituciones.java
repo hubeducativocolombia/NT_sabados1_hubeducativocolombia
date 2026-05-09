@@ -24,9 +24,19 @@ public class CInstituciones {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<?> buscarporid(@PathVariable Integer id) {
         try {
-            return ResponseEntity.ok(sInstituciones.consultaPorId(id));
+            return ResponseEntity.ok(sInstituciones.consultaporid(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    // Buscar por nombre
+    @GetMapping("/buscar")
+    public ResponseEntity<?> consultarpornombreoficial(@RequestParam String nombreoficial) {
+        try {
+            return ResponseEntity.ok(sInstituciones.consultapornombreoficial(nombreoficial));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -35,7 +45,7 @@ public class CInstituciones {
     @PostMapping
     public ResponseEntity<?> crear(@RequestBody MInstituciones institucion) {
         try {
-            return ResponseEntity.ok(sInstituciones.adicionarInstitucion(institucion));
+            return ResponseEntity.ok(sInstituciones.adicionarinstitucion(institucion));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -51,7 +61,7 @@ public class CInstituciones {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminarinstitucion(@PathVariable Integer id) {
+    public ResponseEntity<?> eliminar (@PathVariable Integer id) {
         try {
             return ResponseEntity.ok(sInstituciones.eliminarinstitucion(id));
         }catch (Exception e) {

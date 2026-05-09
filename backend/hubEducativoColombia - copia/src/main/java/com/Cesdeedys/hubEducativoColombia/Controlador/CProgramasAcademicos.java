@@ -17,79 +17,79 @@ public class CProgramasAcademicos {
     @GetMapping
     public ResponseEntity<?> listar() {
         try {
-            return ResponseEntity.ok(sProgramas.consultaGeneral());
+            return ResponseEntity.ok(sProgramas.consultageneral());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<?> buscarporid(@PathVariable Integer id) {
         try {
-            return ResponseEntity.ok(sProgramas.consultaPorId(id));
+            return ResponseEntity.ok(sProgramas.consultaporid(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/nombre")
-    public ResponseEntity<?> buscarPorNombre(@RequestParam String nombre) {
+    public ResponseEntity<?> buscarpornombre(@RequestParam String nombre) {
         try {
-            return ResponseEntity.ok(sProgramas.buscarPorNombreProgramaAcademico(nombre));
+            return ResponseEntity.ok(sProgramas.buscarpornombreprogramaacademico(nombre));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/nivel")
-    public ResponseEntity<?> buscarPorNivel(@RequestParam String nivel) {
+    public ResponseEntity<?> buscarpornivel(@RequestParam String nivel) {
         try {
-            return ResponseEntity.ok(sProgramas.buscarPorNivel(nivel));
+            return ResponseEntity.ok(sProgramas.buscarpornivel(nivel));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/institucion")
-    public ResponseEntity<?> buscarPorInstitucion(@RequestParam Integer idinstitucion) {
+    public ResponseEntity<?> buscarporinstitucion(@RequestParam Integer idinstitucion) {
         try {
-            return ResponseEntity.ok(sProgramas.buscarPorInstitucion(idinstitucion));
+            return ResponseEntity.ok(sProgramas.buscarporinstitucion(idinstitucion));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/activos")
-    public ResponseEntity<?> buscarActivos() {
+    public ResponseEntity<?> buscaractivos() {
         try {
-            return ResponseEntity.ok(sProgramas.buscarActivos());
+            return ResponseEntity.ok(sProgramas.buscaractivos());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping
-    public ResponseEntity<?> crearProgramasAcademicos(@RequestBody MProgramasAcademicos programasAcademicos) {
+    public ResponseEntity<?> crearprogramasacademicos(@RequestBody MProgramasAcademicos programasAcademicos) {
         try {
-            return ResponseEntity.ok(sProgramas.adicionar(programasAcademicos));
+            return ResponseEntity.ok(sProgramas.adicionarprogramasacademicos(programasAcademicos));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarProgramasAcademicos(@PathVariable Integer id, @RequestBody MProgramasAcademicos programasAcademicos) {
+    public ResponseEntity<?> actualizarprogramasacademicos(@PathVariable Integer id, @RequestBody MProgramasAcademicos programasAcademicos) {
         try {
-            return ResponseEntity.ok(sProgramas.actualizarProgramasAcademicos(id, programasAcademicos));
+            return ResponseEntity.ok(sProgramas.actualizarprogramasacademicos(id, programasAcademicos));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminarProgramasAcademicos(@PathVariable Integer id) {
+    public ResponseEntity<?> eliminarprogramasacademicos(@PathVariable Integer id) {
         try {
-            return ResponseEntity.ok(sProgramas.eliminarProgramaAcademico(id));
+            return ResponseEntity.ok(sProgramas.eliminarprogramasacademicos(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

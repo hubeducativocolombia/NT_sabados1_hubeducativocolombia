@@ -21,9 +21,22 @@ public class SDetallesOperacion {
     }
 
     // Consultar por programa
-    public MDetallesOperacion consultarPorPrograma(Integer idprograma) throws Exception {
+    public MDetallesOperacion consultarporprograma(Integer idprograma) throws Exception {
         try {
-            Optional<MDetallesOperacion> registro = iDetallesOperacion.findByIdprograma(idprograma);
+            Optional<MDetallesOperacion> registro = iDetallesOperacion.findByidprograma(idprograma);
+            if (registro.isPresent())
+                return registro.get();
+            else
+                throw new Exception("Detalle no encontrado");
+        } catch (Exception error) {
+            throw new Exception(error.getMessage());
+        }
+    }
+
+    // Consultar por programa
+    public MDetallesOperacion consultapordetalle(Integer iddetalle) throws Exception {
+        try {
+            Optional<MDetallesOperacion> registro = iDetallesOperacion.findByiddetalle(iddetalle);
             if (registro.isPresent())
                 return registro.get();
             else
@@ -34,7 +47,7 @@ public class SDetallesOperacion {
     }
 
     // ADICIONAR
-    public MDetallesOperacion adicionarDetallesOperacion(MDetallesOperacion mDetallesOperacion) throws Exception {
+    public MDetallesOperacion adicionardetallesoperacion(MDetallesOperacion mDetallesOperacion) throws Exception {
         try {
             return iDetallesOperacion.save(mDetallesOperacion);
         } catch (Exception e) {
@@ -43,7 +56,7 @@ public class SDetallesOperacion {
     }
 
     // ACTUALIZAR
-    public MDetallesOperacion actualizarDetallesOperacion(Integer iddetalle, MDetallesOperacion mDetallesOperacion) throws Exception {
+    public MDetallesOperacion actualizardetallesoperacion(Integer iddetalle, MDetallesOperacion mDetallesOperacion) throws Exception {
         try {
             Optional<MDetallesOperacion> registroEncontrado = iDetallesOperacion.findById(iddetalle);
             if (registroEncontrado.isPresent()) {

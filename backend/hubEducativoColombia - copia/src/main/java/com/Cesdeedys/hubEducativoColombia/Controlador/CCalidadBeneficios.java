@@ -15,27 +15,27 @@ public class CCalidadBeneficios {
     SCalidadBeneficios sCalidad;
 
     @GetMapping("/programa/{id}")
-    public ResponseEntity<?> buscarPorPrograma(@PathVariable Integer id) {
+    public ResponseEntity<?> buscarporprograma(@PathVariable Integer id) {
         try {
-            return ResponseEntity.ok(sCalidad.consultarPorPrograma(id));
+            return ResponseEntity.ok(sCalidad.consultarporprograma(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/becas")
-    public ResponseEntity<?> buscarConBecas() {
+    public ResponseEntity<?> buscarconcecas() {
         try {
-            return ResponseEntity.ok(sCalidad.buscarConBecas());
+            return ResponseEntity.ok(sCalidad.buscarconbecas());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/acreditados")
-    public ResponseEntity<?> buscarAcreditados() {
+    public ResponseEntity<?> buscaracreditados() {
         try {
-            return ResponseEntity.ok(sCalidad.buscarAcreditados());
+            return ResponseEntity.ok(sCalidad.buscaracreditados());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -44,7 +44,7 @@ public class CCalidadBeneficios {
     @PostMapping
     public ResponseEntity<?> crear(@RequestBody MCalidadBeneficios calidadBeneficios) {
         try {
-            return ResponseEntity.ok(sCalidad.adicionarCalidadBeneficios(calidadBeneficios));
+            return ResponseEntity.ok(sCalidad.adicionarcalidadbeneficios(calidadBeneficios));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

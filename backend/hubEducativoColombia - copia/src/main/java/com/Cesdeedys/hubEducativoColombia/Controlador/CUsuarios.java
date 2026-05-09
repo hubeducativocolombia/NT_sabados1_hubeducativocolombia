@@ -19,7 +19,7 @@ public class CUsuarios {
     @PostMapping
     public ResponseEntity<?> crear(@RequestBody MUsuarios usuario) {
         try {
-            return ResponseEntity.ok(sUsuarios.adicionarRegistroUsuario(usuario));
+            return ResponseEntity.ok(sUsuarios.adicionarregistrousuario(usuario));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -29,7 +29,7 @@ public class CUsuarios {
     @GetMapping
     public ResponseEntity<?> listar() {
         try {
-            return ResponseEntity.ok(sUsuarios.consultaGeneralUsuarios());
+            return ResponseEntity.ok(sUsuarios.consultageneralusuarios());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -37,9 +37,9 @@ public class CUsuarios {
 
     // Buscar por ID
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<?> buscarporid(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(sUsuarios.consultaIndividualPorID(id));
+            return ResponseEntity.ok(sUsuarios.consultaindividualporid(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -47,9 +47,9 @@ public class CUsuarios {
 
     // Buscar por nombre
     @GetMapping("/buscar")
-    public ResponseEntity<?> buscarPorNombre(@RequestParam String nombre) {
+    public ResponseEntity<?> buscarpornombre(@RequestParam String nombre) {
         try {
-            return ResponseEntity.ok(sUsuarios.consultaIndividualPorNombre(nombre));
+            return ResponseEntity.ok(sUsuarios.consultaindividualpornombre(nombre));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -59,7 +59,7 @@ public class CUsuarios {
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody MUsuarios usuario) {
         try {
-            return ResponseEntity.ok(sUsuarios.modificarUsuario(id, usuario));
+            return ResponseEntity.ok(sUsuarios.actualizarusuario(id, usuario));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -69,7 +69,7 @@ public class CUsuarios {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(sUsuarios.eliminarUsuario(id));
+            return ResponseEntity.ok(sUsuarios.eliminarusuario(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

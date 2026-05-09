@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface IInstituciones extends JpaRepository<MInstituciones, Integer> {
-    List<MInstituciones> findByNombreoficial(String nombreoficial);
+    List<MInstituciones> findBynombreoficial(String nombreoficial);
 }

@@ -1,6 +1,7 @@
 package com.Cesdeedys.hubEducativoColombia.Servicio;
 
 import com.Cesdeedys.hubEducativoColombia.Modelo.MInstituciones;
+import com.Cesdeedys.hubEducativoColombia.Modelo.MUsuarios;
 import com.Cesdeedys.hubEducativoColombia.Repositorio.IInstituciones;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class SInstituciones {
     }
 
     // Consulta por ID
-    public MInstituciones consultaPorId(Integer idinstitucion) throws Exception {
+    public MInstituciones consultaporid(Integer idinstitucion) throws Exception {
         try {
             Optional<MInstituciones> registro = iInstituciones.findById(idinstitucion);
             if (registro.isPresent())
@@ -39,9 +40,17 @@ public class SInstituciones {
         }
     }
 
+    //Consulta individual por nombre
+    public List<MInstituciones> consultapornombreoficial(String nombreoficial) throws Exception{
+        try {
+            return iInstituciones.findBynombreoficial(nombreoficial);
+        }catch (Exception error){
+            throw new Exception(error.getMessage());
+        }
+    }
 
     // ADICIONAR
-    public MInstituciones adicionarInstitucion(MInstituciones mInstituciones) throws Exception {
+    public MInstituciones adicionarinstitucion(MInstituciones mInstituciones) throws Exception {
         try {
             return iInstituciones.save(mInstituciones);
         } catch (Exception e) {

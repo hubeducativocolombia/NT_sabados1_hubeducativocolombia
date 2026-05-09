@@ -19,18 +19,18 @@ public class SSedesInstituciones {
     }
 
     // Consultar por nombre sede institución
-    public List<MSedesIntituciones> consultarPorNombreInstitucion(String nombresede) throws Exception {
+    public List<MSedesIntituciones> consultarpornombreinstitucion(String nombresede) throws Exception {
         try {
-            return iSedesInstituciones.findByNombresede(nombresede);
+            return iSedesInstituciones.findBynombresede(nombresede);
         } catch (Exception error) {
             throw new Exception(error.getMessage());
         }
     }
 
     // Consultar por ciudad
-    public List<MSedesIntituciones> consultarPorCiudad(String ciudad) throws Exception {
+    public List<MSedesIntituciones> consultarporciudad(String ciudad) throws Exception {
         try {
-            return iSedesInstituciones.findByCiudad(ciudad);
+            return iSedesInstituciones.findByciudad(ciudad);
         } catch (Exception error) {
             throw new Exception(error.getMessage());
         }
@@ -38,7 +38,7 @@ public class SSedesInstituciones {
 
 
     // ADICIONAR
-    public MSedesIntituciones adicionarSedeInstitucion(MSedesIntituciones mSedesIntituciones) throws Exception {
+    public MSedesIntituciones adicionarsedesinstituciones(MSedesIntituciones mSedesIntituciones) throws Exception {
         try {
             return iSedesInstituciones.save(mSedesIntituciones);
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public class SSedesInstituciones {
     }
 
     // ACTUALIZAR
-    public MSedesIntituciones actualizarSedesInstitucion(Integer idsede, MSedesIntituciones mSedesIntituciones) throws Exception {
+    public MSedesIntituciones actualizarsedesinstituciones(Integer idsede, MSedesIntituciones mSedesIntituciones) throws Exception {
         try {
             Optional<MSedesIntituciones> registroEncontrado = iSedesInstituciones.findById(idsede);
             if (registroEncontrado.isPresent()) {
@@ -66,7 +66,7 @@ public class SSedesInstituciones {
     }
 
     // ELIMINAR
-    public boolean eliminarsedeinstituciones(Integer idsede) throws Exception {
+    public boolean eliminarsedesinstituciones(Integer idsede) throws Exception {
         try {
             Optional<MSedesIntituciones> registroEncontrado = iSedesInstituciones.findById(idsede);
             if (registroEncontrado.isPresent()) {

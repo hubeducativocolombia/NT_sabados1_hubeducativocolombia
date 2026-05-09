@@ -18,7 +18,7 @@ public class SProgramasAcademicos {
     }
 
     // Consulta general
-    public List<MProgramasAcademicos> consultaGeneral() throws Exception {
+    public List<MProgramasAcademicos> consultageneral() throws Exception {
         try {
             return iProgramasAcademicos.findAll();
         } catch (Exception error) {
@@ -27,7 +27,7 @@ public class SProgramasAcademicos {
     }
 
     // Consulta por ID
-    public MProgramasAcademicos consultaPorId(Integer idprograma) throws Exception {
+    public MProgramasAcademicos consultaporid(Integer idprograma) throws Exception {
         try {
             Optional<MProgramasAcademicos> registro = iProgramasAcademicos.findById(idprograma);
             if (registro.isPresent())
@@ -40,16 +40,16 @@ public class SProgramasAcademicos {
     }
 
     // Buscar por nombre
-    public List<MProgramasAcademicos> buscarPorNombreProgramaAcademico(String nombreprograma) throws Exception {
+    public List<MProgramasAcademicos> buscarpornombreprogramaacademico(String nombreprograma) throws Exception {
         try {
-            return iProgramasAcademicos.findByNombreprograma(nombreprograma);
+            return iProgramasAcademicos.findBynombreprograma(nombreprograma);
         } catch (Exception error) {
             throw new Exception(error.getMessage());
         }
     }
 
     // Buscar por nivel
-    public List<MProgramasAcademicos> buscarPorNivel(String nivelformacion) throws Exception {
+    public List<MProgramasAcademicos> buscarpornivel(String nivelformacion) throws Exception {
         try {
             return iProgramasAcademicos.findBynivelformacion(nivelformacion);
         } catch (Exception error) {
@@ -58,25 +58,25 @@ public class SProgramasAcademicos {
     }
 
     // Buscar por ID institución
-    public List<MProgramasAcademicos> buscarPorInstitucion(Integer idinstitucion) throws Exception {
+    public List<MProgramasAcademicos> buscarporinstitucion(Integer idinstitucion) throws Exception {
         try {
-            return iProgramasAcademicos.findByIdinstitucion(idinstitucion);
+            return iProgramasAcademicos.findByidinstitucion(idinstitucion);
         } catch (Exception error) {
             throw new Exception(error.getMessage());
         }
     }
 
     // Buscar activos
-    public List<MProgramasAcademicos> buscarActivos() throws Exception {
+    public List<MProgramasAcademicos> buscaractivos() throws Exception {
         try {
-            return iProgramasAcademicos.findByEstaactivo(true);
+            return iProgramasAcademicos.findByestaactivo(true);
         } catch (Exception error) {
             throw new Exception(error.getMessage());
         }
     }
 
     // ADICIONAR
-    public MProgramasAcademicos adicionar(MProgramasAcademicos mProgramasAcademicos) throws Exception {
+    public MProgramasAcademicos adicionarprogramasacademicos(MProgramasAcademicos mProgramasAcademicos) throws Exception {
         try {
             return iProgramasAcademicos.save(mProgramasAcademicos);
         } catch (Exception e) {
@@ -85,7 +85,7 @@ public class SProgramasAcademicos {
     }
 
     // ACTUALIZAR
-    public MProgramasAcademicos actualizarProgramasAcademicos(Integer idprograma, MProgramasAcademicos mProgramasAcademicos) throws Exception {
+    public MProgramasAcademicos actualizarprogramasacademicos(Integer idprograma, MProgramasAcademicos mProgramasAcademicos) throws Exception {
         try {
             Optional<MProgramasAcademicos> registroEncontrado = iProgramasAcademicos.findById(idprograma);
             if (registroEncontrado.isPresent()) {
@@ -105,7 +105,7 @@ public class SProgramasAcademicos {
     }
 
     // ELIMINAR
-    public boolean eliminarProgramaAcademico(Integer idprograma) throws Exception {
+    public boolean eliminarprogramasacademicos(Integer idprograma) throws Exception {
         try {
             Optional<MProgramasAcademicos> registroEncontrado = iProgramasAcademicos.findById(idprograma);
             if (registroEncontrado.isPresent()) {

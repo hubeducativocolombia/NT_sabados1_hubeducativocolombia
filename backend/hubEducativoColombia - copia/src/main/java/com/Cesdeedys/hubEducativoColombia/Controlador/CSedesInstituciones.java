@@ -16,9 +16,9 @@ public class CSedesInstituciones {
 
     // Buscar por nombre sede
     @GetMapping("/nombre")
-    public ResponseEntity<?> buscarPorNombre(@RequestParam String nombre) {
+    public ResponseEntity<?> buscarpornombre(@RequestParam String nombre) {
         try {
-            return ResponseEntity.ok(sSedes.consultarPorNombreInstitucion(nombre));
+            return ResponseEntity.ok(sSedes.consultarpornombreinstitucion(nombre));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -26,9 +26,9 @@ public class CSedesInstituciones {
 
     // Buscar por ciudad
     @GetMapping("/ciudad")
-    public ResponseEntity<?> buscarPorCiudad(@RequestParam String ciudad) {
+    public ResponseEntity<?> buscarporciudad(@RequestParam String ciudad) {
         try {
-            return ResponseEntity.ok(sSedes.consultarPorCiudad(ciudad));
+            return ResponseEntity.ok(sSedes.consultarporciudad(ciudad));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -37,7 +37,7 @@ public class CSedesInstituciones {
     @PostMapping
     public ResponseEntity<?> crear(@RequestBody MSedesIntituciones sedeinstituciones) {
         try {
-            return ResponseEntity.ok(sSedes.adicionarSedeInstitucion(sedeinstituciones));
+            return ResponseEntity.ok(sSedes.adicionarsedesinstituciones(sedeinstituciones));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -46,7 +46,7 @@ public class CSedesInstituciones {
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizar(@PathVariable Integer id, @RequestBody MSedesIntituciones sedeinstituciones) {
         try {
-            return ResponseEntity.ok(sSedes.actualizarSedesInstitucion(id, sedeinstituciones));
+            return ResponseEntity.ok(sSedes.actualizarsedesinstituciones(id, sedeinstituciones));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -55,7 +55,7 @@ public class CSedesInstituciones {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Integer id) {
         try {
-            return ResponseEntity.ok(sSedes.eliminarsedeinstituciones(id));
+            return ResponseEntity.ok(sSedes.eliminarsedesinstituciones(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

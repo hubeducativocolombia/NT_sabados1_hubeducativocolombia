@@ -15,9 +15,18 @@ public class CDetallesOperacion {
     SDetallesOperacion sDetalles;
 
     @GetMapping("/programa/{id}")
-    public ResponseEntity<?> buscarPorPrograma(@PathVariable Integer id) {
+    public ResponseEntity<?> buscarporprograma(@PathVariable Integer id) {
         try {
-            return ResponseEntity.ok(sDetalles.consultarPorPrograma(id));
+            return ResponseEntity.ok(sDetalles.consultarporprograma(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/detalles/{id}")
+    public ResponseEntity<?> consultapordetalles(@PathVariable Integer id) {
+        try {
+            return ResponseEntity.ok(sDetalles.consultapordetalle(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -26,7 +35,7 @@ public class CDetallesOperacion {
     @PostMapping
     public ResponseEntity<?> crear(@RequestBody MDetallesOperacion detallesOperacion) {
         try {
-            return ResponseEntity.ok(sDetalles.adicionarDetallesOperacion(detallesOperacion));
+            return ResponseEntity.ok(sDetalles.adicionardetallesoperacion(detallesOperacion));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -35,7 +44,7 @@ public class CDetallesOperacion {
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizar(@PathVariable Integer id, @RequestBody MDetallesOperacion detallesOperacion) {
         try {
-            return ResponseEntity.ok(sDetalles.actualizarDetallesOperacion(id, detallesOperacion));
+            return ResponseEntity.ok(sDetalles.actualizardetallesoperacion(id, detallesOperacion));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
