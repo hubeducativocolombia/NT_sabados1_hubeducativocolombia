@@ -1,4 +1,4 @@
-package com.Cesdeedys.hubEducativoColombia.Modelo;
+package net.cesde.hubeducativocolombia.model;
 
 import jakarta.persistence.*;
 
