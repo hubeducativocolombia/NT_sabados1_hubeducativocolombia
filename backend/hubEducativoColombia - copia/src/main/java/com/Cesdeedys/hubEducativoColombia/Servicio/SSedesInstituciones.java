@@ -1,7 +1,7 @@
-package com.Cesdeedys.hubEducativoColombia.Servicio;
+package net.cesde.hubeducativocolombia.service;
 
-import com.Cesdeedys.hubEducativoColombia.Modelo.MSedesIntituciones;
-import com.Cesdeedys.hubEducativoColombia.Repositorio.ISedesInstituciones;
+import net.cesde.hubeducativocolombia.model.MSedesIntituciones;
+import net.cesde.hubeducativocolombia.repo.ISedesInstituciones;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
