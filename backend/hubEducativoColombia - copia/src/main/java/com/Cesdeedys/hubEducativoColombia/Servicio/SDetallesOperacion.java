@@ -1,7 +1,7 @@
-package com.Cesdeedys.hubEducativoColombia.Servicio;
+package net.cesde.hubeducativocolombia.service;
 
-import com.Cesdeedys.hubEducativoColombia.Modelo.MDetallesOperacion;
-import com.Cesdeedys.hubEducativoColombia.Repositorio.IDetallesOperacion;
+import net.cesde.hubeducativocolombia.model.MDetallesOperacion;
+import net.cesde.hubeducativocolombia.repo.IDetallesOperacion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
