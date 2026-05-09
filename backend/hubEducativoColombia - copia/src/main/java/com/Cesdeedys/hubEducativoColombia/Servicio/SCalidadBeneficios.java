@@ -1,7 +1,7 @@
-package com.Cesdeedys.hubEducativoColombia.Servicio;
+package net.cesde.hubeducativocolombia.service;
 
-import com.Cesdeedys.hubEducativoColombia.Modelo.MCalidadBeneficios;
-import com.Cesdeedys.hubEducativoColombia.Repositorio.ICalidadBeneficios;
+import net.cesde.hubeducativocolombia.model.MCalidadBeneficios;
+import net.cesde.hubeducativocolombia.repo.ICalidadBeneficios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
