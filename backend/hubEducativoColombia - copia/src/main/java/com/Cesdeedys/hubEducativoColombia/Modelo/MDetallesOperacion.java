@@ -1,4 +1,4 @@
-package com.Cesdeedys.hubEducativoColombia.Modelo;
+package net.cesde.hubeducativocolombia.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -8,38 +8,78 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table (name = "detallesoperacion")
+@Table(name = "detallesoperacion")
 public class MDetallesOperacion {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "iddetalle", nullable = false)
     private Integer iddetalle;
 
-    @Column(name = "idprograma", nullable = false, unique = true)
-    private Integer idprograma;
-
-    @Column(name = "costosemestre", nullable = false)
+    /**
+     * DECIMAL(12,2) en MySQL → BigDecimal en Java.
+     * precision y scale deben declararse explícitamente para
+     * evitar discrepancias si JPA genera o valida el esquema.
+     * CHECK en DDL: costosemestre > 0.
+     */
+    @Column(name = "costosemestre", precision = 12, scale = 2, nullable = false)
     private BigDecimal costosemestre;
 
+    /**
+     * Refleja el CHECK del DDL: 'PRESENCIAL', 'VIRTUAL', 'HIBRIDO'.
+     * @Enumerated(STRING) compatible con VARCHAR(20).
+     */
+    @Enumerated(EnumType.STRING)
     @Column(name = "modalidad", length = 20, nullable = false)
-    private String modalidad;
+    private Modalidad modalidad;
 
+    /**
+     * Refleja el CHECK del DDL: 'DIURNA', 'NOCTURNA', 'FINESDESEMANA', 'MIXTA'.
+     * @Enumerated(STRING) compatible con VARCHAR(25).
+     */
+    @Enumerated(EnumType.STRING)
     @Column(name = "jornada", length = 25, nullable = false)
-    private String jornada;
+    private Jornada jornada;
 
+    /**
+     * CHECK en DDL: estudiantesactivos >= 0.
+     * DEFAULT 0 reflejado en la inicialización del atributo.
+     */
     @Column(name = "estudiantesactivos", nullable = false)
-    private Integer estudiantesactivos;
+    private Integer estudiantesactivos = 0;
 
-    @Column(name = "fechaactualizacion", nullable = false)
+    /**
+     * DATETIME con ON UPDATE CURRENT_TIMESTAMP en MySQL.
+     * updatable = false: MySQL gestiona la actualización automáticamente.
+     * insertable = true: JPA puede establecer el valor inicial en el INSERT.
+     */
+    @Column(name = "fechaactualizacion", nullable = false, updatable = false)
     private LocalDateTime fechaactualizacion;
 
+    // ─── Relaciones ────────────────────────────────────────────────
 
-    //Relaciones
-
-    @ManyToOne
-    @JoinColumn(name = "pkidprograma", referencedColumnName = "idprograma")
+    /**
+     * Relación 1:1 con MProgramasAcademicos.
+     *
+     * - @OneToOne: UNIQUE(idprograma) en el DDL garantiza cardinalidad 1:1.
+     *   Un detalle pertenece a exactamente un programa; un programa
+     *   tiene exactamente un detalle operativo.
+     * - @JoinColumn: esta tabla es el lado propietario (owner) de la FK.
+     *   La columna física "idprograma" vive en "detallesoperacion".
+     * - fetch LAZY: no carga el programa completo en cada consulta de detalle.
+     * - Sin cascade hacia MProgramasAcademicos: la existencia del programa
+     *   es independiente del detalle (ON DELETE CASCADE va en dirección
+     *   programa → detalle, no al revés).
+     * - @JsonBackReference: lado "hijo" en serialización JSON bidireccional.
+     */
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        name = "idprograma",
+        referencedColumnName = "idprograma",
+        nullable = false
+    )
     @JsonBackReference
-    private MProgramasAcademicos programasacademicos;
+    private MProgramasAcademicos programa;
 
     //Constructores
 
