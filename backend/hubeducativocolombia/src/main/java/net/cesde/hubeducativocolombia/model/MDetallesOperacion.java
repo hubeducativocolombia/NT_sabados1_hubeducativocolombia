@@ -31,7 +31,7 @@ public class MDetallesOperacion {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "modalidad", length = 20, nullable = false)
-    private Modalidad modalidad;
+    private String modalidad;
 
     /**
      * Refleja el CHECK del DDL: 'DIURNA', 'NOCTURNA', 'FINESDESEMANA', 'MIXTA'.
@@ -39,7 +39,7 @@ public class MDetallesOperacion {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "jornada", length = 25, nullable = false)
-    private Jornada jornada;
+    private String jornada;
 
     /**
      * CHECK en DDL: estudiantesactivos >= 0.
