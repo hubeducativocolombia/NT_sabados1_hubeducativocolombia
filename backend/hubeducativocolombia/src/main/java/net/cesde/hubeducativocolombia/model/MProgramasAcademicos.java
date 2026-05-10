@@ -29,7 +29,7 @@ public class MProgramasAcademicos {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "nivelformacion", length = 30, nullable = false)
-    private NivelFormacion nivelformacion;
+    private String nivelformacion;
 
     /**
      * TINYINT en MySQL → Byte en Java.
