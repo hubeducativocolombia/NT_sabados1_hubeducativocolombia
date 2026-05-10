@@ -56,7 +56,7 @@ public class MSedesInstituciones {
         this.essedeprincipal = essedeprincipal;
     }
 
-    public MSedesIntituciones() {
+    public MSedesInstituciones() {
     }
 
     //Get and Set
