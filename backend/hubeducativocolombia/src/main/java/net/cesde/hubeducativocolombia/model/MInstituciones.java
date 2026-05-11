@@ -26,7 +26,7 @@ public class MInstituciones {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "naturaleza", length = 20, nullable = false)
-    private Naturaleza naturaleza;
+    private String naturaleza;
 
     @Column(name = "sitioweb", length = 255)
     private String sitioweb;
