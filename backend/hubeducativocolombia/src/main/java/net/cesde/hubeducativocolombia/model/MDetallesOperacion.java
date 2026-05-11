@@ -16,6 +16,9 @@ public class MDetallesOperacion {
     @Column(name = "iddetalle", nullable = false)
     private Integer iddetalle;
 
+    @Column(name = "idprograma", nullable = false)
+    private Integer idprograma;
+
     /**
      * DECIMAL(12,2) en MySQL → BigDecimal en Java.
      * precision y scale deben declararse explícitamente para
