@@ -13,6 +13,9 @@ public class MCalidadBeneficios {
     @Column(name = "idbeneficio", nullable = false)
     private Integer idbeneficio;
 
+    @Column(name = "idprograma", nullable = false)
+    private Integer idprograma;
+
     /**
      * TINYINT(1) en MySQL → Boolean en Java.
      * DEFAULT 0 en DDL → false en Java.
