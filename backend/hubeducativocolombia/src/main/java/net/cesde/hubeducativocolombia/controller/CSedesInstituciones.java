@@ -1,6 +1,6 @@
 package net.cesde.hubeducativocolombia.controller;
 
-import net.cesde.hubeducativocolombia.model.MSedesIntituciones;
+import net.cesde.hubeducativocolombia.model.MSedesInstituciones;
 import net.cesde.hubeducativocolombia.service.SSedesInstituciones;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +35,7 @@ public class CSedesInstituciones {
     }
 
     @PostMapping
-    public ResponseEntity<?> crear(@RequestBody MSedesIntituciones sedeinstituciones) {
+    public ResponseEntity<?> crear(@RequestBody MSedesInstituciones sedeinstituciones) {
         try {
             return ResponseEntity.ok(sSedes.adicionarSedeInstitucion(sedeinstituciones));
         } catch (Exception e) {
@@ -44,7 +44,7 @@ public class CSedesInstituciones {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizar(@PathVariable Integer id, @RequestBody MSedesIntituciones sedeinstituciones) {
+    public ResponseEntity<?> actualizar(@PathVariable Integer id, @RequestBody MSedesInstituciones sedeinstituciones) {
         try {
             return ResponseEntity.ok(sSedes.actualizarSedesInstitucion(id, sedeinstituciones));
         } catch (Exception e) {
