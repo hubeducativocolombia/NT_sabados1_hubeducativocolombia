@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -36,7 +36,7 @@ public class MInstituciones {
      * LocalDate solo mapea DATE (sin hora), lo que causa pérdida de datos.
      */
     @Column(name = "fecharegistro", nullable = false, updatable = false)
-    private LocalDateTime fecharegistro;
+    private LocalDate fecharegistro;
 
     // ─── Relaciones ────────────────────────────────────────────────
 
