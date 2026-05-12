@@ -16,6 +16,9 @@ public class MDetallesOperacion {
     @Column(name = "iddetalle", nullable = false)
     private Integer iddetalle;
 
+    @Column(name = "idprograma", nullable = false)
+    private Integer idprograma;
+
     /**
      * DECIMAL(12,2) en MySQL → BigDecimal en Java.
      * precision y scale deben declararse explícitamente para
@@ -31,7 +34,7 @@ public class MDetallesOperacion {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "modalidad", length = 20, nullable = false)
-    private Modalidad modalidad;
+    private String modalidad;
 
     /**
      * Refleja el CHECK del DDL: 'DIURNA', 'NOCTURNA', 'FINESDESEMANA', 'MIXTA'.
@@ -39,7 +42,7 @@ public class MDetallesOperacion {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "jornada", length = 25, nullable = false)
-    private Jornada jornada;
+    private String jornada;
 
     /**
      * CHECK en DDL: estudiantesactivos >= 0.

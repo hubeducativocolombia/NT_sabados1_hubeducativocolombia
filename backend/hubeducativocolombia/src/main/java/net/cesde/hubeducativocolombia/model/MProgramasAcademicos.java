@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,6 +16,9 @@ public class MProgramasAcademicos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idprograma", nullable = false)
     private Integer idprograma;
+
+    @Column(name = "idinstitucion", nullable = false)
+    private Integer idinstitucion;
 
     @Column(name = "codigosnies", length = 20, nullable = false, unique = true)
     private String codigosnies;
@@ -29,14 +33,14 @@ public class MProgramasAcademicos {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "nivelformacion", length = 30, nullable = false)
-    private NivelFormacion nivelformacion;
+    private String nivelformacion;
 
     /**
      * TINYINT en MySQL → Byte en Java.
      * Rango válido por CHECK del DDL: BETWEEN 1 AND 20.
      */
     @Column(name = "totalsemestres", nullable = false)
-    private Byte totalsemestres;
+    private Integer totalsemestres;
 
     @Column(name = "estaactivo", nullable = false)
     private Boolean estaactivo = true;

@@ -13,6 +13,9 @@ public class MSedesInstituciones {
     @Column(name = "idsede", nullable = false)
     private Integer idsede;
 
+    @Column(name = "idinstitucion", nullable = false)
+    private Integer idinstitucion;
+
     @Column(name = "nombresede", length = 150, nullable = false)
     private String nombresede;
 
@@ -56,7 +59,7 @@ public class MSedesInstituciones {
         this.essedeprincipal = essedeprincipal;
     }
 
-    public MSedesIntituciones() {
+    public MSedesInstituciones() {
     }
 
     //Get and Set
