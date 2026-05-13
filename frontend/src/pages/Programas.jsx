@@ -3,6 +3,20 @@ import apiService from '../services/apiService'
 import './Programas.css'
 
 export default function Programas() {
+    const usuarioSesion = (() => {
+        try {
+            return JSON.parse(localStorage.getItem('hubUsuarioSesion') || '{}')
+        } catch (_error) {
+            return {}
+        }
+    })()
+    const rolSesion = String(usuarioSesion?.rol || '').trim().toUpperCase()
+    const correoSesion = String(usuarioSesion?.correoElectronico || '').trim().toLowerCase()
+    const esMaster = correoSesion === 'nana.ortega71@gmail.com'
+    const esAdministradorEspecial = correoSesion === 'samu@gmail.com'
+    const puedeGestionarProgramas = rolSesion === 'ADMIN' || esMaster || esAdministradorEspecial
+    const puedeEliminarProgramas = rolSesion === 'MASTER' || esMaster
+
     const nivelLabels = {
         'PREGRADO': 'Pregrado',
         'ESPECIALIZACION': 'Especialización',
@@ -92,6 +106,10 @@ export default function Programas() {
     }
 
     const abrirModal = () => {
+        if (!puedeGestionarProgramas) {
+            return
+        }
+
         setModoEdicion(false)
         setProgramaEditando(null)
         setFormulario({
@@ -113,6 +131,10 @@ export default function Programas() {
     }
 
     const abrirModalEdicion = (programa) => {
+        if (!puedeGestionarProgramas) {
+            return
+        }
+
         setModoEdicion(true)
         setProgramaEditando(programa)
         setFormulario({
@@ -136,6 +158,10 @@ export default function Programas() {
     const manejarSubmit = async (e) => {
         e.preventDefault()
         setError(null)
+
+        if (!puedeGestionarProgramas) {
+            return
+        }
 
         const codigoSniesNormalizado = String(formulario.codigoSnies || '').trim()
         const costoSemestreNumerico = Number(formulario.costoSemestre)
@@ -170,6 +196,10 @@ export default function Programas() {
     }
 
     const eliminarPrograma = async (id) => {
+        if (!puedeEliminarProgramas) {
+            return
+        }
+
         if (confirm('¿Estás seguro de que deseas eliminar este programa?')) {
             try {
                 await apiService.eliminarPrograma(id)
@@ -191,9 +221,11 @@ export default function Programas() {
         <div className="seccionProgramas">
             <div className="encabezadoSeccion">
                 <h1 className="tituloSeccion">Programas Académicos</h1>
-                <button className="boton botonPrimario" onClick={abrirModal}>
-                    + Crear Programa
-                </button>
+                {puedeGestionarProgramas && (
+                    <button className="boton botonPrimario" onClick={abrirModal}>
+                        + Crear Programa
+                    </button>
+                )}
             </div>
 
             {error && <div className="mensajeError">{error}</div>}
@@ -215,17 +247,21 @@ export default function Programas() {
                             <p><strong>Modalidad:</strong> {modalidadLabels[prog.modalidad] || prog.modalidad}</p>
                             <p><strong>Jornada:</strong> {jornadaLabels[prog.jornada] || prog.jornada}</p>
                             <p><strong>Costo/Semestre:</strong> ${prog.costoSemestre?.toLocaleString()}</p>
-                            <div className="accionesTarjeta">
-                                <button className="boton botonPequeno botonAdvertencia" onClick={() => abrirModalEdicion(prog)}>
-                                    Editar
-                                </button>
-                                <button 
-                                    className="boton botonPequeno botonError"
-                                    onClick={() => eliminarPrograma(prog.idPrograma)}
-                                >
-                                    Eliminar
-                                </button>
-                            </div>
+                            {puedeGestionarProgramas && (
+                                <div className="accionesTarjeta">
+                                    <button className="boton botonPequeno botonAdvertencia" onClick={() => abrirModalEdicion(prog)}>
+                                        Editar
+                                    </button>
+                                    {puedeEliminarProgramas && (
+                                        <button 
+                                            className="boton botonPequeno botonError"
+                                            onClick={() => eliminarPrograma(prog.idPrograma)}
+                                        >
+                                            Eliminar
+                                        </button>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>

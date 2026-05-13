@@ -153,7 +153,8 @@ function App() {
         nombreCompleto,
         correoElectronico,
         hashContrasena: contrasena,
-        rol: ocupacion
+        rol: 'USER',
+        ocupacion
       })
 
       setSesionIniciada(true)
@@ -177,11 +178,46 @@ function App() {
     localStorage.removeItem('hubSesionIniciada')
     localStorage.removeItem('hubUsuarioSesion')
     setMenuAbierto(false)
+    window.location.assign('/')
   }
+
+  const rolSesion = (() => {
+    try {
+      const usuarioSesion = JSON.parse(localStorage.getItem('hubUsuarioSesion') || '{}')
+      return String(usuarioSesion?.rol || '').trim().toUpperCase()
+    } catch (_error) {
+      return ''
+    }
+  })()
+
+  const correoSesion = (() => {
+    try {
+      const usuarioSesion = JSON.parse(localStorage.getItem('hubUsuarioSesion') || '{}')
+      return String(usuarioSesion?.correoElectronico || '').trim().toLowerCase()
+    } catch (_error) {
+      return ''
+    }
+  })()
+
+  const esMaster = rolSesion === 'MASTER' || correoSesion === 'nana.ortega71@gmail.com'
+  const puedeAdministrarUsuarios = rolSesion === 'ADMIN' || esMaster
+  const esVistaPublicaInicio = !sesionIniciada && window.location.pathname === '/'
+
+  useEffect(() => {
+    if (esVistaPublicaInicio) {
+      document.body.classList.add('sinScrollPublico')
+    } else {
+      document.body.classList.remove('sinScrollPublico')
+    }
+
+    return () => {
+      document.body.classList.remove('sinScrollPublico')
+    }
+  }, [esVistaPublicaInicio])
 
   return (
     <Router>
-      <div className="app">
+      <div className={`app ${esVistaPublicaInicio ? 'appPublicaSinScroll' : ''}`}>
         <header className="encabezadoPrincipal">
           <div className="contenedorEncabezado">
             <h1 className="logoTitulo">
@@ -204,7 +240,7 @@ function App() {
             >
               <Link 
                 to="/" 
-                className="enlaceNav" 
+                className="enlaceNav enlaceNavInicio" 
                 onClick={() => setMenuAbierto(false)}
               >
                 Inicio
@@ -264,13 +300,15 @@ function App() {
                   >
                     Sedes
                   </Link>
-                  <Link 
-                    to="/usuarios" 
-                    className="enlaceNav"
-                    onClick={() => setMenuAbierto(false)}
-                  >
-                    Usuarios
-                  </Link>
+                  {puedeAdministrarUsuarios && (
+                    <Link 
+                      to="/usuarios" 
+                      className="enlaceNav"
+                      onClick={() => setMenuAbierto(false)}
+                    >
+                      Usuarios
+                    </Link>
+                  )}
                   <Link 
                     to="/buscar" 
                     className="enlaceNav"
@@ -291,13 +329,13 @@ function App() {
           </div>
         </header>
 
-        <main className="contenidoPrincipal">
+        <main className={`contenidoPrincipal ${esVistaPublicaInicio ? 'contenidoPrincipalPublico' : ''}`}>
           <Routes>
             <Route path="/" element={<Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
             <Route path="/instituciones" element={sesionIniciada ? <Instituciones /> : <Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
             <Route path="/sedes" element={sesionIniciada ? <Sedes /> : <Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
             <Route path="/programas" element={sesionIniciada ? <Programas /> : <Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
-            <Route path="/usuarios" element={sesionIniciada ? <Usuarios /> : <Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
+            <Route path="/usuarios" element={sesionIniciada && puedeAdministrarUsuarios ? <Usuarios /> : <Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
             <Route path="/buscar" element={<Buscar />} />
           </Routes>
         </main>

@@ -3,6 +3,52 @@ import apiService from '../services/apiService'
 import './Usuarios.css'
 
 export default function Usuarios() {
+    const usuarioSesion = (() => {
+        try {
+            return JSON.parse(localStorage.getItem('hubUsuarioSesion') || '{}')
+        } catch (_error) {
+            return {}
+        }
+    })()
+    const rolSesion = String(usuarioSesion?.rol || '').trim().toUpperCase()
+    const correoSesion = String(usuarioSesion?.correoElectronico || '').trim().toLowerCase()
+    const esMaster = rolSesion === 'MASTER' || correoSesion === 'nana.ortega71@gmail.com'
+    const esAdministrador = rolSesion === 'ADMIN'
+    const puedeGestionarUsuarios = esMaster || esAdministrador
+    const puedeEliminarUsuarios = esMaster
+    const opcionesRol = esMaster
+        ? [
+            { value: 'MASTER', label: 'Master' },
+            { value: 'ADMIN', label: 'Administrador' },
+            { value: 'USER', label: 'Usuario' }
+        ]
+        : [
+            { value: 'ADMIN', label: 'Administrador' },
+            { value: 'USER', label: 'Usuario' }
+        ]
+
+    const esAdministradorEspecial = (correo) => String(correo || '').trim().toLowerCase() === 'samu@gmail.com'
+
+    const obtenerRolVisual = (rol, correo) => {
+        if (esAdministradorEspecial(correo)) return 'ADMIN'
+        return String(rol || '').trim().toUpperCase()
+    }
+
+    const obtenerEtiquetaRol = (rol, correo) => {
+        const rolNormalizado = obtenerRolVisual(rol, correo)
+        if (rolNormalizado === 'MASTER') return 'Master'
+        if (rolNormalizado === 'ADMIN') return 'Administrador'
+        if (rolNormalizado === 'USER') return 'Usuario'
+        return rol || 'Usuario'
+    }
+
+    const obtenerColorRol = (rol, correo) => {
+        const rolNormalizado = obtenerRolVisual(rol, correo)
+        if (rolNormalizado === 'MASTER') return '#7c3aed'
+        if (rolNormalizado === 'ADMIN') return '#ff6b6b'
+        return '#95e1d3'
+    }
+
     const [usuarios, setUsuarios] = useState([])
     const [cargando, setCargando] = useState(true)
     const [error, setError] = useState(null)
@@ -11,7 +57,7 @@ export default function Usuarios() {
     const [formulario, setFormulario] = useState({
         nombreCompleto: '',
         correoElectronico: '',
-            rol: 'ESTUDIANTE',
+            rol: 'USER',
         estaActivo: true,
         hashContrasena: ''
     })
@@ -36,12 +82,16 @@ export default function Usuarios() {
     }
 
     const abrirModal = () => {
+        if (!puedeGestionarUsuarios) {
+            return
+        }
+
         setModoEdicion(false)
         setUsuarioEditando(null)
         setFormulario({
             nombreCompleto: '',
             correoElectronico: '',
-                    rol: 'ESTUDIANTE',
+                    rol: 'USER',
             estaActivo: true,
             hashContrasena: ''
         })
@@ -49,12 +99,16 @@ export default function Usuarios() {
     }
 
     const abrirModalEdicion = (usuario) => {
+        if (!puedeGestionarUsuarios) {
+            return
+        }
+
         setModoEdicion(true)
         setUsuarioEditando(usuario)
         setFormulario({
             nombreCompleto: usuario.nombreCompleto,
             correoElectronico: usuario.correoElectronico,
-            rol: usuario.rol,
+            rol: esAdministradorEspecial(usuario.correoElectronico) ? 'ADMIN' : usuario.rol,
             estaActivo: usuario.estaActivo,
             hashContrasena: ''
         })
@@ -63,6 +117,11 @@ export default function Usuarios() {
 
     const manejarSubmit = async (e) => {
         e.preventDefault()
+
+        if (!puedeGestionarUsuarios) {
+            return
+        }
+
         try {
             const datosEnviar = { ...formulario }
             if (!datosEnviar.hashContrasena) {
@@ -82,6 +141,10 @@ export default function Usuarios() {
     }
 
     const eliminarUsuario = async (id) => {
+        if (!puedeEliminarUsuarios) {
+            return
+        }
+
         if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
             try {
                 await apiService.eliminarUsuario(id)
@@ -98,9 +161,11 @@ export default function Usuarios() {
         <div className="seccionUsuarios">
             <div className="encabezadoSeccion">
                 <h1 className="tituloSeccion">Usuarios del Sistema</h1>
-                <button className="boton botonPrimario" onClick={abrirModal}>
-                    + Crear Usuario
-                </button>
+                {puedeGestionarUsuarios && (
+                    <button className="boton botonPrimario" onClick={abrirModal}>
+                        + Crear Usuario
+                    </button>
+                )}
             </div>
 
             {error && <div className="mensajeError">{error}</div>}
@@ -120,7 +185,7 @@ export default function Usuarios() {
                                 <th>Rol</th>
                                 <th>Estado</th>
                                 <th>Fecha Creación</th>
-                                <th>Acciones</th>
+                                {puedeGestionarUsuarios && <th>Acciones</th>}
                             </tr>
                         </thead>
                         <tbody>
@@ -130,13 +195,13 @@ export default function Usuarios() {
                                     <td>{user.correoElectronico}</td>
                                     <td>
                                         <span className="etiquetaRol" style={{
-                                            background: user.rol === 'admin' ? '#ff6b6b' : user.rol === 'docente' ? '#4ecdc4' : '#95e1d3',
+                                                    background: obtenerColorRol(user.rol, user.correoElectronico),
                                             color: '#fff',
                                             padding: '4px 8px',
                                             borderRadius: '4px',
                                             fontSize: '0.85em'
                                         }}>
-                                            {user.rol}
+                                                    {obtenerEtiquetaRol(user.rol, user.correoElectronico)}
                                         </span>
                                     </td>
                                     <td>
@@ -145,22 +210,26 @@ export default function Usuarios() {
                                         </span>
                                     </td>
                                     <td>{new Date(user.fechaCreacion).toLocaleDateString()}</td>
-                                    <td>
-                                        <div style={{ display: 'flex', gap: '8px' }}>
-                                            <button 
-                                                className="boton botonPequeno botonAdvertencia"
-                                                onClick={() => abrirModalEdicion(user)}
-                                            >
-                                                Editar
-                                            </button>
-                                            <button 
-                                                className="boton botonPequeno botonError"
-                                                onClick={() => eliminarUsuario(user.idUsuario)}
-                                            >
-                                                Eliminar
-                                            </button>
-                                        </div>
-                                    </td>
+                                    {puedeGestionarUsuarios && (
+                                        <td>
+                                            <div style={{ display: 'flex', gap: '8px' }}>
+                                                <button 
+                                                    className="boton botonPequeno botonAdvertencia"
+                                                    onClick={() => abrirModalEdicion(user)}
+                                                >
+                                                    Editar
+                                                </button>
+                                                {puedeEliminarUsuarios && (
+                                                    <button 
+                                                        className="boton botonPequeno botonError"
+                                                        onClick={() => eliminarUsuario(user.idUsuario)}
+                                                    >
+                                                        Eliminar
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </td>
+                                    )}
                                 </tr>
                             ))}
                         </tbody>
@@ -204,9 +273,11 @@ export default function Usuarios() {
                                     onChange={(e) => setFormulario({ ...formulario, rol: e.target.value })}
                                     required
                                 >
-                                    <option value="ADMIN">Administrador</option>
-                                    <option value="UNIVERSIDAD">Universidad</option>
-                                    <option value="ESTUDIANTE">Estudiante</option>
+                                    {opcionesRol.map((opcion) => (
+                                        <option key={opcion.value} value={opcion.value}>
+                                            {opcion.label}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                             {!modoEdicion && (

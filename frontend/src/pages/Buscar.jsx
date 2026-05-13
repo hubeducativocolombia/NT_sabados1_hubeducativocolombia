@@ -10,6 +10,9 @@ export default function Buscar() {
     const [tipo, setTipo] = useState('todas')
     const [resultados, setResultados] = useState([])
     const [cargando, setCargando] = useState(false)
+    const [intentoBuscar, setIntentoBuscar] = useState(false)
+
+    const debeElegirCategoria = tipo === 'todas'
 
     useEffect(() => {
         cargarDatos()
@@ -33,6 +36,11 @@ export default function Buscar() {
     }
 
     const buscar = () => {
+        if (debeElegirCategoria) {
+            setResultados([])
+            return
+        }
+
         if (!datos) {
             setResultados([])
             return
@@ -41,7 +49,16 @@ export default function Buscar() {
         const termino_lower = termino.trim().toLowerCase()
         const instituciones = datos.instituciones || []
         const sedes = datos.sedesInstitucion || []
-        const programas = datos.programasAcademicos || []
+        const detallesPorPrograma = new Map(
+            (datos.detallesOperacion || []).map((detalle) => [detalle.idPrograma, detalle])
+        )
+        const programas = (datos.programasAcademicos || []).map((programa) => {
+            const detalle = detallesPorPrograma.get(programa.idPrograma) || {}
+            return {
+                ...programa,
+                costoSemestre: detalle.costoSemestre ?? null
+            }
+        })
         let nuevosResultados = []
 
         if (tipo === 'instituciones') {
@@ -111,6 +128,12 @@ export default function Buscar() {
 
     const manejarBuscar = (e) => {
         e.preventDefault()
+        if (debeElegirCategoria) {
+            setIntentoBuscar(true)
+            setResultados([])
+            return
+        }
+        setIntentoBuscar(false)
         setCargando(true)
         setTimeout(() => {
             buscar()
@@ -130,9 +153,8 @@ export default function Buscar() {
                             placeholder="Buscar universidades, sedes o programas..."
                             value={termino}
                             onChange={(e) => setTermino(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && buscar()}
                         />
-                        <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
+                        <select value={tipo} onChange={(e) => { setTipo(e.target.value); setIntentoBuscar(false) }}>
                             <option value="todas">Todas las categorías</option>
                             <option value="instituciones">Instituciones</option>
                             <option value="sedes">Sedes</option>
@@ -143,6 +165,9 @@ export default function Buscar() {
                         </button>
                     </div>
                 </form>
+                {intentoBuscar && debeElegirCategoria && (
+                    <p className="avisoCategoria">Debes seleccionar una categoría específica para poder buscar.</p>
+                )}
             </div>
 
             {cargando && (
@@ -152,7 +177,7 @@ export default function Buscar() {
                 </div>
             )}
 
-            {!cargando && resultados.length === 0 && termino && (
+            {!cargando && resultados.length === 0 && termino && !(intentoBuscar && debeElegirCategoria) && (
                 <div className="mensajeVacio">
                     <div className="iconoVacio">🔍</div>
                     <p>No se encontraron resultados para "{termino}"</p>
@@ -225,6 +250,9 @@ export default function Buscar() {
                                         <h3>📚 {result.datos.nombrePrograma}</h3>
                                         <p><strong>Nivel:</strong> {result.datos.nivelFormacion}</p>
                                         <p><strong>Semestres:</strong> {result.datos.totalSemestres}</p>
+                                        {result.datos.costoSemestre !== null && result.datos.costoSemestre !== undefined && (
+                                            <p><strong>Costo por semestre:</strong> ${Number(result.datos.costoSemestre).toLocaleString()}</p>
+                                        )}
 
                                         {result.institucionRelacionada && (
                                             <div className="relacionados">

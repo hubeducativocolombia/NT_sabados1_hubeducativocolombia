@@ -16,9 +16,9 @@
 }
 
 .contenedorEncabezado {
-    max-width: 1200px;
+    max-width: 1360px;
     margin: 0 auto;
-    padding: 0.8rem 1.5rem;
+    padding: 0.8rem clamp(1rem, 2.2vw, 2rem);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -84,6 +84,10 @@
 .enlaceNav:hover {
     background-color: rgba(255, 255, 255, 0.15);
     color: var(--colorBlanco);
+}
+
+.enlaceNavInicio {
+    border-bottom: 3px solid var(--colorPrimario);
 }
 
 .enlaceNav.active {
@@ -262,10 +266,10 @@
 /* Contenido principal */
 .contenidoPrincipal {
     flex: 1;
-    max-width: 1200px;
+    max-width: 1360px;
     width: 100%;
     margin: 0.75rem auto;
-    padding: 0 1.5rem;
+    padding: 0 clamp(1rem, 2.2vw, 2rem);
 }
 
 /* Pie de página */
@@ -280,6 +284,52 @@
 
 .piePagina p {
     margin: 0.2rem 0;
+}
+
+.appPublicaSinScroll {
+    height: 100dvh;
+    overflow: hidden;
+}
+
+.appPublicaSinScroll .contenedorEncabezado {
+    padding: clamp(0.45rem, 1.25vh, 0.75rem) clamp(0.75rem, 2vw, 1.2rem);
+    gap: clamp(0.25rem, 0.8vh, 0.5rem);
+}
+
+.appPublicaSinScroll .contenidoPrincipalPublico {
+    margin: clamp(0.2rem, 0.8vh, 0.5rem) auto;
+    padding: 0 clamp(0.7rem, 2vw, 1.1rem);
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+}
+
+.appPublicaSinScroll .contenidoPrincipalPublico > * {
+    width: 100%;
+}
+
+.appPublicaSinScroll .piePagina {
+    padding: clamp(0.35rem, 0.8vh, 0.6rem) 1rem;
+    font-size: clamp(0.72rem, 1.5vw, 0.8rem);
+}
+
+@media (min-width: 1400px) {
+    .appPublicaSinScroll .contenidoPrincipalPublico {
+        max-width: 1280px;
+    }
+}
+
+@media (max-height: 760px) {
+    .appPublicaSinScroll .logoTitulo {
+        font-size: 1.2rem;
+    }
+
+    .appPublicaSinScroll .botonHeader,
+    .appPublicaSinScroll .enlaceNav {
+        padding-top: 0.35rem;
+        padding-bottom: 0.35rem;
+        font-size: 0.82rem;
+    }
 }
 
 /* Responsive */

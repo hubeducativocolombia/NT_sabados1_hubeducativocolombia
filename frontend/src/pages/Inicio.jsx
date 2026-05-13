@@ -1,12 +1,42 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import apiService from '../services/apiService'
+import Banner from './Banner'
 import './Inicio.css'
 
 export default function Inicio({ sesionIniciada, onIniciarSesion }) {
     const [datos, setDatos] = useState(null)
     const [error, setError] = useState(null)
     const [cargando, setCargando] = useState(sesionIniciada)
+
+    const rolSesion = (() => {
+        try {
+            const sesion = JSON.parse(localStorage.getItem('hubUsuarioSesion') || '{}')
+            return String(sesion?.rol || '').trim().toUpperCase()
+        } catch (_error) {
+            return ''
+        }
+    })()
+    const nombreUsuarioSesion = (() => {
+        try {
+            const sesion = JSON.parse(localStorage.getItem('hubUsuarioSesion') || '{}')
+            return String(sesion?.nombreCompleto || '').trim()
+        } catch (_error) {
+            return ''
+        }
+    })()
+    const correoSesion = (() => {
+        try {
+            const sesion = JSON.parse(localStorage.getItem('hubUsuarioSesion') || '{}')
+            return String(sesion?.correoElectronico || '').trim().toLowerCase()
+        } catch (_error) {
+            return ''
+        }
+    })()
+    const esMaster = correoSesion === 'nana.ortega71@gmail.com'
+    const esAdministradorEspecial = correoSesion === 'samu@gmail.com'
+    const puedeVerUsuariosInicio = rolSesion === 'ADMIN' || esMaster
+    const esUsuarioBasico = rolSesion === 'USER' && !esAdministradorEspecial
 
     useEffect(() => {
         if (sesionIniciada) {
@@ -32,6 +62,7 @@ export default function Inicio({ sesionIniciada, onIniciarSesion }) {
         return (
             <div className="seccionInicio seccionInicioPublica">
                 <section className="heroInicio">
+                    <Banner />
                     <p className="heroEtiqueta">Plataforma educativa nacional</p>
 
                     <div className="heroSabiasQue">
@@ -41,13 +72,6 @@ export default function Inicio({ sesionIniciada, onIniciarSesion }) {
                             Miles de estudiantes estan eligiendo programas con enfoque tecnologico, habilidades digitales y formacion
                             por competencias para asegurar mejores oportunidades.
                         </p>
-                    </div>
-
-                    <div className="heroBotones">
-                        <Link to="/buscar?tipo=instituciones" className="botonHero botonHeroClaro">Buscar universidades</Link>
-                        <Link to="/buscar?tipo=sedes" className="botonHero botonHeroClaro">Buscar sedes</Link>
-                        <Link to="/buscar?tipo=programas" className="botonHero botonHeroClaro">Buscar programas</Link>
-                        <button type="button" className="botonHero botonHeroPrincipal" onClick={onIniciarSesion}>Iniciar sesion</button>
                     </div>
                 </section>
 
@@ -100,7 +124,9 @@ export default function Inicio({ sesionIniciada, onIniciarSesion }) {
 
     return (
         <div className="seccionInicio">
-            <h1 className="tituloInicio">Bienvenido a Hub Educativo Colombia</h1>
+            <h1 className="tituloInicio">
+                Bienvenido{nombreUsuarioSesion ? `, ${nombreUsuarioSesion}` : ''} a Hub Educativo Colombia
+            </h1>
             <p className="subtituloInicio">Plataforma educativa para consultar instituciones, sedes y programas académicos</p>
 
             {datos && (
@@ -118,33 +144,37 @@ export default function Inicio({ sesionIniciada, onIniciarSesion }) {
                             <h3>Programas Académicos</h3>
                             <div className="valorEstadistica">{datos.programasAcademicos?.length || 0}</div>
                         </div>
-                        <div className="tarjetaEstadistica">
-                            <h3>Usuarios</h3>
-                            <div className="valorEstadistica">{datos.usuarios?.length || 0}</div>
-                        </div>
+                        {puedeVerUsuariosInicio && (
+                            <div className="tarjetaEstadistica">
+                                <h3>Usuarios</h3>
+                                <div className="valorEstadistica">{datos.usuarios?.length || 0}</div>
+                            </div>
+                        )}
                     </div>
 
                     <div className="contenedorAccesoRapido">
                         <Link to="/instituciones" className="tarjetaAccesoRapido">
                             <div className="iconoAcceso">🏢</div>
                             <h3>Instituciones</h3>
-                            <p>Consulta y gestiona las instituciones educativas</p>
+                            <p>{esUsuarioBasico ? 'Consulta las instituciones educativas' : 'Consulta y gestiona las instituciones educativas'}</p>
                         </Link>
                         <Link to="/sedes" className="tarjetaAccesoRapido">
                             <div className="iconoAcceso">🏛️</div>
                             <h3>Sedes</h3>
-                            <p>Crea, edita y elimina las sedes institucionales</p>
+                            <p>{esUsuarioBasico ? 'Consulta las sedes institucionales' : 'Crea, edita y elimina las sedes institucionales'}</p>
                         </Link>
                         <Link to="/programas" className="tarjetaAccesoRapido">
                             <div className="iconoAcceso">📚</div>
                             <h3>Programas</h3>
-                            <p>Explora los programas académicos disponibles</p>
+                            <p>{esUsuarioBasico ? 'Consulta los programas académicos disponibles' : 'Explora los programas académicos disponibles'}</p>
                         </Link>
-                        <Link to="/usuarios" className="tarjetaAccesoRapido">
-                            <div className="iconoAcceso">👥</div>
-                            <h3>Usuarios</h3>
-                            <p>Administra los usuarios del sistema</p>
-                        </Link>
+                        {puedeVerUsuariosInicio && (
+                            <Link to="/usuarios" className="tarjetaAccesoRapido">
+                                <div className="iconoAcceso">👥</div>
+                                <h3>Usuarios</h3>
+                                <p>Administra los usuarios del sistema</p>
+                            </Link>
+                        )}
                     </div>
                 </>
             )}

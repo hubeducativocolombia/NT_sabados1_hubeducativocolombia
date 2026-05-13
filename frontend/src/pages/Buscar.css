@@ -16,6 +16,17 @@
     margin-bottom: 1.5rem;
 }
 
+.avisoCategoria {
+    margin-top: 0.8rem;
+    color: #b3182d;
+    background: #fff3f3;
+    border-left: 4px solid #ce1126;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
 .formularioBusqueda {
     width: 100%;
 }
