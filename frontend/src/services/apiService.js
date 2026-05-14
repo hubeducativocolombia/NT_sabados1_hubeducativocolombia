@@ -41,10 +41,42 @@ const prepararInstitucion = (datos) => ({
     naturaleza: NATURALEZA_CODES[datos.naturaleza] || datos.naturaleza
 })
 
+const obtenerRolSesion = () => {
+    try {
+        const usuarioSesionRaw = localStorage.getItem('hubUsuarioSesion')
+        if (!usuarioSesionRaw) {
+            return ''
+        }
+
+        const usuarioSesion = JSON.parse(usuarioSesionRaw)
+        return String(usuarioSesion?.rol || '').trim().toUpperCase()
+    } catch (_error) {
+        return ''
+    }
+}
+
+const obtenerEmailSesion = () => {
+    try {
+        const usuarioSesionRaw = localStorage.getItem('hubUsuarioSesion')
+        if (!usuarioSesionRaw) {
+            return ''
+        }
+
+        const usuarioSesion = JSON.parse(usuarioSesionRaw)
+        return String(usuarioSesion?.correoElectronico || '').trim().toLowerCase()
+    } catch (_error) {
+        return ''
+    }
+}
+
 const request = async (endpoint, options = {}) => {
+    const rolSesion = obtenerRolSesion()
+    const emailSesion = obtenerEmailSesion()
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         headers: {
             'Content-Type': 'application/json',
+            ...(rolSesion ? { 'x-user-role': rolSesion } : {}),
+            ...(emailSesion ? { 'x-user-email': emailSesion } : {}),
             ...(options.headers || {})
         },
         ...options

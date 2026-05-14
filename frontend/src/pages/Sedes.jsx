@@ -3,6 +3,20 @@ import apiService from '../services/apiService'
 import './Sedes.css'
 
 export default function Sedes() {
+    const usuarioSesion = (() => {
+        try {
+            return JSON.parse(localStorage.getItem('hubUsuarioSesion') || '{}')
+        } catch (_error) {
+            return {}
+        }
+    })()
+    const rolSesion = String(usuarioSesion?.rol || '').trim().toUpperCase()
+    const correoSesion = String(usuarioSesion?.correoElectronico || '').trim().toLowerCase()
+    const esMaster = correoSesion === 'nana.ortega71@gmail.com'
+    const esAdministradorEspecial = correoSesion === 'samu@gmail.com'
+    const puedeGestionarSedes = rolSesion === 'ADMIN' || esMaster || esAdministradorEspecial
+    const puedeEliminarSedes = rolSesion === 'MASTER' || esMaster
+
     const [sedes, setSedes] = useState([])
     const [instituciones, setInstituciones] = useState([])
     const [cargando, setCargando] = useState(true)
@@ -38,6 +52,10 @@ export default function Sedes() {
     }
 
     const abrirModalCrear = () => {
+        if (!puedeGestionarSedes) {
+            return
+        }
+
         setModoEdicion(false)
         setSedeEditando(null)
         setFormulario({
@@ -51,6 +69,10 @@ export default function Sedes() {
     }
 
     const abrirModalEditar = (sede) => {
+        if (!puedeGestionarSedes) {
+            return
+        }
+
         setModoEdicion(true)
         setSedeEditando(sede)
         setFormulario({
@@ -66,6 +88,10 @@ export default function Sedes() {
     const manejarSubmit = async (e) => {
         e.preventDefault()
         setError(null)
+
+        if (!puedeGestionarSedes) {
+            return
+        }
 
         try {
             const datosEnviar = {
@@ -90,6 +116,10 @@ export default function Sedes() {
     }
 
     const eliminarSede = async (idSede) => {
+        if (!puedeEliminarSedes) {
+            return
+        }
+
         if (confirm('¿Estás seguro de que deseas eliminar esta sede?')) {
             try {
                 await apiService.eliminarSede(idSede)
@@ -111,9 +141,11 @@ export default function Sedes() {
         <div className="seccionSedes">
             <div className="encabezadoSeccion">
                 <h1 className="tituloSeccion">Sedes Institucionales</h1>
-                <button className="boton botonPrimario" onClick={abrirModalCrear}>
-                    + Crear Sede
-                </button>
+                {puedeGestionarSedes && (
+                    <button className="boton botonPrimario" onClick={abrirModalCrear}>
+                        + Crear Sede
+                    </button>
+                )}
             </div>
 
             {error && <div className="mensajeError">{error}</div>}
@@ -137,14 +169,18 @@ export default function Sedes() {
                                     {sede.esSedePrincipal ? 'Principal' : 'Secundaria'}
                                 </span>
                             </p>
-                            <div className="accionesTarjeta">
-                                <button className="boton botonPequeno botonAdvertencia" onClick={() => abrirModalEditar(sede)}>
-                                    Editar
-                                </button>
-                                <button className="boton botonPequeno botonError" onClick={() => eliminarSede(sede.idSede)}>
-                                    Eliminar
-                                </button>
-                            </div>
+                            {puedeGestionarSedes && (
+                                <div className="accionesTarjeta">
+                                    <button className="boton botonPequeno botonAdvertencia" onClick={() => abrirModalEditar(sede)}>
+                                        Editar
+                                    </button>
+                                    {puedeEliminarSedes && (
+                                        <button className="boton botonPequeno botonError" onClick={() => eliminarSede(sede.idSede)}>
+                                            Eliminar
+                                        </button>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>

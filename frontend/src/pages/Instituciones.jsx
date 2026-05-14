@@ -3,6 +3,20 @@ import apiService from '../services/apiService'
 import './Instituciones.css'
 
 export default function Instituciones() {
+    const usuarioSesion = (() => {
+        try {
+            return JSON.parse(localStorage.getItem('hubUsuarioSesion') || '{}')
+        } catch (_error) {
+            return {}
+        }
+    })()
+    const rolSesion = String(usuarioSesion?.rol || '').trim().toUpperCase()
+    const correoSesion = String(usuarioSesion?.correoElectronico || '').trim().toLowerCase()
+    const esMaster = correoSesion === 'nana.ortega71@gmail.com'
+    const esAdministradorEspecial = correoSesion === 'samu@gmail.com'
+    const puedeGestionarInstituciones = rolSesion === 'ADMIN' || esMaster || esAdministradorEspecial
+    const puedeEliminarInstituciones = rolSesion === 'MASTER' || esMaster
+
     const clasesNaturaleza = {
         PUBLICA: 'etiquetaPublica',
         PRIVADA: 'etiquetaPrivada',
@@ -13,6 +27,8 @@ export default function Instituciones() {
     const [cargando, setCargando] = useState(true)
     const [error, setError] = useState(null)
     const [mostrarModal, setMostrarModal] = useState(false)
+    const [modoEdicion, setModoEdicion] = useState(false)
+    const [institucionEditando, setInstitucionEditando] = useState(null)
     const [formulario, setFormulario] = useState({
         nombreOficial: '',
         naturaleza: 'PUBLICA',
@@ -37,19 +53,62 @@ export default function Instituciones() {
         }
     }
 
+    const abrirModalCrear = () => {
+        if (!puedeGestionarInstituciones) {
+            return
+        }
+
+        setError(null)
+        setModoEdicion(false)
+        setInstitucionEditando(null)
+        setFormulario({ nombreOficial: '', naturaleza: 'PUBLICA', sitioWeb: '' })
+        setMostrarModal(true)
+    }
+
+    const abrirModalEdicion = (institucion) => {
+        if (!puedeGestionarInstituciones) {
+            return
+        }
+
+        setError(null)
+        setModoEdicion(true)
+        setInstitucionEditando(institucion)
+        setFormulario({
+            nombreOficial: institucion.nombreOficial || '',
+            naturaleza: institucion.naturalezaCodigo || institucion.naturaleza || 'PUBLICA',
+            sitioWeb: institucion.sitioWeb || ''
+        })
+        setMostrarModal(true)
+    }
+
     const manejarSubmit = async (e) => {
         e.preventDefault()
+
+        if (!puedeGestionarInstituciones) {
+            return
+        }
+
         try {
-            await apiService.crearInstitucion(formulario)
+            if (modoEdicion && institucionEditando) {
+                await apiService.actualizarInstitucion(institucionEditando.idInstitucion, formulario)
+            } else {
+                await apiService.crearInstitucion(formulario)
+            }
             setFormulario({ nombreOficial: '', naturaleza: 'PUBLICA', sitioWeb: '' })
             setMostrarModal(false)
+            setModoEdicion(false)
+            setInstitucionEditando(null)
             cargarInstituciones()
         } catch (err) {
-            setError('Error al crear institución: ' + err.message)
+            setError(`Error al ${modoEdicion ? 'actualizar' : 'crear'} institución: ` + err.message)
         }
     }
 
     const eliminarInstitucion = async (id) => {
+        if (!puedeEliminarInstituciones) {
+            return
+        }
+
         if (confirm('¿Estás seguro de que deseas eliminar esta institución?')) {
             try {
                 await apiService.eliminarInstitucion(id)
@@ -66,9 +125,11 @@ export default function Instituciones() {
         <div className="seccionInstituciones">
             <div className="encabezadoSeccion">
                 <h1 className="tituloSeccion">Instituciones Educativas</h1>
-                <button className="boton botonPrimario" onClick={() => setMostrarModal(true)}>
-                    + Crear Institución
-                </button>
+                {puedeGestionarInstituciones && (
+                    <button className="boton botonPrimario" onClick={abrirModalCrear}>
+                        + Crear Institución
+                    </button>
+                )}
             </div>
 
             {error && <div className="mensajeError">{error}</div>}
@@ -88,15 +149,21 @@ export default function Instituciones() {
                                 <p><strong>Sitio web:</strong> <a href={inst.sitioWeb} target="_blank" rel="noopener noreferrer">{inst.sitioWeb}</a></p>
                             )}
                             <p><strong>Fecha de registro:</strong> {new Date(inst.fechaRegistro).toLocaleDateString()}</p>
-                            <div className="accionesTarjeta">
-                                <button className="boton botonPequeno botonAdvertencia">Editar</button>
-                                <button 
-                                    className="boton botonPequeno botonError"
-                                    onClick={() => eliminarInstitucion(inst.idInstitucion)}
-                                >
-                                    Eliminar
-                                </button>
-                            </div>
+                            {puedeGestionarInstituciones && (
+                                <div className="accionesTarjeta">
+                                    <button className="boton botonPequeno botonAdvertencia" onClick={() => abrirModalEdicion(inst)}>
+                                        Editar
+                                    </button>
+                                    {puedeEliminarInstituciones && (
+                                        <button 
+                                            className="boton botonPequeno botonError"
+                                            onClick={() => eliminarInstitucion(inst.idInstitucion)}
+                                        >
+                                            Eliminar
+                                        </button>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
@@ -105,8 +172,17 @@ export default function Instituciones() {
             {mostrarModal && (
                 <div className="fondoModal visible">
                     <div className="contenidoModal">
-                        <button className="botonCerrarModal" onClick={() => setMostrarModal(false)}>×</button>
-                        <h2>Crear Nueva Institución</h2>
+                        <button
+                            className="botonCerrarModal"
+                            onClick={() => {
+                                setMostrarModal(false)
+                                setModoEdicion(false)
+                                setInstitucionEditando(null)
+                            }}
+                        >
+                            ×
+                        </button>
+                        <h2>{modoEdicion ? 'Editar Institución' : 'Crear Nueva Institución'}</h2>
                         <form className="formulario" onSubmit={manejarSubmit}>
                             <div className="grupoFormulario">
                                 <label htmlFor="nombreOficial">Nombre Oficial *</label>
@@ -142,11 +218,19 @@ export default function Instituciones() {
                                 />
                             </div>
                             <div className="botonesFormulario">
-                                <button type="button" className="boton botonOutline" onClick={() => setMostrarModal(false)}>
+                                <button
+                                    type="button"
+                                    className="boton botonOutline"
+                                    onClick={() => {
+                                        setMostrarModal(false)
+                                        setModoEdicion(false)
+                                        setInstitucionEditando(null)
+                                    }}
+                                >
                                     Cancelar
                                 </button>
                                 <button type="submit" className="boton botonPrimario">
-                                    Crear Institución
+                                    {modoEdicion ? 'Guardar Cambios' : 'Crear Institución'}
                                 </button>
                             </div>
                         </form>
