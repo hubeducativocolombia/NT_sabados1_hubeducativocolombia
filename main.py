@@ -6,7 +6,7 @@ from data.utils.simulacion_instituciones import simular_instituciones
 from data.utils.simulacion_programas_academicos import simular_programas_academicos
 from data.utils.simulacion_sedes_institucion import simular_sedes_institucion
 from data.utils.simulacion_usuario import simular_usuario
-from data.utils.simulacion_detalles_operaciones import simular_detalles_operaciones
+from data.utils.simulacion_detalles_operacion import simular_detalles_operaciones
 
 # *** ZONA PARA IMPORTAR LIMPIEZAS ***
 from data.notebook.limpieza_calidadbeneficio import limpiar_calidadbeneficio
