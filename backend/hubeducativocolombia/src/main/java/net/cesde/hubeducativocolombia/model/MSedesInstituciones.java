@@ -40,7 +40,7 @@ public class MSedesInstituciones {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-        name = "idinstitucion",
+        name = "pkidinstitucion",
         referencedColumnName = "idinstitucion",
         nullable = false
     )
