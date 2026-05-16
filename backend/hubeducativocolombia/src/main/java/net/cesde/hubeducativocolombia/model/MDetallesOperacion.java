@@ -32,7 +32,7 @@ public class MDetallesOperacion {
      * Refleja el CHECK del DDL: 'PRESENCIAL', 'VIRTUAL', 'HIBRIDO'.
      * @Enumerated(STRING) compatible con VARCHAR(20).
      */
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     @Column(name = "modalidad", length = 20, nullable = false)
     private String modalidad;
 
@@ -40,7 +40,7 @@ public class MDetallesOperacion {
      * Refleja el CHECK del DDL: 'DIURNA', 'NOCTURNA', 'FINESDESEMANA', 'MIXTA'.
      * @Enumerated(STRING) compatible con VARCHAR(25).
      */
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     @Column(name = "jornada", length = 25, nullable = false)
     private String jornada;
 
@@ -77,7 +77,7 @@ public class MDetallesOperacion {
      */
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-        name = "idprograma",
+        name = "pkidprograma",
         referencedColumnName = "idprograma",
         nullable = false
     )

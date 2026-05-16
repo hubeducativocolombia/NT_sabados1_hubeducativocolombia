@@ -24,7 +24,7 @@ public class MInstituciones {
      * Usando @Enumerated(STRING) se persiste el nombre del enum como texto,
      * compatible con VARCHAR(20) en MySQL.
      */
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     @Column(name = "naturaleza", length = 20, nullable = false)
     private String naturaleza;
 
