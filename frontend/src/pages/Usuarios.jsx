@@ -212,7 +212,7 @@ export default function Usuarios() {
                                     <td>{new Date(user.fechaCreacion).toLocaleDateString()}</td>
                                     {puedeGestionarUsuarios && (
                                         <td>
-                                            <div style={{ display: 'flex', gap: '8px' }}>
+                                            <div className="accionesTabla">
                                                 <button 
                                                     className="boton botonPequeno botonAdvertencia"
                                                     onClick={() => abrirModalEdicion(user)}

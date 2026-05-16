@@ -6,14 +6,14 @@ import banner3 from '../img/BANNER-3.jpeg'
 const obtenerTonoPorHorario = () => {
   const horaActual = new Date().getHours()
   if (horaActual >= 5 && horaActual < 12) {
-    return 'emocional'
+    return 'institucional'
   }
 
   if (horaActual >= 12 && horaActual < 19) {
     return 'institucional'
   }
 
-  return 'motivacional'
+  return 'institucional'
 }
 
 const copysCarrusel = {

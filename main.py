@@ -6,7 +6,7 @@ from data.utils.simulacion_instituciones import simular_instituciones
 from data.utils.simulacion_programas_academicos import simular_programas_academicos
 from data.utils.simulacion_sedes_institucion import simular_sedes_institucion
 from data.utils.simulacion_usuario import simular_usuario
-from data.utils.simulacionDetallesOperaciones import simular_detalles_operaciones
+from data.utils.simulacion_detalles_operaciones import simular_detalles_operaciones
 
 # *** ZONA PARA IMPORTAR LIMPIEZAS ***
 from data.notebook.limpieza_calidadbeneficio import limpiar_calidadbeneficio
@@ -14,7 +14,7 @@ from data.notebook.limpieza_instituciones import limpiar_instituciones
 from data.notebook.limpieza_programas_academicos import limpiar_simulacion
 from data.notebook.limpieza_sedes_institucion import limpiar_sedes_institucion
 from data.notebook.limpieza_usuario import limpiar_usuario
-from data.notebook.limpiezaDetallesOperacion import limpiar_detalles_operacion
+from data.notebook.limpieza_detalles_operacion import limpiar_detalles_operacion
 
 # *** ZONA PARA IMPORTAR DESCRIPCIONES ***
 from data.notebook.descripcion_calidadbeneficio import describir_calidadbeneficio
@@ -22,7 +22,7 @@ from data.notebook.descripcion_instituciones import describir_instituciones
 from data.notebook.descripcion_programas_academicos import describir_programas_academicos
 from data.notebook.descripcion_sedes_institucion import describir_sedes_institucion
 from data.notebook.descripcion_usuario import describir_usuario
-from data.notebook.descripcionDetallesOperacion import describir_detalles_operacion
+from data.notebook.descripcion_detalles_operacion import describir_detalles_operacion
 
 # ================================================
 # CALIDAD BENEFICIO
