@@ -31,7 +31,7 @@ public class MProgramasAcademicos {
      * @Enumerated(STRING) persiste el nombre como texto,
      * compatible con VARCHAR(30) en MySQL.
      */
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     @Column(name = "nivelformacion", length = 30, nullable = false)
     private String nivelformacion;
 
