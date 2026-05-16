@@ -45,3 +45,6 @@ desktop.ini
 .AppleDouble
 .LSOverride
 ._*
+
+### Claude ###
+.claude/
