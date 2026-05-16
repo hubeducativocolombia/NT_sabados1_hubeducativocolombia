@@ -77,7 +77,7 @@ public class MDetallesOperacion {
      */
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-        name = "idprograma",
+        name = "pkidprograma",
         referencedColumnName = "idprograma",
         nullable = false
     )
