@@ -59,7 +59,7 @@ public class MProgramasAcademicos {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-        name = "idinstitucion",
+        name = "pkidinstitucion",
         referencedColumnName = "idinstitucion",
         nullable = false
     )
