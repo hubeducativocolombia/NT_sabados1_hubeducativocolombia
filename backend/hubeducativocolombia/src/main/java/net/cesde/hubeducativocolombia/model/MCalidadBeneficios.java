@@ -68,7 +68,7 @@ public class MCalidadBeneficios {
      */
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-        name = "idprograma",
+        name = "pkidprograma",
         referencedColumnName = "idprograma",
         nullable = false
     )
