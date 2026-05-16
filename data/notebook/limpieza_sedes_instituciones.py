@@ -1,38 +1,41 @@
 import pandas as pd
 
-def limpiar_sedes(data_frame_sucio):
-    data_frame_limpio = data_frame_sucio.copy()
+def limpiar_datos(df_sucio):
+    df_limpio = df_sucio.copy()
 
-    # Limpieza de textos
-    data_frame_limpio["nombre_sede"] = data_frame_limpio["nombre_sede"].astype("string").str.strip()
-    data_frame_limpio["ciudad"] = data_frame_limpio["ciudad"].astype("string").str.strip().str.capitalize()
-    data_frame_limpio["direccion_fisica"] = data_frame_limpio["direccion_fisica"].astype("string").str.strip()
+    # --- Limpieza de textos ---
+    # 1. Eliminar espacios y convertir a minusculas
+    df_limpio["ciudad"] = df_limpio["ciudad"].astype("string").str.strip().str.lower()
+    df_limpio["direccionfisica"] = df_limpio["direccionfisica"].astype("string").str.strip().str.lower()
+    df_limpio["nombresede"] = df_limpio["nombresede"].astype("string").str.strip().str.lower()
 
-    # Valores esperados
-    valores_esperados_sede = ["Sede Norte", "Sede Sur", "Sede Centro", "Sede Oriente", "Sede Occidente"]
-    data_frame_limpio["nombre_sede"] = data_frame_limpio["nombre_sede"].where(
-        data_frame_limpio["nombre_sede"].isin(valores_esperados_sede),
+    # 2. Controlar valores inesperados en ciudad
+    ciudades_validas = ["bogota", "medellin", "cali", "barranquilla", "bucaramanga"]
+    df_limpio["ciudad"] = df_limpio["ciudad"].where(
+        df_limpio["ciudad"].isin(ciudades_validas),
         pd.NA
     )
 
-    valores_esperados_ciudad = ["Bogota", "Medellin", "Cali", "Barranquilla", "Cartagena"]
-    data_frame_limpio["ciudad"] = data_frame_limpio["ciudad"].where(
-        data_frame_limpio["ciudad"].isin(valores_esperados_ciudad),
-        pd.NA
+    # --- Limpieza de numericos ---
+    # 1. Verificar que ids sean numericos
+    df_limpio["idsede"] = pd.to_numeric(df_limpio["idsede"], errors="coerce")
+    df_limpio["idinstitucion"] = pd.to_numeric(df_limpio["idinstitucion"], errors="coerce")
+    df_limpio["pkidinstitucion"] = pd.to_numeric(df_limpio["pkidinstitucion"], errors="coerce")
+
+    # 2. Eliminar ids invalidos
+    df_limpio = df_limpio[df_limpio["idsede"] > 0]
+    df_limpio = df_limpio[df_limpio["idinstitucion"] > 0]
+
+    # --- Limpieza de booleanos ---
+    # Convertir essedepprincipal a booleano real
+    df_limpio["essedepprincipal"] = df_limpio["essedepprincipal"].apply(
+        lambda x: True if x is True or str(x).strip().lower() == "true"
+        else (False if x is False or str(x).strip().lower() == "false"
+              else pd.NA)
     )
 
-    # Limpieza numerica
-    data_frame_limpio["id_sede"] = pd.to_numeric(data_frame_limpio["id_sede"], errors="coerce")
-    data_frame_limpio["id_institucion"] = pd.to_numeric(data_frame_limpio["id_institucion"], errors="coerce")
-    data_frame_limpio = data_frame_limpio[data_frame_limpio["id_sede"] > 0]
-    data_frame_limpio = data_frame_limpio[data_frame_limpio["id_institucion"] > 0]
+    # --- Eliminar filas con columnas obligatorias nulas ---
+    columnas_obligatorias = ["idsede", "ciudad", "nombresede", "idinstitucion"]
+    df_limpio = df_limpio.dropna(subset=columnas_obligatorias)
 
-    # Limpieza es_sede_principal
-    data_frame_limpio["es_sede_principal"] = pd.to_numeric(data_frame_limpio["es_sede_principal"], errors="coerce")
-    data_frame_limpio = data_frame_limpio[data_frame_limpio["es_sede_principal"].isin([0, 1])]
-
-    # Eliminar filas con datos obligatorios vacios
-    columnas_obligatorias = ["id_sede", "id_institucion", "nombre_sede", "ciudad"]
-    data_frame_limpio = data_frame_limpio.dropna(subset=columnas_obligatorias)
-
-    return data_frame_limpio
+    return df_limpio

@@ -1,51 +1,48 @@
-from datetime import datetime, timedelta
 import random
+from datetime import datetime, timedelta
 
-def simular_instituciones(numeroInstituciones):
-
-    listaNombresOficiales = [
+def generar_simulacion(numeroSimulaciones):
+    nombres_instituciones = [
         "Universidad Nacional de Colombia",
-        "Universidad de Antioquia",
         "Universidad de los Andes",
-        "Universidad del Valle",
-        "Universidad Industrial de Santander",
-        "Universidad Pontificia Bolivariana",
-        "Universidad EAFIT",
-        "Universidad del Rosario",
         "Universidad Javeriana",
-        "Universidad Externado de Colombia"
+        "Universidad del Rosario",
+        "Universidad EAFIT"
     ]
-    listaNaturalezas = ["Publica", "Privada", "Mixta"]
+    naturalezas = ["publica", "privada"]
+    sitios_web = [
+        "https://unal.edu.co",
+        "https://uniandes.edu.co",
+        "https://javeriana.edu.co",
+        "https://urosario.edu.co",
+        "https://eafit.edu.co"
+    ]
 
-    fechaInicial = datetime(1987, 5, 7)
+    fechaInicio = datetime(2020, 1, 1)
+    simulaciones = []
 
-    instituciones = []
-
-    for _ in range(numeroInstituciones):
-        fechaSimulada = fechaInicial + timedelta(days=random.randint(0, 60))
+    for i in range(numeroSimulaciones):
         institucion = {
-            "id_institucion": random.randint(0, 500),
-            "nombre_oficial": random.choice(listaNombresOficiales),
-            "naturaleza": random.choice(listaNaturalezas),
-            "fecha_registro": fechaSimulada.strftime("%Y/%m/%d %H:%M:%S")
+            "idinstitucion": i + 1,
+            "fecharegistro": fechaInicio + timedelta(days=random.randint(0, 1000)),
+            "naturaleza": random.choice(naturalezas),
+            "nombreoficial": random.choice(nombres_instituciones),
+            "sitioweb": random.choice(sitios_web)
         }
 
-        # Ejecutando errores controlados
+        # Inyectando errores controlados
         probabilidadError = random.random()
-        if probabilidadError < 0.1:
-            institucion["id_institucion"] = random.choice([None, -1, 0])
-            institucion["nombre_oficial"] = None
-        elif probabilidadError < 0.25:
-            institucion["fecha_registro"] = None
+        if probabilidadError < 0.2:
+            institucion["idinstitucion"] = None
         elif probabilidadError < 0.4:
-            institucion["nombre_oficial"] = " " + institucion["nombre_oficial"] + " "
-            institucion["naturaleza"] = institucion["naturaleza"].lower()
+            institucion["naturaleza"] = random.choice(["mixta", "internacional", "123"])
+        elif probabilidadError < 0.5:
+            institucion["nombreoficial"] = None
         elif probabilidadError < 0.7:
-            institucion["naturaleza"] = random.choice(["N/A", "Desconocida", "", None])
+            institucion["sitioweb"] = " " + institucion["sitioweb"].upper()
         elif probabilidadError < 0.9:
-            institucion["nombre_oficial"] = random.choice(["Institución Inválida", "???", "N/A"])
-            institucion["fecha_registro"] = random.choice(["99/99/9999 00:00:00", "00/00/0000 00:00:00", "fecha_invalida"])
+            institucion["fecharegistro"] = None
 
-        instituciones.append(institucion)
+        simulaciones.append(institucion)
 
-    return instituciones
+    return simulaciones

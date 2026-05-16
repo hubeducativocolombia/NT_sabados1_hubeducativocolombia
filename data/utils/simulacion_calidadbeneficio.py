@@ -1,123 +1,34 @@
-# =============================================================================
-# PROYECTO   : Hub Educativo Colombia
-# ARCHIVO    : simulacion_calidadbeneficio.py
-# PROPÓSITO  : Generar datos simulados (válidos + con errores controlados)
-#              para la tabla 'calidad_beneficios' de la base de datos MySQL.
-# AUTORES    : Edwin Rios Sanchez
-# MOTOR BD   : MySQL 8.0+  |  Motor Python : 3.10+
-# LIBRERÍAS  : random
-#
-# NOTAS PEDAGÓGICAS:
-#   - Todos los campos indicadores son TINYINT(1): solo admiten los valores 0 o 1.
-#   - Los errores controlados simulan las violaciones más comunes en datos reales.
-#   - El bloque de errores controlados está DENTRO del bucle for.
-#   - Se acumulan idprogramas usados para simular duplicados reales (Error tipo 4).
-# =============================================================================
-
 import random
 
-# =============================================================================
-# TABLA 2: calidadbeneficios
-# Campos: idbeneficio, idprograma, acreditacionaltacalidad,
-#         ofrecebecas, dobletitulacion, requieresegundoidioma
-#
-# Restricciones del esquema SQL:
-#   - idprograma debe existir en programas_academicos (FK — integridad referencial)
-#   - Todos los campos indicadores son TINYINT(1): valores válidos son 0 o 1
-#   - requieresegundoidioma DEFAULT 1 (la mayoría de programas lo exige)
-# =============================================================================
+def generar_simulacion(numeroSimulaciones):
+    simulaciones = []
 
-def generar_calidad_beneficios(numero_simulaciones: int) -> list[dict]:
-    """
-    Genera una lista de diccionarios que representan filas de 'calidad_beneficios'.
-    Incluye errores controlados: valores fuera de rango, nulos y duplicados.
-
-    Distribución de errores controlados:
-        - 10% Error tipo 1: valores TINYINT fuera de rango {0,1} + id_beneficio nulo
-        - 15% Error tipo 2: id_programa inexistente (viola FK) + campo booleano nulo
-        - 15% Error tipo 3: todos los campos indicadores en None (registro vacío)
-        - 15% Error tipo 4: id_programa duplicado real (reutiliza uno previo, viola UNIQUE)
-        - 15% Error tipo 5: requiere_segundo_idioma con texto en lugar de TINYINT
-        - 30% Sin errores: registro completamente válido
-
-    Parámetros:
-        numero_simulaciones (int): Cantidad de registros a generar.
-
-    Retorna:
-        list[dict]: Lista de diccionarios con los campos de 'calidad_beneficios'.
-    """
-
-    # Universo de 10 IDs de programas académicos válidos (deben existir en la tabla programas_academicos)
-    ids_programas_validos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
-    # Lista acumuladora de registros generados (cada elemento es un dict/fila)
-    lista_beneficios = []
-
-    # Lista auxiliar que guarda los id_programa ya asignados para simular duplicados reales
-    ids_programas_usados = []
-
-    for indice in range(numero_simulaciones):
-
-        # Seleccionamos aleatoriamente un id_programa válido para este registro
-        id_programa_actual = random.choice(ids_programas_validos)
-
-        # Acumulamos el id_programa para poder reutilizarlo como duplicado en iteraciones futuras
-        ids_programas_usados.append(id_programa_actual)
-
-        # --- Registro inicial con datos completamente limpios (TINYINT válido: solo 0 o 1) ---
+    for i in range(numeroSimulaciones):
         beneficio = {
-            "idbeneficio":              indice + 1,              # Clave primaria autoincremental
-            "idprograma":               id_programa_actual,      # FK a la tabla programas_academicos
-            "acreditacionaltacalidad": random.choice([0, 1]),   # 0 = No acreditado, 1 = Acreditado
-            "ofrecebecas":              random.choice([0, 1]),   # 0 = No ofrece becas, 1 = Ofrece becas
-            "dobletitulacion":          random.choice([0, 1]),   # 0 = Sin doble título, 1 = Con doble título
-            "requieresegundoidioma":   1,                       # DEFAULT = 1 según esquema SQL
+            "idbeneficio": i + 1,
+            "acreditacionaltacalidad": random.choice([True, False]),
+            "dobletitulacion": random.choice([True, False]),
+            "idprograma": random.randint(1, 50),
+            "ofrecebecas": random.choice([True, False]),
+            "requieresegundoidioma": random.choice([True, False]),
+            "pkidprograma": random.randint(1, 50)
         }
 
-        # -----------------------------------------------------------------
-        # ERRORES CONTROLADOS
-        # Simulan inconsistencias comunes en datos de calidad académica.
-        # Se aplica como máximo un tipo de error por registro.
-        # -----------------------------------------------------------------
+        # Inyectando errores controlados
+        probabilidadError = random.random()
+        if probabilidadError < 0.2:
+            beneficio["idbeneficio"] = None
+        elif probabilidadError < 0.4:
+            beneficio["acreditacionaltacalidad"] = random.choice([None, "si", "no", 2])
+        elif probabilidadError < 0.5:
+            beneficio["dobletitulacion"] = random.choice([None, "si", "no", 2])
+        elif probabilidadError < 0.6:
+            beneficio["ofrecebecas"] = random.choice([None, "si", "no", 2])
+        elif probabilidadError < 0.7:
+            beneficio["requieresegundoidioma"] = random.choice([None, "si", "no", 2])
+        elif probabilidadError < 0.9:
+            beneficio["idprograma"] = random.choice([None, -1, 0])
 
-        # Número aleatorio entre 0.0 y 1.0 que determina el tipo de error a introducir
-        probabilidad_error = random.random()
+        simulaciones.append(beneficio)
 
-        if probabilidad_error < 0.10:
-            # Error tipo 1 (10 %): valores booleanos fuera del rango TINYINT(1) + id_beneficio nulo
-            beneficio["acreditacionaltacalidad"] = random.choice([-1, 2, 99])  # Fuera del rango {0, 1}
-            beneficio["ofrecebecas"] = random.choice([-1, 2])                   # Fuera del rango {0, 1}
-            beneficio["idbeneficio"] = None                                      # Nulo viola PRIMARY KEY
-
-        elif probabilidad_error < 0.25:
-            # Error tipo 2 (15 %): id_programa apunta a un programa inexistente (viola FK)
-            beneficio["idprograma"] = random.choice([0, -5, 9999])  # IDs que no existen en programas_academicos
-            beneficio["dobletitulacion"] = None                      # Nulo en campo booleano viola NOT NULL
-
-        elif probabilidad_error < 0.40:
-            # Error tipo 3 (15 %): todos los indicadores en None → registro completamente vacío
-            beneficio["acreditacionaltacalidad"] = None  # Nulo en campo indicador
-            beneficio["ofrecebecas"] = None               # Nulo en campo indicador
-            beneficio["dobletitulacion"] = None           # Nulo en campo indicador
-            beneficio["requieresegundoidioma"] = None    # Nulo sobrescribe el DEFAULT
-
-        elif probabilidad_error < 0.55:
-            # Error tipo 4 (15 %): id_programa duplicado real — reutiliza uno ya asignado
-            # Esto viola la restricción UNIQUE si el esquema la define sobre id_programa
-            if len(ids_programas_usados) > 1:
-                # Elegimos aleatoriamente un id_programa de iteraciones anteriores (excluimos el actual)
-                beneficio["idprograma"] = random.choice(ids_programas_usados[:-1])
-            else:
-                # Fallback para el primer registro: usamos el mismo ID actual como duplicado de sí mismo
-                beneficio["idprograma"] = ids_programas_usados[0]
-
-        elif probabilidad_error < 0.70:
-            # Error tipo 5 (15 %): requiere_segundo_idioma con cadena de texto en lugar de TINYINT(1)
-            beneficio["requieresegundoidioma"] = random.choice(["SI", "NO", "si"])  # Texto viola tipo de dato
-
-        # Si probabilidad_error >= 0.70 (30 %), el registro queda completamente limpio
-
-        # Agregamos el registro (con o sin errores) a la lista de resultados
-        lista_beneficios.append(beneficio)
-
-    return lista_beneficios
+    return simulaciones

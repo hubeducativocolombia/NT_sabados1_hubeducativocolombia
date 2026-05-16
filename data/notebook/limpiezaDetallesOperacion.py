@@ -1,38 +1,51 @@
 import pandas as pd
 
-def limpiar_simulacion(data_frame_sucio):
-    data_frame_limpio=data_frame_sucio.copy()
+def limpiar_datos(df_sucio):
+    df_limpio = df_sucio.copy()
 
-    #1. Limpiar las columnas del DF que son palabras (Strings)
-    columnas_texto=["id_programa","costo_semestre"]
-    for columna in columnas_texto:
-        data_frame_limpio[columna]=data_frame_limpio[columna].astype("string").str.strip()
+    # --- Limpieza de textos ---
+    # 1. Eliminar espacios y convertir a minusculas
+    df_limpio["jornada"] = df_limpio["jornada"].astype("string").str.strip().str.lower()
+    df_limpio["modalidad"] = df_limpio["modalidad"].astype("string").str.strip().str.lower()
 
-    #2. Definir valores esperados
-    servicios_validos=["Ingenieria de Sistemas","Contador","Diseñador","Economista","Administracion de Empresas"]
-    data_frame_limpio["id_programa"]=data_frame_limpio["id_programa"].where(data_frame_limpio["id_programa"].isin(servicios_validos),pd.NA
+    # 2. Controlar valores inesperados en jornada
+    jornadas_validas = ["manana", "tarde", "noche", "mixta"]
+    df_limpio["jornada"] = df_limpio["jornada"].where(
+        df_limpio["jornada"].isin(jornadas_validas),
+        pd.NA
     )
 
-    #3. Evaluar columnas numericas
-    data_frame_limpio["id_programa"]=pd.to_numeric(data_frame_limpio["id_programa"])
-    data_frame_limpio["costo_semestre"]=pd.to_numeric(data_frame_limpio["costo_semestre"])
+    # 3. Controlar valores inesperados en modalidad
+    modalidades_validas = ["presencial", "virtual", "semipresencial"]
+    df_limpio["modalidad"] = df_limpio["modalidad"].where(
+        df_limpio["modalidad"].isin(modalidades_validas),
+        pd.NA
+    )
 
-    #4. Evaluar columnas de fechaActualizacións
-    data_frame_limpio["fechaActualización"]=pd.to_datetime(data_frame_limpio["fechaActualización"])
+    # --- Limpieza de numericos ---
+    # 1. Verificar que los campos numericos sean numericos
+    df_limpio["iddetalle"] = pd.to_numeric(df_limpio["iddetalle"], errors="coerce")
+    df_limpio["idprograma"] = pd.to_numeric(df_limpio["idprograma"], errors="coerce")
+    df_limpio["pkidprograma"] = pd.to_numeric(df_limpio["pkidprograma"], errors="coerce")
+    df_limpio["costosemestre"] = pd.to_numeric(df_limpio["costosemestre"], errors="coerce")
+    df_limpio["estudiantesactivos"] = pd.to_numeric(df_limpio["estudiantesactivos"], errors="coerce")
 
-    #5. Reemplazar fechaActualizacións nulas con la fehca por default
-    fecha_default=pd.to_datetime("2026-01-01")
-    data_frame_limpio["fechaActualización"]=data_frame_limpio["fechaActualización"].fillna(fecha_default)
+    # 2. Eliminar valores invalidos
+    df_limpio = df_limpio[df_limpio["iddetalle"] > 0]
+    df_limpio = df_limpio[df_limpio["idprograma"] > 0]
+    df_limpio = df_limpio[df_limpio["costosemestre"] > 0]
+    df_limpio = df_limpio[df_limpio["estudiantesactivos"] > 0]
 
-    #6. Eliminar registros nulos de campos obligatorios
-    columnas_obligatorias=["id_programa","costo_semestre"]
-    data_frame_limpio=data_frame_limpio.dropna(subset=columnas_obligatorias)
+    # --- Limpieza de fechas ---
+    # 1. Convertir fechaactualizacion a fecha
+    df_limpio["fechaactualizacion"] = pd.to_datetime(df_limpio["fechaactualizacion"], errors="coerce")
 
-    #7. Eliminar valores invalidos a nivel numerico
-    data_frame_limpio=data_frame_limpio[data_frame_limpio["id_programa"]>0]
-    data_frame_limpio=data_frame_limpio[data_frame_limpio["costo_semestre"]>100000]
+    # 2. Reemplazar fechas nulas por fecha default
+    fecha_default = pd.to_datetime("2020-01-01")
+    df_limpio["fechaactualizacion"] = df_limpio["fechaactualizacion"].fillna(fecha_default)
 
-    #8. Eliminar valores duplicados
-    data_frame_limpio=data_frame_limpio.drop_duplicates()
+    # --- Eliminar filas con columnas obligatorias nulas ---
+    columnas_obligatorias = ["iddetalle", "costosemestre", "estudiantesactivos", "idprograma", "jornada", "modalidad"]
+    df_limpio = df_limpio.dropna(subset=columnas_obligatorias)
 
-    return data_frame_limpio
+    return df_limpio

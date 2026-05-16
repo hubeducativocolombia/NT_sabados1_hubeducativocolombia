@@ -1,18 +1,23 @@
 import pandas as pd
 
-def describir_sedes(data_frame_limpio):
-    print("*** DESCRIPCION DEL DATASET SEDES ***")
-    print(f"Numero de filas: {data_frame_limpio.shape[0]}")
-    print(f"Numero de columnas: {data_frame_limpio.shape[1]}")
-    print(f"Lista de columnas: {list(data_frame_limpio.columns)}")
-    print(f"Tipos de dato: {data_frame_limpio.dtypes}")
+def describir_datos(df_limpio):
+    print("*** DESCRIPCION DEL DATASET: sedesinstituciones ***")
+    print(f"Numero de filas del dataset: {df_limpio.shape[0]}")
+    print(f"Numero de columnas del dataset: {df_limpio.shape[1]}")
+    print(f"Lista de columnas disponibles: {list(df_limpio.columns)}")
+    print(f"Tipos de dato de cada atributo:\n{df_limpio.dtypes}")
 
     # Estadisticas numericas
-    print("*** ESTADISTICAS ***")
-    print(f"{data_frame_limpio[['id_sede', 'id_institucion']].describe()}")
+    print("\n*** ESTADISTICAS ***")
+    print(df_limpio[["idsede", "idinstitucion", "pkidinstitucion"]].describe())
 
     # Conteos
-    print("*** CONTEOS ***")
-    print(f"{data_frame_limpio['nombre_sede'].value_counts()}")
-    print(f"{data_frame_limpio['ciudad'].value_counts()}")
-    print(f"{data_frame_limpio['es_sede_principal'].value_counts()}")
+    print("\n*** CONTEOS ***")
+    print("Distribucion por ciudad:")
+    print(df_limpio["ciudad"].value_counts())
+
+    print("\nDistribucion por nombre de sede:")
+    print(df_limpio["nombresede"].value_counts())
+
+    print("\nSedes principales vs secundarias:")
+    print(df_limpio["essedepprincipal"].value_counts())
