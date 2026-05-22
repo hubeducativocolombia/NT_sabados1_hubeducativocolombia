@@ -172,7 +172,7 @@ export default function Buscar() {
 
             {cargando && (
                 <div className="mensajeVacio">
-                    <div className="iconoVacio">⏳</div>
+                    <div className="iconoVacio"></div>
                     <p>Buscando...</p>
                 </div>
             )}
@@ -192,13 +192,13 @@ export default function Buscar() {
                             <div key={idx} className={`resultadoBusqueda resultado${result.tipo.charAt(0).toUpperCase() + result.tipo.slice(1)}`}>
                                 {result.tipo === 'institución' && (
                                     <>
-                                        <h3>🏢 {result.datos.nombreOficial}</h3>
+                                        <h3> {result.datos.nombreOficial}</h3>
                                         <p><strong>Naturaleza:</strong> {result.datos.naturaleza}</p>
                                         {result.datos.sitioWeb && <p><strong>Sitio:</strong> {result.datos.sitioWeb}</p>}
 
                                         {result.sedesRelacionadas && result.sedesRelacionadas.length > 0 && (
                                             <div className="relacionados">
-                                                <p><strong>🏛️ Sedes ({result.sedesRelacionadas.length}):</strong></p>
+                                                <p><strong> Sedes ({result.sedesRelacionadas.length}):</strong></p>
                                                 <ul>
                                                     {result.sedesRelacionadas.map(s => (
                                                         <li key={s.idSede}>{s.nombreSede} — {s.ciudad}</li>
@@ -208,7 +208,7 @@ export default function Buscar() {
                                         )}
                                         {result.programasRelacionados && result.programasRelacionados.length > 0 && (
                                             <div className="relacionados">
-                                                <p><strong>📚 Programas ({result.programasRelacionados.length}):</strong></p>
+                                                <p><strong> Programas ({result.programasRelacionados.length}):</strong></p>
                                                 <ul>
                                                     {result.programasRelacionados.map(p => (
                                                         <li key={p.idPrograma}>{p.nombrePrograma} — {p.nivelFormacion}</li>
@@ -220,14 +220,14 @@ export default function Buscar() {
                                 )}
                                 {result.tipo === 'sede' && (
                                     <>
-                                        <h3>🏛️ {result.datos.nombreSede}</h3>
+                                        <h3> {result.datos.nombreSede}</h3>
                                         <p><strong>Ciudad:</strong> {result.datos.ciudad}</p>
                                         <p><strong>Dirección:</strong> {result.datos.direccionFisica}</p>
                                         {result.datos.esSedePrincipal && <p><strong>Sede principal</strong></p>}
 
                                         {result.institucionRelacionada && (
                                             <div className="relacionados">
-                                                <p><strong>🏢 Universidad:</strong> {result.institucionRelacionada.nombreOficial}</p>
+                                                <p><strong> Universidad:</strong> {result.institucionRelacionada.nombreOficial}</p>
                                                 {result.institucionRelacionada.sitioWeb && (
                                                     <p><strong>Sitio:</strong> {result.institucionRelacionada.sitioWeb}</p>
                                                 )}
@@ -235,7 +235,7 @@ export default function Buscar() {
                                         )}
                                         {result.programasRelacionados && result.programasRelacionados.length > 0 && (
                                             <div className="relacionados">
-                                                <p><strong>📚 Programas ({result.programasRelacionados.length}):</strong></p>
+                                                <p><strong> Programas ({result.programasRelacionados.length}):</strong></p>
                                                 <ul>
                                                     {result.programasRelacionados.map(p => (
                                                         <li key={p.idPrograma}>{p.nombrePrograma} — {p.nivelFormacion}</li>
@@ -247,7 +247,7 @@ export default function Buscar() {
                                 )}
                                 {result.tipo === 'programa' && (
                                     <>
-                                        <h3>📚 {result.datos.nombrePrograma}</h3>
+                                        <h3> {result.datos.nombrePrograma}</h3>
                                         <p><strong>Nivel:</strong> {result.datos.nivelFormacion}</p>
                                         <p><strong>Semestres:</strong> {result.datos.totalSemestres}</p>
                                         {result.datos.costoSemestre !== null && result.datos.costoSemestre !== undefined && (
@@ -256,7 +256,7 @@ export default function Buscar() {
 
                                         {result.institucionRelacionada && (
                                             <div className="relacionados">
-                                                <p><strong>🏢 Universidad:</strong> {result.institucionRelacionada.nombreOficial}</p>
+                                                <p><strong> Universidad:</strong> {result.institucionRelacionada.nombreOficial}</p>
                                                 {result.institucionRelacionada.sitioWeb && (
                                                     <p><strong>Sitio:</strong> {result.institucionRelacionada.sitioWeb}</p>
                                                 )}
@@ -264,7 +264,7 @@ export default function Buscar() {
                                         )}
                                         {result.sedesRelacionadas && result.sedesRelacionadas.length > 0 && (
                                             <div className="relacionados">
-                                                <p><strong>🏛️ Sedes ({result.sedesRelacionadas.length}):</strong></p>
+                                                <p><strong> Sedes ({result.sedesRelacionadas.length}):</strong></p>
                                                 <ul>
                                                     {result.sedesRelacionadas.map(s => (
                                                         <li key={s.idSede}>{s.nombreSede} — {s.ciudad}</li>

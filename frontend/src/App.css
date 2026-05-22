@@ -27,6 +27,10 @@
     width: 100%;
 }
 
+.contenedorEncabezado > * {
+    min-width: 0;
+}
+
 .logoTitulo {
     font-size: 1.4rem;
     font-weight: 700;
@@ -37,6 +41,12 @@
 
 .logoIcono {
     font-size: 1.8rem;
+}
+
+.logoImagen {
+    width: clamp(84px, 10vw, 120px);
+    height: auto;
+    display: block;
 }
 
 .botonMenu {
@@ -287,8 +297,9 @@
 }
 
 .appPublicaSinScroll {
-    height: 100dvh;
-    overflow: hidden;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .appPublicaSinScroll .contenedorEncabezado {
@@ -319,6 +330,38 @@
     }
 }
 
+@media (max-width: 1024px), (max-height: 820px) {
+    .appPublicaSinScroll {
+        height: auto;
+        overflow: visible;
+    }
+
+    .appPublicaSinScroll .contenidoPrincipalPublico {
+        display: block;
+        margin: 0.5rem auto 1rem;
+    }
+}
+
+@media (max-width: 1100px) {
+    .contenedorEncabezado {
+        gap: 0.8rem;
+    }
+
+    .navegacionPrincipal {
+        gap: 0.2rem;
+    }
+
+    .enlaceNav {
+        padding: 0.45rem 0.72rem;
+        font-size: 0.9rem;
+    }
+
+    .grupoAccionesPublicas {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
 @media (max-height: 760px) {
     .appPublicaSinScroll .logoTitulo {
         font-size: 1.2rem;
@@ -333,7 +376,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 980px) {
     .botonMenu {
         display: flex;
     }
@@ -344,11 +387,15 @@
 
     .navegacionPrincipal.abierto {
         display: flex;
+        width: 100%;
+        max-height: calc(100dvh - 92px);
+        overflow-y: auto;
     }
 
     .grupoAccionesPublicas {
         width: 100%;
         flex-direction: column;
+        align-items: stretch;
     }
 
     .botonHeader {
@@ -374,7 +421,97 @@
         margin: 1rem auto;
     }
 
+    .modalAuthOverlay {
+        padding: 0.75rem;
+    }
+
     .modalAuthContenido {
         padding: 1.15rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .logoImagen {
+        width: 64px;
+    }
+
+    .logoTitulo {
+        font-size: 0.98rem;
+        line-height: 1.25;
+    }
+
+    .contenidoPrincipal {
+        padding: 0 0.85rem;
+        margin: 0.85rem auto;
+    }
+}
+
+@media (max-width: 820px) {
+    .navegacionPrincipal.abierto {
+        align-items: stretch;
+    }
+
+    .enlaceNav,
+    .botonHeader {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .logoTitulo {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    .botonMenu {
+        margin-left: auto;
+    }
+
+    .navegacionPrincipal.abierto {
+        gap: 0.25rem;
+    }
+
+    .enlaceNav,
+    .botonHeader {
+        font-size: 0.82rem;
+    }
+
+    .modalAuthContenido {
+        max-height: calc(100dvh - 1.5rem);
+        overflow-y: auto;
+        border-radius: 12px;
+    }
+
+    .modalAuthGrupo input,
+    .modalAuthGrupo select,
+    .botonAuthPrincipal {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .contenedorEncabezado {
+        padding: 0.55rem 0.75rem;
+    }
+
+    .logoTitulo {
+        font-size: 0.92rem;
+        gap: 0.35rem;
+        line-height: 1.2;
+    }
+
+    .logoImagen {
+        width: 74px;
+    }
+
+    .enlaceNav,
+    .botonHeader {
+        font-size: 0.78rem;
+        padding-left: 0.55rem;
+        padding-right: 0.55rem;
     }
 }

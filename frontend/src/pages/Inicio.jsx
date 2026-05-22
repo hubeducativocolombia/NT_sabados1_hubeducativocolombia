@@ -154,23 +154,23 @@ export default function Inicio({ sesionIniciada, onIniciarSesion }) {
 
                     <div className="contenedorAccesoRapido">
                         <Link to="/instituciones" className="tarjetaAccesoRapido">
-                            <div className="iconoAcceso">🏢</div>
+                            <div className="iconoAcceso"></div>
                             <h3>Instituciones</h3>
                             <p>{esUsuarioBasico ? 'Consulta las instituciones educativas' : 'Consulta y gestiona las instituciones educativas'}</p>
                         </Link>
                         <Link to="/sedes" className="tarjetaAccesoRapido">
-                            <div className="iconoAcceso">🏛️</div>
+                            <div className="iconoAcceso"></div>
                             <h3>Sedes</h3>
                             <p>{esUsuarioBasico ? 'Consulta las sedes institucionales' : 'Crea, edita y elimina las sedes institucionales'}</p>
                         </Link>
                         <Link to="/programas" className="tarjetaAccesoRapido">
-                            <div className="iconoAcceso">📚</div>
+                            <div className="iconoAcceso"></div>
                             <h3>Programas</h3>
                             <p>{esUsuarioBasico ? 'Consulta los programas académicos disponibles' : 'Explora los programas académicos disponibles'}</p>
                         </Link>
                         {puedeVerUsuariosInicio && (
                             <Link to="/usuarios" className="tarjetaAccesoRapido">
-                                <div className="iconoAcceso">👥</div>
+                                <div className="iconoAcceso"></div>
                                 <h3>Usuarios</h3>
                                 <p>Administra los usuarios del sistema</p>
                             </Link>

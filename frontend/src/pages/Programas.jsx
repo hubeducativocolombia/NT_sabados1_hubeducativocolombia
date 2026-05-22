@@ -215,7 +215,7 @@ export default function Programas() {
         return inst?.nombreOficial || `ID: ${idInst}`
     }
 
-    if (cargando) return <div className="mensajeVacio"><div className="iconoVacio">⏳</div><p>Cargando...</p></div>
+    if (cargando) return <div className="mensajeVacio"><div className="iconoVacio"></div><p>Cargando...</p></div>
 
     return (
         <div className="seccionProgramas">
@@ -232,7 +232,7 @@ export default function Programas() {
 
             {programas.length === 0 ? (
                 <div className="mensajeVacio">
-                    <div className="iconoVacio">📚</div>
+                    <div className="iconoVacio"></div>
                     <p>No hay programas registrados</p>
                 </div>
             ) : (
