@@ -1,0 +1,97 @@
+package com.Cesdeedys.hubEducativoColombia.Servicio;
+
+
+import com.Cesdeedys.hubEducativoColombia.Modelo.MUsuarios;
+import com.Cesdeedys.hubEducativoColombia.Repositorio.IUsuarios;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class SUsuarios {
+    @Autowired
+    IUsuarios iUsuarios;
+
+    public SUsuarios(IUsuarios iUsuarios) {
+        this.iUsuarios = iUsuarios;
+    }
+
+    //Adicionar un registro de Usuario
+
+    public MUsuarios adicionarregistrousuario(MUsuarios mUsuarios) throws Exception {
+        try{
+            mUsuarios.setRol("usuario");
+           return iUsuarios.save(mUsuarios);
+        }catch (Exception error){
+            throw new Exception(error.getMessage());
+        }
+    }
+
+    //Consulta de todos los registros del usuario
+    public List<MUsuarios> consultageneralusuarios() throws Exception{
+        try {
+            return iUsuarios.findAll();
+        }catch (Exception error){
+            throw new Exception(error.getMessage());
+        }
+    }
+
+    //Consulta individual por llave primaria
+    public MUsuarios consultaindividualporid(Long idUsuario) throws Exception{
+        try {
+            Optional<MUsuarios> registroEncontrado=iUsuarios.findById(idUsuario);
+            if (registroEncontrado.isPresent())
+                return registroEncontrado.get();
+            else
+                throw new Exception("Usuario no registrado");
+        }catch (Exception error){
+            throw new Exception(error.getMessage());
+        }
+    }
+
+    //Consulta individual por nombre
+    public List<MUsuarios> consultaindividualpornombre(String nombrecompleto) throws Exception{
+        try {
+            return iUsuarios.findBynombrecompleto(nombrecompleto);
+        }catch (Exception error){
+            throw new Exception(error.getMessage());
+        }
+    }
+
+    //Modificar un registro de usuario
+    public MUsuarios actualizarusuario(Long idusuario, MUsuarios mUsuarios) throws Exception{
+        try {
+            Optional<MUsuarios> registroEncontrado=iUsuarios.findById(idusuario);
+            if (registroEncontrado.isPresent()){
+                MUsuarios nuevoRegistro=registroEncontrado.get();
+                nuevoRegistro.setNombrecompleto(mUsuarios.getNombrecompleto());
+                nuevoRegistro.setCorreoelectronico(mUsuarios.getCorreoelectronico());
+                nuevoRegistro.setHashcontrasena(mUsuarios.getHashcontrasena());
+                nuevoRegistro.setOcupacion(mUsuarios.getOcupacion());
+                nuevoRegistro.setEstaactivo(mUsuarios.getEstaactivo());
+                nuevoRegistro.setFechamodificacion(mUsuarios.getFechamodificacion());
+                return iUsuarios.save(nuevoRegistro);
+            }else
+                throw new Exception("No se puede modificar porque el usuario no está registrado");
+        }catch (Exception error){
+            throw new Exception(error.getMessage());
+        }
+    }
+
+    //Eliminar un registro Usuario
+    public Boolean eliminarusuario(Long idusuario) throws Exception{
+        try {
+            Optional<MUsuarios> registroEncontrado=iUsuarios.findById(idusuario);
+            if (registroEncontrado.isPresent()){
+                iUsuarios.deleteById(idusuario);
+                return true;
+            }else {
+                throw new Exception("No se pudo eliminar porque el usuario no está registrado");
+            }
+        }catch (Exception error){
+            throw new Exception(error.getMessage());
+        }
+    }
+}
