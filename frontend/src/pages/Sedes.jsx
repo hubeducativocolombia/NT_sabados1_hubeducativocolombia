@@ -135,7 +135,7 @@ export default function Sedes() {
         return institucion?.nombreOficial || `ID: ${idInstitucion}`
     }
 
-    if (cargando) return <div className="mensajeVacio"><div className="iconoVacio">⏳</div><p>Cargando...</p></div>
+    if (cargando) return <div className="mensajeVacio"><div className="iconoVacio"></div><p>Cargando...</p></div>
 
     return (
         <div className="seccionSedes">
@@ -152,7 +152,7 @@ export default function Sedes() {
 
             {sedes.length === 0 ? (
                 <div className="mensajeVacio">
-                    <div className="iconoVacio">🏛️</div>
+                    <div className="iconoVacio"></div>
                     <p>No hay sedes registradas</p>
                 </div>
             ) : (

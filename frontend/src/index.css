@@ -39,6 +39,7 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -46,10 +47,47 @@ body {
     background-color: var(--colorFondo);
     color: var(--colorTexto);
     line-height: 1.6;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 #root {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+span,
+label,
+button {
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 992px) {
+    html {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    html {
+        font-size: 14px;
+    }
 }

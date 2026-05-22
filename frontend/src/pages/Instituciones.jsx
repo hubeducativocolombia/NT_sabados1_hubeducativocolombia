@@ -119,7 +119,7 @@ export default function Instituciones() {
         }
     }
 
-    if (cargando) return <div className="mensajeVacio"><div className="iconoVacio">⏳</div><p>Cargando...</p></div>
+    if (cargando) return <div className="mensajeVacio"><div className="iconoVacio"></div><p>Cargando...</p></div>
 
     return (
         <div className="seccionInstituciones">
@@ -136,7 +136,7 @@ export default function Instituciones() {
 
             {instituciones.length === 0 ? (
                 <div className="mensajeVacio">
-                    <div className="iconoVacio">🏢</div>
+                    <div className="iconoVacio"></div>
                     <p>No hay instituciones registradas</p>
                 </div>
             ) : (

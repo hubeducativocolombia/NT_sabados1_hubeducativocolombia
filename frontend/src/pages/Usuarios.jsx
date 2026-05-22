@@ -155,7 +155,7 @@ export default function Usuarios() {
         }
     }
 
-    if (cargando) return <div className="mensajeVacio"><div className="iconoVacio">⏳</div><p>Cargando...</p></div>
+    if (cargando) return <div className="mensajeVacio"><div className="iconoVacio"></div><p>Cargando...</p></div>
 
     return (
         <div className="seccionUsuarios">
@@ -172,7 +172,7 @@ export default function Usuarios() {
 
             {usuarios.length === 0 ? (
                 <div className="mensajeVacio">
-                    <div className="iconoVacio">👥</div>
+                    <div className="iconoVacio"></div>
                     <p>No hay usuarios registrados</p>
                 </div>
             ) : (
@@ -212,7 +212,7 @@ export default function Usuarios() {
                                     <td>{new Date(user.fechaCreacion).toLocaleDateString()}</td>
                                     {puedeGestionarUsuarios && (
                                         <td>
-                                            <div style={{ display: 'flex', gap: '8px' }}>
+                                            <div className="accionesTabla">
                                                 <button 
                                                     className="boton botonPequeno botonAdvertencia"
                                                     onClick={() => abrirModalEdicion(user)}

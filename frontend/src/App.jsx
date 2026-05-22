@@ -13,6 +13,7 @@ import Buscar from './pages/Buscar'
 import logoHub from './img/IMAGEN HUBEDUCATIVOCOLOMBIA.jpeg'
 
 function App() {
+  const breakpointMenu = 980
   const [menuAbierto, setMenuAbierto] = useState(false)
   const [sesionIniciada, setSesionIniciada] = useState(() => localStorage.getItem('hubSesionIniciada') === 'true')
   const [mostrarModalAuth, setMostrarModalAuth] = useState(false)
@@ -29,14 +30,14 @@ function App() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 768) {
+      if (window.innerWidth > breakpointMenu) {
         setMenuAbierto(false)
       }
     }
 
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  }, [breakpointMenu])
 
   const abrirModalLogin = () => {
     setModoAuth('login')
@@ -201,27 +202,18 @@ function App() {
 
   const esMaster = rolSesion === 'MASTER' || correoSesion === 'nana.ortega71@gmail.com'
   const puedeAdministrarUsuarios = rolSesion === 'ADMIN' || esMaster
-  const esVistaPublicaInicio = !sesionIniciada && window.location.pathname === '/'
 
   useEffect(() => {
-    if (esVistaPublicaInicio) {
-      document.body.classList.add('sinScrollPublico')
-    } else {
-      document.body.classList.remove('sinScrollPublico')
-    }
-
-    return () => {
-      document.body.classList.remove('sinScrollPublico')
-    }
-  }, [esVistaPublicaInicio])
+    document.body.classList.remove('sinScrollPublico')
+  }, [])
 
   return (
     <Router>
-      <div className={`app ${esVistaPublicaInicio ? 'appPublicaSinScroll' : ''}`}>
+      <div className="app">
         <header className="encabezadoPrincipal">
           <div className="contenedorEncabezado">
             <h1 className="logoTitulo">
-              <span className="logoIcono"><img src={logoHub} alt="Logo Hub Educativo Colombia" width={"120px"}/></span>
+              <span className="logoIcono"><img src={logoHub} alt="Logo Hub Educativo Colombia" className="logoImagen" /></span>
               Hub Educativo Colombia
             </h1>
             <button 
@@ -329,7 +321,7 @@ function App() {
           </div>
         </header>
 
-        <main className={`contenidoPrincipal ${esVistaPublicaInicio ? 'contenidoPrincipalPublico' : ''}`}>
+        <main className="contenidoPrincipal">
           <Routes>
             <Route path="/" element={<Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
             <Route path="/instituciones" element={sesionIniciada ? <Instituciones /> : <Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
