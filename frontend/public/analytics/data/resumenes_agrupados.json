@@ -1,0 +1,40 @@
+{
+  "kpis": {
+    "totalInstituciones": 22,
+    "totalProgramas": 21,
+    "promedioCostoSemestre": 1571428.76,
+    "totalEstudiantesActivos": 400
+  },
+  "programasPorNivel": [
+    {
+      "nivelFormacion": "PREGRADO",
+      "totalProgramas": 21
+    }
+  ],
+  "costoPromedioPorModalidad": [
+    {
+      "modalidad": "PRESENCIAL",
+      "costoPromedio": 1571428.76
+    }
+  ],
+  "estudiantesPorNaturaleza": [
+    {
+      "naturaleza": "PUBLICA",
+      "totalEstudiantes": 400
+    },
+    {
+      "naturaleza": "PRIVADA",
+      "totalEstudiantes": 0
+    },
+    {
+      "naturaleza": "Privada",
+      "totalEstudiantes": 0
+    }
+  ],
+  "tasaAcreditacionPorNivel": [
+    {
+      "nivelFormacion": "PREGRADO",
+      "tasaAcreditacion": 95.24
+    }
+  ]
+}
