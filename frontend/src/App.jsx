@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
-import { useState, useEffect, lazy, Suspense } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import apiService from './services/apiService'
 
@@ -11,8 +11,6 @@ import Programas from './pages/Programas'
 import Usuarios from './pages/Usuarios'
 import Buscar from './pages/Buscar'
 import logoHub from './img/IMAGEN HUBEDUCATIVOCOLOMBIA.jpeg'
-
-const Dashboard = lazy(() => import('./pages/Dashboard'))
 
 function App() {
   const breakpointMenu = 980
@@ -263,13 +261,6 @@ function App() {
                   >
                     Buscar programas
                   </Link>
-                  <Link
-                    to="/dashboard"
-                    className="botonHeader botonHeaderSecundario"
-                    onClick={() => setMenuAbierto(false)}
-                  >
-                    Dashboard
-                  </Link>
                   <button
                     type="button"
                     className="botonHeader botonHeaderPrimario"
@@ -317,13 +308,6 @@ function App() {
                   >
                     Buscar
                   </Link>
-                  <Link
-                    to="/dashboard"
-                    className="enlaceNav"
-                    onClick={() => setMenuAbierto(false)}
-                  >
-                    Dashboard
-                  </Link>
                   <button
                     type="button"
                     className="botonHeader botonHeaderSalir"
@@ -338,17 +322,14 @@ function App() {
         </header>
 
         <main className="contenidoPrincipal">
-          <Suspense fallback={<div className="dashboardEstado">Cargando dashboard...</div>}>
-            <Routes>
-              <Route path="/" element={<Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
-              <Route path="/instituciones" element={sesionIniciada ? <Instituciones /> : <Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
-              <Route path="/sedes" element={sesionIniciada ? <Sedes /> : <Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
-              <Route path="/programas" element={sesionIniciada ? <Programas /> : <Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
-              <Route path="/usuarios" element={sesionIniciada && puedeAdministrarUsuarios ? <Usuarios /> : <Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
-              <Route path="/buscar" element={<Buscar />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-            </Routes>
-          </Suspense>
+          <Routes>
+            <Route path="/" element={<Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
+            <Route path="/instituciones" element={sesionIniciada ? <Instituciones /> : <Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
+            <Route path="/sedes" element={sesionIniciada ? <Sedes /> : <Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
+            <Route path="/programas" element={sesionIniciada ? <Programas /> : <Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
+            <Route path="/usuarios" element={sesionIniciada && puedeAdministrarUsuarios ? <Usuarios /> : <Inicio sesionIniciada={sesionIniciada} onIniciarSesion={abrirModalLogin} />} />
+            <Route path="/buscar" element={<Buscar />} />
+          </Routes>
         </main>
 
         {mostrarModalAuth && (

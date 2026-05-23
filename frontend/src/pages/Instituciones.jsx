@@ -119,7 +119,7 @@ export default function Instituciones() {
         }
     }
 
-    if (cargando) return <div className="mensajeVacio"><div className="iconoVacio">⏳</div><p>Cargando...</p></div>
+    if (cargando) return <div className="mensajeVacio"><div className="iconoVacio"></div><p>Cargando...</p></div>
 
     return (
         <div className="seccionInstituciones">
