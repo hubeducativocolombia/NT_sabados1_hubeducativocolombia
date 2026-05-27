@@ -1,42 +1,50 @@
 import random
-
-def generar_simulacion(numeroSimulaciones):
-    ciudades = ["Bogota", "Medellin", "Cali", "Barranquilla", "Bucaramanga"]
-    nombres_sedes = ["Sede Principal", "Sede Norte", "Sede Sur", "Sede Centro", "Sede Occidente"]
+ 
+ 
+def generar_sedes(numeroSimulaciones, max_id_institucion):
+    nombres_sedes = [
+        "Sede Principal",
+        "Sede Norte",
+        "Sede Sur",
+        "Sede Centro",
+        "Sede Occidente",
+        "Sede Palmira",
+        "Sede Medellín",
+        "Sede Bogotá"
+    ]
+    ciudades = ["Bogotá", "Medellín", "Cali", "Barranquilla", "Bucaramanga", "Manizales", "Pereira"]
     direcciones = [
         "Calle 45 # 26-85",
-        "Carrera 7 # 40-62",
-        "Avenida El Poblado # 5-75",
-        "Calle 100 # 15-30",
-        "Carrera 50 # 18-20"
+        "Carrera 30 # 45-03",
+        "Avenida El Dorado # 44-02",
+        "Calle 67 # 53-108",
+        "Carrera 13 # 32-76"
     ]
-
-    simulaciones = []
-
-    for i in range(numeroSimulaciones):
+    sedes = []
+ 
+    for i in range(1, numeroSimulaciones + 1):
         sede = {
-            "idsede": i + 1,
+            "idsede": i,
             "ciudad": random.choice(ciudades),
             "direccionfisica": random.choice(direcciones),
-            "essedepprincipal": random.choice([True, False]),
-            "idinstitucion": random.randint(1, 50),
+            "essedeprincipal": random.choice([True, False]),
             "nombresede": random.choice(nombres_sedes),
-            "pkidinstitucion": random.randint(1, 50)
+            "idinstitucion": random.randint(1, max_id_institucion)
         }
-
+ 
         # Inyectando errores controlados
         probabilidadError = random.random()
-        if probabilidadError < 0.2:
+        if probabilidadError < 0.15:
             sede["idsede"] = None
-        elif probabilidadError < 0.4:
-            sede["ciudad"] = random.choice(["Ciudad Inventada", "   ", "123"])
-        elif probabilidadError < 0.5:
-            sede["nombresede"] = None
-        elif probabilidadError < 0.7:
-            sede["direccionfisica"] = " " + sede["direccionfisica"].upper()
-        elif probabilidadError < 0.9:
-            sede["essedepprincipal"] = random.choice([None, "si", "no"])
-
-        simulaciones.append(sede)
-
-    return simulaciones
+        elif probabilidadError < 0.30:
+            sede["ciudad"] = random.choice(["bogotá", "MEDELLÍN", " Cali", None])
+        elif probabilidadError < 0.45:
+            sede["direccionfisica"] = random.choice([None, "", "sin dirección"])
+        elif probabilidadError < 0.60:
+            sede["nombresede"] = random.choice(["", None, "  "])
+        elif probabilidadError < 0.75:
+            sede["essedeprincipal"] = random.choice([None, "si", "no"])
+ 
+        sedes.append(sede)
+ 
+    return sedes
