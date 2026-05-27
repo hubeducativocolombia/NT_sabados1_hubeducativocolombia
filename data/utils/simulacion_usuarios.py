@@ -1,6 +1,6 @@
 # =============================================================================
 # PROYECTO   : Hub Educativo Colombia
-# ARCHIVO    : simulacion_usuario.py
+# ARCHIVO    : simulacion_usuarios.py
 # PROPÓSITO  : Generar datos simulados (válidos + con errores controlados)
 #              para la tabla 'usuarios' de la base de datos MySQL.
 # AUTORES    : Edwin Rios Sanchez
@@ -21,7 +21,8 @@ from datetime import datetime, timedelta
 # =============================================================================
 # TABLA 1: usuarios
 # Campos: idusuario, nombrecompleto, correoelectronico,
-#         hashcontrasena, rol, estaactivo, fechacreacion
+#         hashcontrasena, rol, estaactivo, fechacreacion,
+#         fechamodificacion, ocupacion
 #
 # Restricciones del esquema SQL:
 #   - rol IN ('ADMIN', 'UNIVERSIDAD', 'ASPIRANTE')
@@ -29,7 +30,7 @@ from datetime import datetime, timedelta
 #   - estaactivo: 1=activo, 0=inactivo  (TINYINT(1))
 # =============================================================================
 
-def generar_usuarios(numero_simulaciones: int) -> list[dict]:
+def generar_usuarios(numeroSimulaciones: int) -> list[dict]:
     """
     Genera una lista de diccionarios que representan filas de la tabla 'usuarios'.
     Incluye errores controlados para simular datos sucios (limpieza de datos).
@@ -43,7 +44,7 @@ def generar_usuarios(numero_simulaciones: int) -> list[dict]:
         - 25% Sin errores: registro completamente válido
 
     Parámetros:
-        numero_simulaciones (int): Cantidad de registros a generar.
+        numeroSimulaciones (int): Cantidad de registros a generar.
 
     Retorna:
         list[dict]: Lista de diccionarios con los campos de la tabla 'usuarios'.
@@ -51,7 +52,6 @@ def generar_usuarios(numero_simulaciones: int) -> list[dict]:
 
     # --- Datos base válidos (universo de valores correctos) ---
 
-    # Nombres completos de prueba para poblar el campo nombre_completo
     nombres_completos = [
         "Diana Zapata Ortega",
         "Yuliana Chica Correa",
@@ -63,88 +63,71 @@ def generar_usuarios(numero_simulaciones: int) -> list[dict]:
         "Juan David Martínez",
     ]
 
-    # Roles permitidos según restricción CHECK del esquema SQL
     roles_validos = ["ADMIN", "UNIVERSIDAD", "ASPIRANTE"]
 
-    # Dominios de correo institucionales para construir correos de prueba válidos
     dominios_correo = ["@cesde.net", "@eafit.edu.co", "@udea.edu.co", "@itm.edu.co"]
 
-    # Fecha base desde la que se generan fechas de creación aleatorias (año 2025)
+    ocupaciones = ["Estudiante", "Docente", "Administrativo", "Investigador", "Egresado"]
+
     fecha_inicio = datetime(2025, 1, 1)
 
-    # Lista acumuladora de registros generados (cada elemento es un dict/fila)
     lista_usuarios = []
-
-    # Lista auxiliar que almacena correos válidos ya generados para simular duplicados reales
     correos_generados = []
 
-    for indice in range(numero_simulaciones):
+    for indice in range(numeroSimulaciones):
 
-        # Extraemos el primer nombre en minúsculas para construir el prefijo del correo.
-        # Usamos módulo (%) para ciclar sobre la lista aunque haya más iteraciones que nombres.
         nombre_base = nombres_completos[indice % len(nombres_completos)].split()[0].lower()
-
-        # Correo electrónico válido: prefijo + número aleatorio + dominio (cumple '%@%.%')
         correo_valido = nombre_base + str(random.randint(1, 999)) + random.choice(dominios_correo)
-
-        # Acumulamos el correo válido para poder reutilizarlo como duplicado en iteraciones futuras
         correos_generados.append(correo_valido)
 
-        # --- Registro inicial con datos completamente limpios ---
+        fechaCreacion = fecha_inicio + timedelta(days=random.randint(0, 365))
+
         usuario = {
-            "idusuario":         indice + 1,                                             # Clave primaria autoincremental
-            "nombrecompleto":    random.choice(nombres_completos),                       # Nombre elegido al azar del universo
-            "correoelectronico": correo_valido,                                          # Correo construido con formato válido
-            "hashcontrasena":    "$2b$12$hashSimulado" + str(random.randint(1000, 9999)), # Hash bcrypt simulado
-            "rol":                random.choice(roles_validos),                           # Uno de los tres roles permitidos
-            "estaactivo":        1,                                                      # 1 = activo (valor TINYINT válido)
-            "fechacreacion":     fecha_inicio + timedelta(days=random.randint(0, 365)),  # Fecha aleatoria dentro del año 2025
+            "idusuario":          indice + 1,
+            "nombrecompleto":     random.choice(nombres_completos),
+            "correoelectronico":  correo_valido,
+            "hashcontrasena":     "$2b$12$hashSimulado" + str(random.randint(1000, 9999)),
+            "rol":                random.choice(roles_validos),
+            "estaactivo":         1,
+            "fechacreacion":      fechaCreacion,
+            "fechamodificacion":  fechaCreacion + timedelta(days=random.randint(1, 365)),
+            "ocupacion":          random.choice(ocupaciones),
         }
 
         # -----------------------------------------------------------------
         # ERRORES CONTROLADOS
-        # Simulan datos sucios que llegan desde formularios o migraciones.
-        # Se aplica como máximo un tipo de error por registro.
         # -----------------------------------------------------------------
-
-        # Número aleatorio entre 0.0 y 1.0 que determina qué tipo de error se introduce
         probabilidad_error = random.random()
 
         if probabilidad_error < 0.10:
-            # Error tipo 1 (10 %): correo sin '@' + ID nulo — viola formato y PRIMARY KEY
+            # Error tipo 1 (10%): correo sin '@' + ID nulo
             usuario["correoelectronico"] = "correo_invalido_sin_arroba.com"
-            usuario["idusuario"] = None                      # Nulo viola NOT NULL en PRIMARY KEY
+            usuario["idusuario"] = None
 
         elif probabilidad_error < 0.25:
-            # Error tipo 2 (15 %): rol inválido + fecha nula — viola CHECK constraint y NOT NULL
+            # Error tipo 2 (15%): rol inválido + fecha nula
             usuario["rol"] = random.choice(["SUPERADMIN", "GUEST", "invitado", ""])
-            usuario["fechacreacion"] = None                  # Nulo viola NOT NULL
+            usuario["fechacreacion"] = None
 
         elif probabilidad_error < 0.40:
-            # Error tipo 3 (15 %): espacios en nombre + hash vacío + esta_activo fuera de TINYINT(1)
+            # Error tipo 3 (15%): espacios en nombre + hash vacío + estaactivo fuera de rango
             usuario["nombrecompleto"] = "  " + usuario["nombrecompleto"] + "  "
-            usuario["hashcontrasena"] = ""                   # Hash vacío: inseguro y no aceptable
-            usuario["estaactivo"] = -1                       # -1 está fuera del rango válido {0, 1}
+            usuario["hashcontrasena"] = ""
+            usuario["estaactivo"] = -1
 
         elif probabilidad_error < 0.60:
-            # Error tipo 4 (20 %): correo duplicado real + usuario inactivo
-            # Reutilizamos un correo de iteraciones anteriores para simular violación de UNIQUE
-            usuario["estaactivo"] = 0                        # 0 = inactivo
+            # Error tipo 4 (20%): correo duplicado + usuario inactivo
+            usuario["estaactivo"] = 0
             if len(correos_generados) > 1:
-                # Elegimos aleatoriamente un correo ya registrado (excluimos el actual)
                 usuario["correoelectronico"] = random.choice(correos_generados[:-1])
             else:
-                # Fallback para el primer registro: usamos un valor estático
                 usuario["correoelectronico"] = "duplicado@itm.edu.co"
 
         elif probabilidad_error < 0.75:
-            # Error tipo 5 (15 %): nombre vacío + ID nulo o negativo — viola integridad
+            # Error tipo 5 (15%): nombre vacío + ID nulo o negativo
             usuario["nombrecompleto"] = ""
             usuario["idusuario"] = random.choice([None, -1, 0])
 
-        # Si probabilidad_error >= 0.75 (25 %), el registro queda completamente limpio
-
-        # Agregamos el registro (con o sin errores) a la lista de resultados
         lista_usuarios.append(usuario)
 
     return lista_usuarios
