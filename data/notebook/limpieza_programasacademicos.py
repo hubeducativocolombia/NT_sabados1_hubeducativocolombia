@@ -1,48 +1,44 @@
 import pandas as pd
 
-def limpiar_datos(df_sucio):
-    df_limpio = df_sucio.copy()
 
-    # --- Limpieza de textos ---
-    # 1. Eliminar espacios y convertir a minusculas
-    df_limpio["codigosnies"] = df_limpio["codigosnies"].astype("string").str.strip().str.lower()
-    df_limpio["nivelformacion"] = df_limpio["nivelformacion"].astype("string").str.strip().str.lower()
-    df_limpio["nombreprograma"] = df_limpio["nombreprograma"].astype("string").str.strip().str.lower()
+def limpiar_programasacademicos(data_frame_sucio):
+    data_frame_limpio = data_frame_sucio.copy()
+
+    # Limpieza de textos
+    # 1. Eliminar espacios y convertir a minúsculas
+    data_frame_limpio["nivelformacion"] = data_frame_limpio["nivelformacion"].astype("string").str.strip().str.lower()
+    data_frame_limpio["nombreprograma"] = data_frame_limpio["nombreprograma"].astype("string").str.strip()
+    data_frame_limpio["codigosnies"] = data_frame_limpio["codigosnies"].astype("string").str.strip().str.upper()
 
     # 2. Controlar valores inesperados en nivelformacion
-    niveles_validos = ["tecnico", "tecnologo", "profesional", "especializacion", "maestria", "doctorado"]
-    df_limpio["nivelformacion"] = df_limpio["nivelformacion"].where(
-        df_limpio["nivelformacion"].isin(niveles_validos),
+    valores_esperados_nivel = ["pregrado", "posgrado", "maestría", "doctorado", "especialización", "tecnología", "técnica"]
+    data_frame_limpio["nivelformacion"] = data_frame_limpio["nivelformacion"].where(
+        data_frame_limpio["nivelformacion"].isin(valores_esperados_nivel),
         pd.NA
     )
 
-    # 3. Validar codigosnies no vacio
-    df_limpio["codigosnies"] = df_limpio["codigosnies"].where(
-        df_limpio["codigosnies"].str.len() > 0,
-        pd.NA
+    # 3. Reemplazar valores inválidos en codigosnies
+    data_frame_limpio["codigosnies"] = data_frame_limpio["codigosnies"].replace(["", "NAN", "NONE"], pd.NA)
+
+    # Limpieza de datos numéricos
+    # 1. Verificar que los números sean numéricos
+    data_frame_limpio["idprograma"] = pd.to_numeric(data_frame_limpio["idprograma"], errors="coerce")
+    data_frame_limpio["totalsemestres"] = pd.to_numeric(data_frame_limpio["totalsemestres"], errors="coerce")
+    data_frame_limpio["idinstitucion"] = pd.to_numeric(data_frame_limpio["idinstitucion"], errors="coerce")
+
+    # 2. Verificar valores esperados
+    data_frame_limpio = data_frame_limpio[data_frame_limpio["idprograma"] > 0]
+    data_frame_limpio = data_frame_limpio[data_frame_limpio["totalsemestres"] > 0]
+    data_frame_limpio = data_frame_limpio[data_frame_limpio["idinstitucion"] > 0]
+
+    # Limpieza de booleanos
+    # 1. Convertir estaactivo a booleano real
+    data_frame_limpio["estaactivo"] = data_frame_limpio["estaactivo"].map(
+        {True: True, False: False, "si": True, "no": False, 1: True, 0: False}
     )
 
-    # --- Limpieza de numericos ---
-    # 1. Verificar que ids y totalsemestres sean numericos
-    df_limpio["idprograma"] = pd.to_numeric(df_limpio["idprograma"], errors="coerce")
-    df_limpio["idinstitucion"] = pd.to_numeric(df_limpio["idinstitucion"], errors="coerce")
-    df_limpio["pkidinstitucion"] = pd.to_numeric(df_limpio["pkidinstitucion"], errors="coerce")
-    df_limpio["totalsemestres"] = pd.to_numeric(df_limpio["totalsemestres"], errors="coerce")
+    # Novedades: eliminar filas con columnas obligatorias vacías
+    columnas_obligatorias = ["idprograma", "codigosnies", "nombreprograma", "nivelformacion", "totalsemestres", "idinstitucion"]
+    data_frame_limpio = data_frame_limpio.dropna(subset=columnas_obligatorias)
 
-    # 2. Eliminar valores invalidos
-    df_limpio = df_limpio[df_limpio["idprograma"] > 0]
-    df_limpio = df_limpio[df_limpio["idinstitucion"] > 0]
-    df_limpio = df_limpio[df_limpio["totalsemestres"] > 0]
-
-    # --- Limpieza de booleanos ---
-    df_limpio["estaactivo"] = df_limpio["estaactivo"].apply(
-        lambda x: True if x is True or str(x).strip().lower() == "true"
-        else (False if x is False or str(x).strip().lower() == "false"
-              else pd.NA)
-    )
-
-    # --- Eliminar filas con columnas obligatorias nulas ---
-    columnas_obligatorias = ["idprograma", "codigosnies", "nombreprograma", "nivelformacion", "idinstitucion", "totalsemestres"]
-    df_limpio = df_limpio.dropna(subset=columnas_obligatorias)
-
-    return df_limpio
+    return data_frame_limpio
