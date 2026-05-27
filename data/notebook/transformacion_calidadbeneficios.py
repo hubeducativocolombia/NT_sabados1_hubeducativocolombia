@@ -1,27 +1,23 @@
-# =============================================================================
-# PROYECTO   : Hub Educativo Colombia
-# ARCHIVO    : transformacion_calidadbeneficio.py
-# PROPÓSITO  : Transformar los datos obtenidos de los servicios RESTful para la tabla 'usuarios'
-# AUTORES    : Edwin Rios Sanchez
-# MOTOR BD   : MySQL 8.0+  |  Motor Python : 3.10+
-# LIBRERÍAS  : random, datetime
-#
-# =============================================================================
-
 import pandas as pd
 
-def transformar_datos(data_frame_limpio):
-    filtro1=data_frame_limpio.query("ofrecebecas==true")
-    agrupacion1=filtro1.groupby("ofrecebecas")["idbeneficio"].count().reset_index(name="becas")
-    
-    filtro2=data_frame_limpio.query("acreditacionaltacalidad==true")
-    agrupacion2=filtro2.groupby("acreditacionaltacalidad")["idbeneficio"].count().reset_index(name="acreditacion")
 
-    # Diccionario para almacenar los resultados de las transformaciones:
-    transformacion_resumen={
-        "becas": agrupacion1,
-        "acreditacion": agrupacion2
+def transformar_calidadbeneficios(data_frame_limpio):
+    # Transformacion 1: programas con acreditacion alta calidad
+    filtro1 = data_frame_limpio.query("acreditacionaltacalidad == True")
+    agrupacion1 = filtro1.groupby("acreditacionaltacalidad")["idbeneficio"].count().reset_index(name="conteo")
+
+    # Transformacion 2: programas que ofrecen becas y doble titulacion
+    filtro2 = data_frame_limpio.query("ofrecebecas == True and dobletitulacion == True")
+    agrupacion2 = filtro2.groupby(["ofrecebecas", "dobletitulacion"])["idbeneficio"].count().reset_index(name="conteo")
+
+    # Transformacion 3: programas por combinacion de beneficios
+    filtro3 = data_frame_limpio.query("idbeneficio > 0")
+    agrupacion3 = filtro3.groupby(["acreditacionaltacalidad", "ofrecebecas", "requieresegundoidioma"])["idbeneficio"].count().reset_index(name="conteo")
+
+    agrupacion_resumen = {
+        "agrupacion1": agrupacion1,
+        "agrupacion2": agrupacion2,
+        "agrupacion3": agrupacion3
     }
 
-    return transformacion_resumen
-    
+    return agrupacion_resumen

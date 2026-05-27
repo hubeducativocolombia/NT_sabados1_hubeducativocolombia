@@ -1,27 +1,23 @@
-# =============================================================================
-# PROYECTO   : Hub Educativo Colombia
-# ARCHIVO    : transformacion_usuario.py
-# PROPÓSITO  : Transformar los datos obtenidos de los servicios RESTful para la tabla 'usuarios'
-# AUTORES    : Edwin Rios Sanchez
-# MOTOR BD   : MySQL 8.0+  |  Motor Python : 3.10+
-# LIBRERÍAS  : random, datetime
-#
-# =============================================================================
-
 import pandas as pd
 
-def transformar_datos(data_frame_limpio):
-    filtro1=data_frame_limpio.query("rol=='ADMIN'")
-    agrupacion1=filtro1.groupby("fechacreacion")["idusuario"].count().reset_index(name="contarrol")
-    
-    filtro2=data_frame_limpio.query("ocupacion=='ASPIRANTE'")
-    agrupacion2=filtro2.groupby("fechacreacion")["idusuario"].count().reset_index(name="contarocupacion")
 
-    # Diccionario para almacenar los resultados de las transformaciones:
-    transformacion_resumen={
-        "contarrol": agrupacion1,
-        "contarocupacion": agrupacion2
+def transformar_usuarios(data_frame_limpio):
+    # Transformacion 1: contar usuarios por rol
+    filtro1 = data_frame_limpio.query("rol == 'ADMIN' or rol == 'UNIVERSIDAD' or rol == 'ASPIRANTE'")
+    agrupacion1 = filtro1.groupby("rol")["idusuario"].count().reset_index(name="conteo")
+
+    # Transformacion 2: usuarios activos por ocupacion
+    filtro2 = data_frame_limpio.query("estaactivo == 1")
+    agrupacion2 = filtro2.groupby("ocupacion")["idusuario"].count().reset_index(name="conteo")
+
+    # Transformacion 3: usuarios por rol y estado activo
+    filtro3 = data_frame_limpio.query("idusuario > 0")
+    agrupacion3 = filtro3.groupby(["rol", "estaactivo"])["idusuario"].count().reset_index(name="conteo")
+
+    agrupacion_resumen = {
+        "agrupacion1": agrupacion1,
+        "agrupacion2": agrupacion2,
+        "agrupacion3": agrupacion3
     }
 
-    return transformacion_resumen
-    
+    return agrupacion_resumen
