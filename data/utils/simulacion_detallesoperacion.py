@@ -1,46 +1,39 @@
 import random
-
 from datetime import datetime, timedelta
 
-def simular_detallesOperacion(numerodetallesOperacion):
-    
-    #Semilla de datos
-    id_detallesOperacion=["Ingenieria de Sistemas","Contador","Diseñador","Economista","Administracion de Empresas"]
 
-    listaIdPrograma=["AM123","AM124","AM125","AM126","AM127"]
+def generar_detallesoperacion(numeroSimulaciones, max_id_programa):
+    jornadas = ["diurna", "nocturna", "mixta", "fines de semana"]
+    modalidades = ["presencial", "virtual", "distancia", "semipresencial"]
+    detalles = []
 
-    fechaInicial=datetime(1971,2,4)
-
-    servicios = []
-
-    for i in range(numerodetallesOperacion):
-        fechaSimulada=fechaInicial + timedelta(days=random.randint(0,60))
-        servicio={
-            "id_programa":random.choice(listaIdPrograma),
-            "costo_semestre":random.randint(3500000,5000000),
-            "modalidad":random.choice(["presencial","virtual","hibrida"]),
-            "jornada":random.choice(["diurna","nocturna"]),
-            "fechaActualización":fechaSimulada.strftime("%Y/%m/%d"),
-            "estudiantes_activos":random.randint(100,500),
-            "id_detallesOperacion":random.choice(id_detallesOperacion)
+    for i in range(1, numeroSimulaciones + 1):
+        fechaActualizacion = datetime(2023, 1, 1) + timedelta(days=random.randint(0, 730))
+        detalle = {
+            "iddetalle": i,
+            "costosemestre": round(random.uniform(1500000, 15000000), 2),
+            "estudiantesactivos": random.randint(10, 500),
+            "fechaactualizacion": fechaActualizacion,
+            "jornada": random.choice(jornadas),
+            "modalidad": random.choice(modalidades),
+            "idprograma": random.randint(1, max_id_programa)
         }
 
-        #Inyectando errores controlados
-        probabilidad_error=random.random()
-        if probabilidad_error <0.1:
-            servicio["id"]=random.choice([None,-1,0])
-            servicio["id_detallesOperacion"]=" "+servicio["id_detallesOperacion"]+" "
-        elif probabilidad_error <0.25:
-            servicio["fechaActualización"]=None
-        elif probabilidad_error <0.4:
-            servicio["id_programa"]=servicio["id_programa"].lower()
-            servicio["costo_semestre"]=random.choice([-100000,0,200])
-            servicio["id"]=None
-        elif probabilidad_error <0.7:
-            servicio["costo_semestre"]=0;
-        elif probabilidad_error <0.9:
-            servicio["id_detallesOperacion"]=random.choice(["papitas montañeras","gaseosa doble"])
+        # Inyectando errores controlados
+        probabilidadError = random.random()
+        if probabilidadError < 0.15:
+            detalle["iddetalle"] = None
+        elif probabilidadError < 0.30:
+            detalle["costosemestre"] = random.choice([0, -500000, None])
+        elif probabilidadError < 0.45:
+            detalle["estudiantesactivos"] = random.choice([0, -10, None])
+        elif probabilidadError < 0.60:
+            detalle["jornada"] = random.choice(["DIURNA", " nocturna", "Mixta"])
+        elif probabilidadError < 0.75:
+            detalle["modalidad"] = random.choice(["VIRTUAL", " presencial", None])
+        elif probabilidadError < 0.90:
+            detalle["fechaactualizacion"] = None
 
-        servicios.append(servicio)
-    
-    return servicios
+        detalles.append(detalle)
+
+    return detalles

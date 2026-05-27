@@ -1,34 +1,32 @@
 import random
 
-def generar_simulacion(numeroSimulaciones):
-    simulaciones = []
 
-    for i in range(numeroSimulaciones):
+def generar_calidadbeneficios(numeroSimulaciones, max_id_programa):
+    beneficios = []
+
+    for i in range(1, numeroSimulaciones + 1):
         beneficio = {
-            "idbeneficio": i + 1,
+            "idbeneficio": i,
             "acreditacionaltacalidad": random.choice([True, False]),
             "dobletitulacion": random.choice([True, False]),
-            "idprograma": random.randint(1, 50),
             "ofrecebecas": random.choice([True, False]),
             "requieresegundoidioma": random.choice([True, False]),
-            "pkidprograma": random.randint(1, 50)
+            "idprograma": random.randint(1, max_id_programa)
         }
 
         # Inyectando errores controlados
         probabilidadError = random.random()
-        if probabilidadError < 0.2:
+        if probabilidadError < 0.15:
             beneficio["idbeneficio"] = None
-        elif probabilidadError < 0.4:
-            beneficio["acreditacionaltacalidad"] = random.choice([None, "si", "no", 2])
-        elif probabilidadError < 0.5:
-            beneficio["dobletitulacion"] = random.choice([None, "si", "no", 2])
-        elif probabilidadError < 0.6:
-            beneficio["ofrecebecas"] = random.choice([None, "si", "no", 2])
-        elif probabilidadError < 0.7:
-            beneficio["requieresegundoidioma"] = random.choice([None, "si", "no", 2])
-        elif probabilidadError < 0.9:
-            beneficio["idprograma"] = random.choice([None, -1, 0])
+        elif probabilidadError < 0.30:
+            beneficio["acreditacionaltacalidad"] = random.choice(["si", "no", None, 1, 0])
+        elif probabilidadError < 0.45:
+            beneficio["dobletitulacion"] = random.choice(["si", "no", None, 1, 0])
+        elif probabilidadError < 0.60:
+            beneficio["ofrecebecas"] = random.choice(["si", "no", None, 1, 0])
+        elif probabilidadError < 0.75:
+            beneficio["requieresegundoidioma"] = random.choice(["si", "no", None, 1, 0])
 
-        simulaciones.append(beneficio)
+        beneficios.append(beneficio)
 
-    return simulaciones
+    return beneficios
