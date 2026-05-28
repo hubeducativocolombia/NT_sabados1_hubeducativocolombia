@@ -14,7 +14,7 @@ import requests
 
 def consumir_usuarios():
     # 1. Almacenar la URL + Endpoint en una variable
-    url = "http://localhost:8080/api/usuarios"
+    url = "http://localhost:8080/usuarios"
 
     # 2. Activar Requests
     respuesta = requests.get(url)
