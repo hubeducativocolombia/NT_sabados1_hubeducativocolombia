@@ -1,8 +1,8 @@
 import requests
 
 
-def consumir_detallesoperacion():
-    url = "http://localhost:8080/api/detalles"
+def consumir_instituciones():
+    url = "http://localhost:8080/api/instituciones"
     respuesta = requests.get(url)
     respuesta.raise_for_status()
     datos = respuesta.json()
