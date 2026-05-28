@@ -1,26 +1,27 @@
 import pandas as pd
 
-def describir_datos(df_limpio):
+
+def describir_calidadbeneficios(data_frame_limpio):
     print("*** DESCRIPCION DEL DATASET: calidadbeneficios ***")
-    print(f"Numero de filas del dataset: {df_limpio.shape[0]}")
-    print(f"Numero de columnas del dataset: {df_limpio.shape[1]}")
-    print(f"Lista de columnas disponibles: {list(df_limpio.columns)}")
-    print(f"Tipos de dato de cada atributo:\n{df_limpio.dtypes}")
+    print(f"Numero de filas del dataset: {data_frame_limpio.shape[0]}")
+    print(f"Numero de columnas del dataset: {data_frame_limpio.shape[1]}")
+    print(f"Lista de columnas disponibles: {list(data_frame_limpio.columns)}")
+    print(f"Tipos de dato de cada atributo:\n{data_frame_limpio.dtypes}")
 
-    # Estadisticas numericas
+    # Estadisticas (SOLO APLICA PARA DATOS NUMERICOS)
     print("\n*** ESTADISTICAS ***")
-    print(df_limpio[["idbeneficio", "idprograma", "pkidprograma"]].describe())
+    print(data_frame_limpio[["idbeneficio", "idprograma"]].describe())
 
-    # Conteos de booleanos
+    # Informacion de conteos valiosos
     print("\n*** CONTEOS ***")
     print("Programas con acreditacion alta calidad:")
-    print(df_limpio["acreditacionaltacalidad"].value_counts())
+    print(data_frame_limpio["acreditacionaltacalidad"].value_counts())
 
     print("\nProgramas con doble titulacion:")
-    print(df_limpio["dobletitulacion"].value_counts())
+    print(data_frame_limpio["dobletitulacion"].value_counts())
 
     print("\nProgramas que ofrecen becas:")
-    print(df_limpio["ofrecebecas"].value_counts())
+    print(data_frame_limpio["ofrecebecas"].value_counts())
 
     print("\nProgramas que requieren segundo idioma:")
-    print(df_limpio["requieresegundoidioma"].value_counts())
+    print(data_frame_limpio["requieresegundoidioma"].value_counts())
