@@ -3,7 +3,7 @@ import pandas as pd
 
 def transformar_usuarios(data_frame_limpio):
     # Transformacion 1: contar usuarios por rol
-    filtro1 = data_frame_limpio.query("rol == 'ADMIN' or rol == 'UNIVERSIDAD' or rol == 'ASPIRANTE'")
+    filtro1 = data_frame_limpio.query("rol == 'Master' or rol == 'Admin' or rol == 'User'")
     agrupacion1 = filtro1.groupby("rol")["idusuario"].count().reset_index(name="conteo")
 
     # Transformacion 2: usuarios activos por ocupacion

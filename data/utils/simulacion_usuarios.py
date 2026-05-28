@@ -25,7 +25,7 @@ from datetime import datetime, timedelta
 #         fechamodificacion, ocupacion
 #
 # Restricciones del esquema SQL:
-#   - rol IN ('ADMIN', 'UNIVERSIDAD', 'ASPIRANTE')
+#   - rol IN ('Master', 'Admin', 'User')
 #   - correoelectronico LIKE '%@%.%'
 #   - estaactivo: 1=activo, 0=inactivo  (TINYINT(1))
 # =============================================================================
@@ -63,7 +63,7 @@ def generar_usuarios(numeroSimulaciones: int) -> list[dict]:
         "Juan David Martínez",
     ]
 
-    roles_validos = ["ADMIN", "UNIVERSIDAD", "ASPIRANTE"]
+    roles_validos = ["Master", "Admin", "User"]
 
     dominios_correo = ["@cesde.net", "@eafit.edu.co", "@udea.edu.co", "@itm.edu.co"]
 

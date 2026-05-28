@@ -19,23 +19,6 @@ import pandas as pd
 
 
 def limpiar_usuarios(data_frame_sucio: pd.DataFrame) -> pd.DataFrame:
-    """
-    Limpia y valida un DataFrame con datos de la tabla 'usuarios' generados
-    por simulacion_usuarios.py. Corrige los cinco tipos de errores controlados.
-
-    Errores corregidos (referencia simulacion_usuarios.py):
-        - Error tipo 1: correo sin '@' + idusuario nulo
-        - Error tipo 2: rol fuera del CHECK constraint + fechacreacion nula
-        - Error tipo 3: espacios en nombre + hashcontrasena vacío + estaactivo=-1
-        - Error tipo 4: correo duplicado (violación UNIQUE) + estaactivo=0
-        - Error tipo 5: nombrecompleto vacío + idusuario nulo o negativo
-
-    Parámetros:
-        data_frame_sucio (pd.DataFrame): DataFrame con los registros sin limpiar.
-
-    Retorna:
-        pd.DataFrame: DataFrame limpio, listo para inserción en MySQL.
-    """
 
     data_frame_limpio = data_frame_sucio.copy()
 
@@ -72,9 +55,8 @@ def limpiar_usuarios(data_frame_sucio: pd.DataFrame) -> pd.DataFrame:
         data_frame_limpio["rol"]
         .astype("string")
         .str.strip()
-        .str.upper()
     )
-    roles_validos = ["ADMIN", "UNIVERSIDAD", "ASPIRANTE"]
+    roles_validos = ["Master", "Admin", "User"]
     data_frame_limpio["rol"] = data_frame_limpio["rol"].where(
         data_frame_limpio["rol"].isin(roles_validos),
         pd.NA
@@ -173,38 +155,3 @@ def limpiar_usuarios(data_frame_sucio: pd.DataFrame) -> pd.DataFrame:
     data_frame_limpio = data_frame_limpio.reset_index(drop=True)
 
     return data_frame_limpio
-
-
-# =============================================================================
-# BLOQUE PRINCIPAL
-# =============================================================================
-
-if __name__ == "__main__":
-
-    from simulacion_usuarios import generar_usuarios
-
-    NUMERO_REGISTROS = 50
-
-    datos_sucios = generar_usuarios(NUMERO_REGISTROS)
-    df_sucio = pd.DataFrame(datos_sucios)
-
-    print("=" * 60)
-    print(f"Registros ANTES de limpiar : {len(df_sucio)}")
-    print("=" * 60)
-    print(df_sucio.to_string(index=False))
-
-    df_limpio = limpiar_usuarios(df_sucio)
-
-    print("\n" + "=" * 60)
-    print(f"Registros DESPUÉS de limpiar: {len(df_limpio)}")
-    print("=" * 60)
-    print(df_limpio.to_string(index=False))
-
-    registros_eliminados = len(df_sucio) - len(df_limpio)
-    print("\n" + "=" * 60)
-    print("RESUMEN DE LIMPIEZA")
-    print("=" * 60)
-    print(f"  Registros originales : {len(df_sucio)}")
-    print(f"  Registros limpios    : {len(df_limpio)}")
-    print(f"  Registros eliminados : {registros_eliminados}")
-    print(f"  Tasa de limpieza     : {registros_eliminados / len(df_sucio) * 100:.1f}%")
