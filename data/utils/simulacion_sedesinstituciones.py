@@ -1,6 +1,6 @@
 import random
- 
- 
+
+
 def generar_sedes(numeroSimulaciones, max_id_institucion):
     nombres_sedes = [
         "Sede Principal",
@@ -21,7 +21,7 @@ def generar_sedes(numeroSimulaciones, max_id_institucion):
         "Carrera 13 # 32-76"
     ]
     sedes = []
- 
+
     for i in range(1, numeroSimulaciones + 1):
         sede = {
             "idsede": i,
@@ -31,7 +31,7 @@ def generar_sedes(numeroSimulaciones, max_id_institucion):
             "nombresede": random.choice(nombres_sedes),
             "idinstitucion": random.randint(1, max_id_institucion)
         }
- 
+
         # Inyectando errores controlados
         probabilidadError = random.random()
         if probabilidadError < 0.15:
@@ -44,7 +44,7 @@ def generar_sedes(numeroSimulaciones, max_id_institucion):
             sede["nombresede"] = random.choice(["", None, "  "])
         elif probabilidadError < 0.75:
             sede["essedeprincipal"] = random.choice([None, "si", "no"])
- 
+
         sedes.append(sede)
- 
+
     return sedes

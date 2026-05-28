@@ -1,38 +1,51 @@
 import pandas as pd
 
-def limpiar_simulacion(data_frame_sucio):
-    data_frame_limpio=data_frame_sucio.copy()
 
-    #1. Limpiar las columnas del DF que son palabras (Strings)
-    columnas_texto=["id_programa","costo_semestre"]
-    for columna in columnas_texto:
-        data_frame_limpio[columna]=data_frame_limpio[columna].astype("string").str.strip()
+def limpiar_detallesoperacion(data_frame_sucio):
+    data_frame_limpio = data_frame_sucio.copy()
 
-    #2. Definir valores esperados
-    servicios_validos=["Ingenieria de Sistemas","Contador","Diseñador","Economista","Administracion de Empresas"]
-    data_frame_limpio["id_programa"]=data_frame_limpio["id_programa"].where(data_frame_limpio["id_programa"].isin(servicios_validos),pd.NA
+    # Limpieza de textos
+    # 1. Eliminar espacios y convertir a minúsculas
+    data_frame_limpio["jornada"] = data_frame_limpio["jornada"].astype("string").str.strip().str.lower()
+    data_frame_limpio["modalidad"] = data_frame_limpio["modalidad"].astype("string").str.strip().str.lower()
+
+    # 2. Controlar valores inesperados en jornada
+    valores_esperados_jornada = ["diurna", "nocturna", "mixta", "fines de semana"]
+    data_frame_limpio["jornada"] = data_frame_limpio["jornada"].where(
+        data_frame_limpio["jornada"].isin(valores_esperados_jornada),
+        pd.NA
     )
 
-    #3. Evaluar columnas numericas
-    data_frame_limpio["id_programa"]=pd.to_numeric(data_frame_limpio["id_programa"])
-    data_frame_limpio["costo_semestre"]=pd.to_numeric(data_frame_limpio["costo_semestre"])
+    # 3. Controlar valores inesperados en modalidad
+    valores_esperados_modalidad = ["presencial", "virtual", "distancia", "semipresencial"]
+    data_frame_limpio["modalidad"] = data_frame_limpio["modalidad"].where(
+        data_frame_limpio["modalidad"].isin(valores_esperados_modalidad),
+        pd.NA
+    )
 
-    #4. Evaluar columnas de fechaActualizacións
-    data_frame_limpio["fechaActualización"]=pd.to_datetime(data_frame_limpio["fechaActualización"])
+    # Limpieza de datos numéricos
+    # 1. Verificar que los números sean numéricos
+    data_frame_limpio["iddetalle"] = pd.to_numeric(data_frame_limpio["iddetalle"], errors="coerce")
+    data_frame_limpio["costosemestre"] = pd.to_numeric(data_frame_limpio["costosemestre"], errors="coerce")
+    data_frame_limpio["estudiantesactivos"] = pd.to_numeric(data_frame_limpio["estudiantesactivos"], errors="coerce")
+    data_frame_limpio["idprograma"] = pd.to_numeric(data_frame_limpio["idprograma"], errors="coerce")
 
-    #5. Reemplazar fechaActualizacións nulas con la fehca por default
-    fecha_default=pd.to_datetime("2026-01-01")
-    data_frame_limpio["fechaActualización"]=data_frame_limpio["fechaActualización"].fillna(fecha_default)
+    # 2. Verificar valores esperados
+    data_frame_limpio = data_frame_limpio[data_frame_limpio["iddetalle"] > 0]
+    data_frame_limpio = data_frame_limpio[data_frame_limpio["costosemestre"] >= 1500000]
+    data_frame_limpio = data_frame_limpio[data_frame_limpio["estudiantesactivos"] > 0]
+    data_frame_limpio = data_frame_limpio[data_frame_limpio["idprograma"] > 0]
 
-    #6. Eliminar registros nulos de campos obligatorios
-    columnas_obligatorias=["id_programa","costo_semestre"]
-    data_frame_limpio=data_frame_limpio.dropna(subset=columnas_obligatorias)
+    # Limpieza de fechas
+    # 1. Verificar que fechaactualizacion sea una fecha
+    data_frame_limpio["fechaactualizacion"] = pd.to_datetime(data_frame_limpio["fechaactualizacion"], errors="coerce")
 
-    #7. Eliminar valores invalidos a nivel numerico
-    data_frame_limpio=data_frame_limpio[data_frame_limpio["id_programa"]>0]
-    data_frame_limpio=data_frame_limpio[data_frame_limpio["costo_semestre"]>100000]
+    # 2. Reemplazar fechas nulas por fecha por defecto
+    fecha_default = pd.to_datetime("2023-01-01")
+    data_frame_limpio["fechaactualizacion"] = data_frame_limpio["fechaactualizacion"].fillna(fecha_default)
 
-    #8. Eliminar valores duplicados
-    data_frame_limpio=data_frame_limpio.drop_duplicates()
+    # Novedades: eliminar filas con columnas obligatorias vacías
+    columnas_obligatorias = ["iddetalle", "costosemestre", "estudiantesactivos", "jornada", "modalidad", "idprograma"]
+    data_frame_limpio = data_frame_limpio.dropna(subset=columnas_obligatorias)
 
     return data_frame_limpio
