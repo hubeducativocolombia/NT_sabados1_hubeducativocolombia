@@ -1,75 +1,20 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Servidor: 127.0.0.1
--- Tiempo de generación: 25-05-2026 a las 21:30:10
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
+-- =========================================================================
+-- PROYECTO  : Hub Educativo Colombia
+-- MOTOR     : MySQL 8.4 InnoDB
+-- AUTORES   : Diana Zapata Ortega, Yuliana Chica Correa,
+--             Samuel Zapata Valcarcel, Edwin Rios Sanchez
+-- DESCRIPCION: Datos de prueba (10 registros por tabla)
+-- FECHA     : Mayo 27, 2026
+-- REQUISITO : Ejecutar primero servidor MySQL y luego backend\hubEducativoColombia del proyecto Web
+-- =========================================================================
 --
 -- Base de datos: `dbhubeducativocolombia`
 --
-
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `calidadbeneficios`
---
-
-CREATE TABLE `calidadbeneficios` (
-  `idbeneficio` int(11) NOT NULL,
-  `acreditacionaltacalidad` bit(1) NOT NULL,
-  `dobletitulacion` bit(1) NOT NULL,
-  `ofrecebecas` bit(1) NOT NULL,
-  `requieresegundoidioma` bit(1) NOT NULL,
-  `idprograma` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `detallesoperacion`
---
-
-CREATE TABLE `detallesoperacion` (
-  `iddetalle` int(11) NOT NULL,
-  `costosemestre` decimal(38,2) NOT NULL,
-  `estudiantesactivos` int(11) NOT NULL,
-  `fechaactualizacion` datetime(6) NOT NULL,
-  `jornada` varchar(25) NOT NULL,
-  `modalidad` varchar(20) NOT NULL,
-  `idprograma` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `instituciones`
---
-
-CREATE TABLE `instituciones` (
-  `idinstitucion` int(11) NOT NULL,
-  `fecharegistro` date NOT NULL,
-  `naturaleza` varchar(20) NOT NULL,
-  `nombreoficial` varchar(200) NOT NULL,
-  `sitioweb` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
+USE dbhubeducativocolombia;
 --
 -- Volcado de datos para la tabla `instituciones`
 --
-
 INSERT INTO `instituciones` (`idinstitucion`, `fecharegistro`, `naturaleza`, `nombreoficial`, `sitioweb`) VALUES
 (72, '0000-00-00', 'PRIVADA', 'CESDE', 'https://www.cesde.edu.co'),
 (73, '0000-00-00', 'PRIVADA', 'Corporación Academia Tecnológica de Colombia', 'https://www.atec.edu.co'),
@@ -173,25 +118,9 @@ INSERT INTO `instituciones` (`idinstitucion`, `fecharegistro`, `naturaleza`, `no
 (171, '0000-00-00', 'Pública', 'Universidad Tecnológica de Pereira', 'htpps://www.utp.edu.co.edu.co');
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `programasacademicos`
---
-
-CREATE TABLE `programasacademicos` (
-  `idprograma` int(11) NOT NULL,
-  `codigosnies` varchar(20) NOT NULL,
-  `estaactivo` bit(1) NOT NULL,
-  `nivelformacion` varchar(30) NOT NULL,
-  `nombreprograma` varchar(200) NOT NULL,
-  `totalsemestres` int(11) NOT NULL,
-  `idinstitucion` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 --
 -- Volcado de datos para la tabla `programasacademicos`
 --
-
 INSERT INTO `programasacademicos` (`idprograma`, `codigosnies`, `estaactivo`, `nivelformacion`, `nombreprograma`, `totalsemestres`, `idinstitucion`) VALUES
 (1375, 'CESDE001', b'1', 'TECNICO', 'Técnico en Diseño Gráfico', 4, 72),
 (1376, 'ATEC001', b'1', 'TECNICO', 'Técnico en Sistemas', 4, 73),
@@ -419,26 +348,10 @@ INSERT INTO `programasacademicos` (`idprograma`, `codigosnies`, `estaactivo`, `n
 (1598, 'UTP001', b'1', 'PREGRADO', 'Ingeniería de Sistemas y Computación', 10, 171),
 (1599, 'UTP002', b'1', 'TECNOLOGICO', 'Tecnología Industrial', 6, 171),
 (1600, 'UTP003', b'1', 'PREGRADO', 'Administración Ambiental', 8, 171);
-
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `sedesinstituciones`
---
-
-CREATE TABLE `sedesinstituciones` (
-  `idsede` int(11) NOT NULL,
-  `ciudad` varchar(100) NOT NULL,
-  `direccionfisica` varchar(255) NOT NULL,
-  `essedeprincipal` bit(1) NOT NULL,
-  `nombresede` varchar(150) NOT NULL,
-  `idinstitucion` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 --
 -- Volcado de datos para la tabla `sedesinstituciones`
 --
-
 INSERT INTO `sedesinstituciones` (`idsede`, `ciudad`, `direccionfisica`, `essedeprincipal`, `nombresede`, `idinstitucion`) VALUES
 (268, 'Medellín', 'Calle 49 #41-9', b'1', 'Campus CESDE', 72),
 (269, 'Bogotá', 'Carrera 14 #76-26', b'1', 'Campus ATEC', 73),
@@ -634,141 +547,31 @@ INSERT INTO `sedesinstituciones` (`idsede`, `ciudad`, `direccionfisica`, `essede
 (459, 'Pereira', 'Avenida Las Américas', b'1', 'Campus La Julita', 171),
 (460, 'Dosquebradas', 'Avenida Simón Bolívar', b'0', 'Sede Dosquebradas UTP', 171),
 (461, 'Pereira', 'Carrera 27 #10-02', b'0', 'Sede Belmonte UTP', 171);
-
 -- --------------------------------------------------------
-
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Volcado de datos para la tabla `usuarios`
 --
-
-CREATE TABLE `usuarios` (
-  `idusuario` bigint(20) NOT NULL,
-  `correoelectronico` varchar(150) NOT NULL,
-  `estaactivo` bit(1) NOT NULL,
-  `fechacreacion` date NOT NULL,
-  `fechamodificacion` date NOT NULL,
-  `hashcontrasena` varchar(255) NOT NULL,
-  `nombrecompleto` varchar(150) NOT NULL,
-  `ocupacion` varchar(30) NOT NULL,
-  `rol` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
+INSERT INTO `usuarios` (`idusuario`,`correoelectronico`,`estaactivo`,`fechacreacion`,`fechamodificacion`,`hashcontrasena`,`nombrecompleto`,`ocupacion`,`rol`) VALUES
+(1,'eriosal@cesde.net',b'1','2026-05-01','2025-05-27','1234','Edwin Rios Sanchez','Product Owner','MASTER'),
+(2,'nana.ortega71@gmail.com',b'1','2026-05-01','2025-05-27','1234','Diana Marcela Ortega Zapata','Frontend','MASTER'),
+(3,'szapata123456789@cesde.net',b'1','2026-05-01','2025-05-27','1234','Samuel Zapata Varcarcel','Backend','MASTER'),
+(4,'ychica@cesde.net',b'1','2026-05-01','2025-05-27','1234','Yuliana Chica Correa','Analytic','MASTER'),
+(5,'admin@email',b'1','2026-05-01','2025-05-27','0000','Entidad Universidad','Insumo','ADMIN'),
+(6,'user1@email',b'1','2026-05-01','2025-05-27','0000','Entidad Aspirante','Consumidor','USER'),
+(7,'user2@email',b'0','2026-05-01','2025-05-27','0000','Entidad Aspirante','Consumidor','USER');
+-- --------------------------------------------------------
 --
--- Índices para tablas volcadas
+-- Volcado de datos para la tabla `detallesoperacion`
 --
-
+INSERT INTO `detallesoperacion` (`iddetalle`,`costosemestre`,`estudiantesactivos`,`jornada`,`modalidad`,`idprograma`) VALUES
+(1,150000.00,100,'Mixta','Presencial',1375),
+(2,380000.00,500,'Mixta','Presencial',1380),
+(3,280000.00,5000,'Mixta','Virtual',1380);
+-- --------------------------------------------------------
 --
--- Indices de la tabla `calidadbeneficios`
+-- Volcado de datos para la tabla `calidadbeneficios`
 --
-ALTER TABLE `calidadbeneficios`
-  ADD PRIMARY KEY (`idbeneficio`),
-  ADD KEY `FKc4p6152o5qadn5uq0p9munlqk` (`idprograma`);
-
---
--- Indices de la tabla `detallesoperacion`
---
-ALTER TABLE `detallesoperacion`
-  ADD PRIMARY KEY (`iddetalle`),
-  ADD KEY `FKgw57mt9y20kvrejob87x0cp3o` (`idprograma`);
-
---
--- Indices de la tabla `instituciones`
---
-ALTER TABLE `instituciones`
-  ADD PRIMARY KEY (`idinstitucion`),
-  ADD UNIQUE KEY `UKeuico9biatkid5nwua4j009op` (`nombreoficial`);
-
---
--- Indices de la tabla `programasacademicos`
---
-ALTER TABLE `programasacademicos`
-  ADD PRIMARY KEY (`idprograma`),
-  ADD UNIQUE KEY `UK5wf0gmxsrpjei4b4n1i115n70` (`codigosnies`),
-  ADD KEY `FKmuq9e9n54hg8x1o1kfk3ogm7c` (`idinstitucion`);
-
---
--- Indices de la tabla `sedesinstituciones`
---
-ALTER TABLE `sedesinstituciones`
-  ADD PRIMARY KEY (`idsede`),
-  ADD KEY `FKsycvdkrnyrgfrwued85uyppik` (`idinstitucion`);
-
---
--- Indices de la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`idusuario`),
-  ADD UNIQUE KEY `UKkg7nb8eufbbnurgv1l5yioosl` (`correoelectronico`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `calidadbeneficios`
---
-ALTER TABLE `calidadbeneficios`
-  MODIFY `idbeneficio` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `detallesoperacion`
---
-ALTER TABLE `detallesoperacion`
-  MODIFY `iddetalle` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `instituciones`
---
-ALTER TABLE `instituciones`
-  MODIFY `idinstitucion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
-
---
--- AUTO_INCREMENT de la tabla `programasacademicos`
---
-ALTER TABLE `programasacademicos`
-  MODIFY `idprograma` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1601;
-
---
--- AUTO_INCREMENT de la tabla `sedesinstituciones`
---
-ALTER TABLE `sedesinstituciones`
-  MODIFY `idsede` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=462;
-
---
--- AUTO_INCREMENT de la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  MODIFY `idusuario` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `calidadbeneficios`
---
-ALTER TABLE `calidadbeneficios`
-  ADD CONSTRAINT `FKc4p6152o5qadn5uq0p9munlqk` FOREIGN KEY (`idprograma`) REFERENCES `programasacademicos` (`idprograma`);
-
---
--- Filtros para la tabla `detallesoperacion`
---
-ALTER TABLE `detallesoperacion`
-  ADD CONSTRAINT `FKgw57mt9y20kvrejob87x0cp3o` FOREIGN KEY (`idprograma`) REFERENCES `programasacademicos` (`idprograma`);
-
---
--- Filtros para la tabla `programasacademicos`
---
-ALTER TABLE `programasacademicos`
-  ADD CONSTRAINT `FKmuq9e9n54hg8x1o1kfk3ogm7c` FOREIGN KEY (`idinstitucion`) REFERENCES `instituciones` (`idinstitucion`);
-
---
--- Filtros para la tabla `sedesinstituciones`
---
-ALTER TABLE `sedesinstituciones`
-  ADD CONSTRAINT `FKsycvdkrnyrgfrwued85uyppik` FOREIGN KEY (`idinstitucion`) REFERENCES `instituciones` (`idinstitucion`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+INSERT INTO `calidadbeneficios` (`idbeneficio`,`acreditacionaltacalidad`,`dobletitulacion`,`ofrecebecas`,`requieresegundoidioma`,`idprograma`) VALUES
+(1,b'1',b'1',b'1',b'0',1375),
+(2,b'1',b'1',b'1',b'0',1380);
+-- --------------------------------------------------------
